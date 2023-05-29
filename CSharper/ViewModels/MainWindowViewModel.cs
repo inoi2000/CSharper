@@ -43,6 +43,14 @@ namespace CSharper.ViewModels
                     Icon = SymbolRegular.Home24,
                     PageType = typeof(Views.Pages.DashboardPage)
                 },
+                 new NavigationItem()
+                {
+                    Content = "Литература",
+                    PageTag = "books",
+                    Icon = SymbolRegular.Book24,
+                    PageType = typeof(Views.Pages.BooksPage)
+                },
+                 
                 new NavigationItem()
                 {
                     Content = "Data",
@@ -70,6 +78,8 @@ namespace CSharper.ViewModels
                     Header = "Home",
                     Tag = "tray_home"
                 }
+
+
             };
 
             _isInitialized = true;
