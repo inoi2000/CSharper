@@ -8,15 +8,15 @@ namespace CSharper.Models
 {
     public class Book
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public double Experience { get; set; }
-        public string LocalLink { get; set; }
-        public Uri Url { get; set; }
-        public Complexity Complexity { get; set; }
+        public Guid Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public double? Experience { get; set; }
+        public string? LocalLink { get; set; }
+        public Uri? Url { get; set; }
+        public Complexity? Complexity { get; set; }
 
-        public Subject Subject { get; set; }
-        public ICollection<User> Users { get; set; }
+        public Subject? Subject { get; set; }
+        public ICollection<User>? Users { get; set; }
     }
 }

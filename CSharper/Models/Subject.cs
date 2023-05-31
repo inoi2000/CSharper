@@ -8,15 +8,15 @@ namespace CSharper.Models
 {
     public class Subject
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Complexity Complexity { get; set; }
+        public Guid Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public Complexity? Complexity { get; set; }
 
-        public ICollection<Lesson> Lessons { get; set; }
-        public ICollection<Book> Books { get; set; }
-        public ICollection<Video> Videos { get; set; }
-        public ICollection<Article> Articles { get; set; }
-        public ICollection<Assignment> Assignment { get; set; }
+        public ICollection<Lesson>? Lessons { get; set; }
+        public ICollection<Book>? Books { get; set; }
+        public ICollection<Video>? Videos { get; set; }
+        public ICollection<Article>? Articles { get; set; }
+        public ICollection<Assignment>? Assignment { get; set; }
     }
 }
