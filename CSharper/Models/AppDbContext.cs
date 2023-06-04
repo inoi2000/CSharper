@@ -22,7 +22,5 @@ namespace CSharper.Models
         public DbSet<Video> Videos => Set<Video>();
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<Assignment> Assignments => Set<Assignment>();
-
-
     }
 }
