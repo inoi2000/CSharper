@@ -33,10 +33,4 @@
     <Resource Include="Assets\applicationIcon-256.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Views\Pages\books.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

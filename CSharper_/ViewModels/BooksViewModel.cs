@@ -28,15 +28,9 @@ namespace CSharper.ViewModels
         private void InitializeViewModel()
         {
             var books = new List<Book>();
-            books.Add(new Book() { Name = "Книга1", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга2", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга3", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга1", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга2", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга3", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга1", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга2", LocalLink = "c:/books.png" });
-            books.Add(new Book() { Name = "Книга3", LocalLink = "c:/books.png" });
+            books.Add(new Book() { Name = "Книга1" });
+            books.Add(new Book() { Name = "Книга2" });
+            books.Add(new Book() { Name = "Книга3" });
 
             Books = books;
             _isInitialized = true;

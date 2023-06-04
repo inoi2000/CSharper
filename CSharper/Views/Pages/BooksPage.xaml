@@ -15,17 +15,99 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
-   
-
-    <StackPanel Margin="56,0">
-        <ListBox FontSize="20"
-                  FontWeight="Medium"
-                  Height="300"
-                  DisplayMemberPath="Name"
+    <DockPanel Margin="56,0" LastChildFill="True">
+        <UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
+            <StackPanel Orientation="Vertical">
+                <Label>Тема</Label>
+                <ComboBox  SelectedIndex="0" Margin="0,0,10,0">
+                    <ComboBoxItem Content="Все"/>
+                    <ComboBoxItem Content="Тема1"/>
+                    <ComboBoxItem Content="Тема2"/>
+                    <ComboBoxItem Content="Тема3"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Label Margin="5,0,20,0">Фильтр</Label>
+                <ComboBox  SelectedIndex="0" Margin="5,0,20,0" >
+                    <ComboBoxItem Content="Все"/>
+                    <ComboBoxItem Content="Новые"/>
+                    <ComboBoxItem Content="Непрочитанные"/>
+                    <ComboBoxItem Content="Высокий рейтинг"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical">
+                <Label Margin="-5,0,10,0">Поиск</Label>
+                <TextBox   Margin="-5,0,0,0"/>
+            </StackPanel>
+        </UniformGrid>
+        <ListBox  FontSize="20"
+                  FontWeight="Medium"   
                   ItemsSource="{Binding ViewModel.Books, Mode=TwoWay}"
-           >
-           
-        </ListBox>
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"                 
+                  >
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" IsItemsHost="True" 
+                                 HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
+                        <StackPanel Margin="5">
+                            <Label Content="{Binding Name}" HorizontalAlignment="Center"/>
+                            <Border  BorderThickness="1" BorderBrush="LightGray"
+                                     Background="Transparent"  Height="200">
+                                <Button Command="{Binding OpenSelectedBook}" 
+                                        Margin="5">
+                                    <Image Source="{Binding LocalLink, Mode=TwoWay}"
+                                         Opacity="0.6"
+                                     />
+                                </Button>
 
-    </StackPanel>
+                            </Border>
+                            <DockPanel>
+                                <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right"
+                                                 >
+                                        <Label Margin="10,0,10,0" FontSize="12" Opacity="0.4">Рейтинг</Label>
+                                        <Label HorizontalContentAlignment="Right"
+                                               Margin="10,0,0,0"
+                                               FontSize="12" Opacity="0.4"
+                                               >7.2</Label>
+                                    </StackPanel>
+
+                                    <Label
+                            Padding="5"
+                            Margin="0,-5,0,0"                         
+                            HorizontalContentAlignment="Right"
+                            Content="Прочитано"
+                            FontSize="10"
+                            Opacity="0.2"
+                            />
+                                </StackPanel>
+                                <Label FontSize="10" Opacity="0.2" VerticalAlignment="Bottom" DockPanel.Dock="Left">11.02.2023</Label>
+                            </DockPanel>
+                        </StackPanel>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu FontSize="14">
+                                            <MenuItem Header="Прочитано" 
+                                                              IsCheckable="True"
+                                                              
+                                                              HorizontalAlignment="Left"></MenuItem>
+                                            <Separator></Separator>
+                                            <MenuItem Header="Оценить"></MenuItem>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
 </ui:UiPage>
