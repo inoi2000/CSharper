@@ -1,4 +1,6 @@
 ﻿using Wpf.Ui.Common.Interfaces;
+using CSharper.Infrastructure.Commands;
+using System.Windows.Controls;
 
 namespace CSharper.Views.Pages
 {
@@ -17,6 +19,11 @@ namespace CSharper.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
+        }
+
+        private void SelectListBook(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ((sender as ComboBox).SelectedItem as ActionCommand).Execute(null);
         }
     }
 }
