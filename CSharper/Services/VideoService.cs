@@ -30,9 +30,9 @@ namespace CSharper.Services
                 .Videos.ToList();
         }
 
-        public async Task<bool> AddVideo(Subject subject, Video video)
+        public async Task<bool> AddVideo(Guid subjectId, Video video)
         {
-            (await _context.Subjects.Include(s => s.Videos).FirstAsync(s => s.Equals(subject)))
+            (await _context.Subjects.Include(s => s.Videos).FirstAsync(s => s.Id == subjectId))
                 .Videos.Add(video);
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
@@ -49,7 +49,7 @@ namespace CSharper.Services
 
         public async Task<bool> EditVideo(Video originalVideo, Video modifiedVideo)
         {
-            var tempVideo = await _context.Lessons.FirstAsync(v => v.Equals(originalVideo));
+            var tempVideo = await _context.Videos.FirstAsync(v => v.Equals(originalVideo));
 
             tempVideo.Name = modifiedVideo.Name;
             tempVideo.Description = modifiedVideo.Description;

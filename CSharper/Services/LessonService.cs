@@ -30,10 +30,12 @@ namespace CSharper.Services
                 .Lessons.ToList();
         }
 
-        public async Task<bool> AddLesson(Subject subject, Lesson lesson)
+        public async Task<bool> AddLesson(Guid subjectId, Lesson lesson)
         {
-            (await _context.Subjects.Include(s => s.Lessons).FirstAsync(s => s.Equals(subject)))
-                .Lessons.Add(lesson);
+            var tempSubject = await _context.Subjects.Include(s => s.Lessons).FirstAsync(s => s.Id == subjectId);
+            await _context.Lessons.AddAsync(lesson);
+            tempSubject.Lessons.Add(lesson);
+
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
