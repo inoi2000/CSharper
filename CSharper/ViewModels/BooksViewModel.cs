@@ -61,7 +61,7 @@ namespace CSharper.ViewModels
             booksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "c:/books.png" });
             booksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "c:/books.png" });
             booksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "c:/books.png" });
-            _books= booksFromDB;
+            
             Books = booksFromDB;
             
             var bookThemes = new List<string>();

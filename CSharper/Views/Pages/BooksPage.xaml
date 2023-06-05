@@ -28,7 +28,7 @@
                 <ComboBox  SelectedIndex="0" 
                            Margin="5,0,20,0" 
                            ItemsSource="{Binding ViewModel.SelectCommands}"
-                          
+                           SelectionChanged="SelectListBook"
                            >
                 </ComboBox>
             </StackPanel>
