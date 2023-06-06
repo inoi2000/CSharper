@@ -10,14 +10,14 @@ namespace CSharper.Models
     {
         public Guid Id { get; init; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Complexity Complexity { get; set; }
 
         public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
         public ICollection<Book> Books { get; set; } = new List<Book>();
         public ICollection<Video> Videos { get; set; } = new List<Video>();
         public ICollection<Article> Articles { get; set; } = new List<Article>();
-        public ICollection<Assignment> Assignment { get; set; } = new List<Assignment>();
+        public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
 
         public override string ToString()
         {

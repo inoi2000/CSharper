@@ -21,7 +21,7 @@ namespace CSharper.Models
         public ICollection<Book> Books { get; set; } = new List<Book>();
         public ICollection<Video> Videos { get; set; } = new List<Video>();
         public ICollection<Article> Articles { get; set; } = new List<Article>();
-        public ICollection<Assignment> Assignment { get; set; } = new List<Assignment>();
+        public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
 
         public override string ToString()
         {

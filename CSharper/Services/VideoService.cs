@@ -30,10 +30,22 @@ namespace CSharper.Services
                 .Videos.ToList();
         }
 
-        public async Task<bool> AddVideo(Guid subjectId, Video video)
+        public async Task<bool> AddVideo(Video video)
         {
-            (await _context.Subjects.Include(s => s.Videos).FirstAsync(s => s.Id == subjectId))
-                .Videos.Add(video);
+            if (video.Subject == null) { throw new ArgumentNullException(nameof(video.Subject)); }
+            await _context.Videos.AddAsync(video);
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
+
+        public async Task<bool> AddVideo(Video video, Guid subjectId)
+        {
+            var subject = await _context.Subjects.Include(s => s.Videos).FirstAsync(s => s.Id == subjectId);
+            await _context.Videos.AddAsync(video);
+            subject.Videos.Add(video);
+
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
@@ -47,33 +59,35 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> EditVideo(Video originalVideo, Video modifiedVideo)
+        public async Task<bool> EditVideo(Video modifiedVideo, Guid originalVideoId)
         {
-            var tempVideo = await _context.Videos.FirstAsync(v => v.Equals(originalVideo));
+            var originalVideo = await _context.Videos.FirstAsync(v => v.Id == originalVideoId);
 
-            tempVideo.Name = modifiedVideo.Name;
-            tempVideo.Description = modifiedVideo.Description;
-            tempVideo.Experience = modifiedVideo.Experience;
-            tempVideo.LocalLink = modifiedVideo.LocalLink;
-            tempVideo.Url = modifiedVideo.Url;
+            originalVideo.Name = modifiedVideo.Name;
+            originalVideo.Description = modifiedVideo.Description;
+            originalVideo.Experience = modifiedVideo.Experience;
+            originalVideo.LocalLink = modifiedVideo.LocalLink;
+            originalVideo.Url = modifiedVideo.Url;
+            originalVideo.Complexity = modifiedVideo.Complexity;
+            originalVideo.Subject = modifiedVideo.Subject;
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
         }
 
-        public async Task<bool> IsAccomplitVideoAsync(User user, Video video)
+        public async Task<bool> IsAccomplitVideoAsync(Guid userId, Guid videoId)
         {
-            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Equals(user));
-            var tempVideo = await _context.Videos.FirstAsync(l => l.Equals(video));
+            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Id == userId);
+            var tempVideo = await _context.Videos.FirstAsync(v => v.Id == videoId);
 
             return tempUser.Videos.Contains(tempVideo);
         }
 
-        public async Task<bool> AccomplitVideoAsync(User user, Video video)
+        public async Task<bool> AccomplitVideoAsync(Guid userId, Guid videoId)
         {
-            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Equals(user));
-            var tempVideo = await _context.Videos.FirstAsync(l => l.Equals(video));
+            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Id == userId);
+            var tempVideo = await _context.Videos.FirstAsync(v => v.Id == videoId);
 
             tempUser.Videos.Add(tempVideo);
 
@@ -82,12 +96,12 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitVideoAsync(User user, Video video)
+        public async Task<bool> CancelAccomplitVideoAsync(Guid userId, Guid videoId)
         {
-            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Equals(user));
-            var tempVideo = await _context.Videos.FirstAsync(l => l.Equals(video));
+            var tempUser = await _context.Users.Include(u => u.Videos).FirstAsync(u => u.Id == userId);
+            var tempVideo = await _context.Videos.FirstAsync(v => v.Id == videoId);
 
-            tempUser.Videos.Remove(video);
+            tempUser.Videos.Remove(tempVideo);
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

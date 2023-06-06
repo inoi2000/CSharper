@@ -29,11 +29,21 @@ namespace CSharper.Services
                 .Books.ToList();
         }
 
-        public async Task<bool> AddBook(Guid subjectId, Book book)
+        public async Task<bool> AddBook(Book book)
         {
-            var tempSubject = await _context.Subjects.Include(s => s.Books).FirstAsync(s => s.Id == subjectId);
+            if(book.Subject == null) { throw new ArgumentNullException(nameof(book.Subject)); }
             await _context.Books.AddAsync(book);
-            tempSubject.Books.Add(book);
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
+
+        public async Task<bool> AddBook(Book book, Guid subjectId)
+        {
+            var subject = await _context.Subjects.Include(s => s.Books).FirstAsync(s => s.Id == subjectId);
+            await _context.Books.AddAsync(book);
+            subject.Books.Add(book);
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
@@ -48,33 +58,35 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> EditBook(Book originalBook, Book modifiedBook)
+        public async Task<bool> EditBook(Book modifiedBook, Guid originalBookId)
         {
-            var tempBook = await _context.Books.FirstAsync(b => b.Equals(originalBook));
+            var originalBook= await _context.Books.FirstAsync(b => b.Id == originalBookId);
 
-            tempBook.Name = modifiedBook.Name;
-            tempBook.Description = modifiedBook.Description;
-            tempBook.Experience = modifiedBook.Experience;
-            tempBook.LocalLink = modifiedBook.LocalLink;
-            tempBook.Url = modifiedBook.Url;
+            originalBook.Name = modifiedBook.Name;
+            originalBook.Description = modifiedBook.Description;
+            originalBook.Experience = modifiedBook.Experience;
+            originalBook.LocalLink = modifiedBook.LocalLink;
+            originalBook.Url = modifiedBook.Url;
+            originalBook.Complexity = modifiedBook.Complexity;
+            originalBook.Subject = modifiedBook.Subject;
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
         }
 
-        public async Task<bool> IsAccomplitBookAsync(User user, Book book)
+        public async Task<bool> IsAccomplitBookAsync(Guid userId, Guid bookId)
         {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Equals(user));
-            var tempBook = await _context.Books.FirstAsync(b => b.Equals(book));
+            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
+            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
 
             return tempUser.Books.Contains(tempBook);
         }
 
-        public async Task<bool> AccomplitBookAsync(User user, Book book)
+        public async Task<bool> AccomplitBookAsync(Guid userId, Guid bookId)
         {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Equals(user));
-            var tempBook = await _context.Books.FirstAsync(b => b.Equals(book));
+            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
+            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
 
             tempUser.Books.Add(tempBook);
 
@@ -83,12 +95,12 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitBookAsync(User user, Book book)
+        public async Task<bool> CancelAccomplitBookAsync(Guid userId, Guid bookId)
         {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Equals(user));
-            var tempBook = await _context.Books.FirstAsync(b => b.Equals(book));
+            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
+            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
 
-            tempUser.Books.Remove(book);
+            tempUser.Books.Remove(tempBook);
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

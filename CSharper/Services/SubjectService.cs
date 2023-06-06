@@ -40,7 +40,7 @@ namespace CSharper.Services
             await _context.Entry(subject).Collection(s => s.Books).LoadAsync();
             await _context.Entry(subject).Collection(s => s.Videos).LoadAsync();
             await _context.Entry(subject).Collection(s => s.Articles).LoadAsync();
-            await _context.Entry(subject).Collection(s => s.Assignment).LoadAsync();
+            await _context.Entry(subject).Collection(s => s.Assignments).LoadAsync();
         }
 
 
