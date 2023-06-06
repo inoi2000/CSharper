@@ -55,6 +55,10 @@ namespace CSharper
                 services.AddScoped<ViewModels.SettingsViewModel>();
                 services.AddScoped<Views.Pages.BooksPage>();
                 services.AddScoped<ViewModels.BooksViewModel>();
+                services.AddScoped<Views.Pages.ListBooksPage>();
+                services.AddScoped<ViewModels.ListBooksViewModel>();
+                services.AddScoped<Views.Pages.PdfViewerPage>();
+                services.AddScoped<ViewModels.PdfViewerViewModel>();
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();

@@ -16,14 +16,13 @@ namespace CSharper.Views.Pages
 
         public BooksPage(ViewModels.BooksViewModel viewModel)
         {
-            ViewModel = viewModel;
+             ViewModel = viewModel;
 
             InitializeComponent();
+           
+            _NavigationFrame.Navigate(new ListBooksPage()); ; ;
+            ;
         }
 
-        private void SelectListBook(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ((sender as ComboBox).SelectedItem as ActionCommand).Execute(null);
-        }
     }
 }

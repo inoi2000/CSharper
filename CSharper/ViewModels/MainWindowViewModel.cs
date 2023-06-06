@@ -50,7 +50,7 @@ namespace CSharper.ViewModels
                     Icon = SymbolRegular.Book24,
                     PageType = typeof(Views.Pages.BooksPage)
                 },
-                 
+               
                 new NavigationItem()
                 {
                     Content = "Data",
