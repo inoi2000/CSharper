@@ -6,7 +6,8 @@ using System.Windows.Input;
 using Wpf.Ui.Common.Interfaces;
 using CSharper.Models;
 using System.Collections.Generic;
-using CSharper.Infrastructure.Commands;
+
+using System.Windows;
 
 namespace CSharper.ViewModels
 {
@@ -14,6 +15,21 @@ namespace CSharper.ViewModels
     {
         private bool _isInitialized = false;
 
+        //private ActionCommand _readingClickCommand = new ActionCommand(x => { MessageBox.Show(""); }, null, "Открыть pdf-файл");
+
+        //public ActionCommand ReadingClickCommand 
+        //    {
+        //        get
+        //        {
+                    
+        //            return _readingClickCommand;
+        //        }
+        //   }
+    
+                //<MenuItem Command = "{x:Static ApplicationCommands.Cut}" CommandParameter="Cut it!"/>
+                //<MenuItem Command = "{x:Static ApplicationCommands.Copy}" CommandParameter="Copy it!"/>
+                //<MenuItem Command = "{x:Static ApplicationCommands.Paste}" CommandParameter="Paste it!"/>
+           
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -24,13 +40,11 @@ namespace CSharper.ViewModels
         {
         }
 
-
+ 
         private void InitializeViewModel()
-        {  
-            _isInitialized = true;
+        {            
+;           _isInitialized = true;
         }
 
-        
-
-    }
+     }
 }

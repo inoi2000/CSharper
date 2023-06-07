@@ -49,15 +49,10 @@ namespace CSharper.Views.Pages
             this.document = new PdfViewerViewModel();
             this.DataContext = this.document;
             this.document.PropertyChanged += DocumentOnPropertyChanged;
-            try
-            {
-                Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
-                (this.document).Document = document;
-            }
-            catch (Exception ex) 
-            {
-                OnCloseFileClick(null, null);
-            }
+
+            Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
+            (this.document).Document = document;
+
         }
         #region Fields
 

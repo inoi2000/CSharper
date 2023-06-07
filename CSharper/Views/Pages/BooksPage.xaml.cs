@@ -1,5 +1,5 @@
 ﻿using Wpf.Ui.Common.Interfaces;
-using CSharper.Infrastructure.Commands;
+
 using System.Windows.Controls;
 
 namespace CSharper.Views.Pages

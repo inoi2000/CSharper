@@ -6,8 +6,9 @@ using System.Windows.Input;
 using Wpf.Ui.Common.Interfaces;
 using CSharper.Models;
 using System.Collections.Generic;
-using CSharper.Infrastructure.Commands;
+
 using System.Windows;
+using System.Linq;
 
 namespace CSharper.ViewModels
 {
@@ -15,10 +16,13 @@ namespace CSharper.ViewModels
     {
         private bool _isInitialized = false;
 
-        private List<Book> booksFromDB;
+        private ObservableCollection<Book> BooksFromDB;
 
         [ObservableProperty]
-        private List<Book> _books;
+        private User _currentUser;
+
+        [ObservableProperty]
+        private ObservableCollection<Book> _books;
 
         [ObservableProperty]
         private List<string> _bookThemes;
@@ -27,50 +31,61 @@ namespace CSharper.ViewModels
         private Book _selectBook;
 
         [ObservableProperty]
-        private List<ActionCommand> _selectCommands;
+        private Dictionary<string,RelayCommand> _selectCommands;
 
-        public ActionCommand SelectViewAllBookCommand => new ActionCommand(x => { FromDB("Книга"); }, null, "Все");
-        public ActionCommand SelectViewNewBookCommand => new ActionCommand(x => { FromDB("1"); }, null, "Новые");
-        public ActionCommand SelectViewNoReadBookCommand => new ActionCommand(x => { FromDB("2"); }, null, "Непрочитанные");
-        public ActionCommand SelectViewBestBookCommand => new ActionCommand(x => { FromDB("3"); }, null, "С высоким рейтингом");
+        public RelayCommand SelectViewAllBookCommand => new RelayCommand(() => { FromDB("Книга"); });//, "Все"
+        public RelayCommand SelectViewNewBookCommand => new RelayCommand(() => { FromDB("1"); });//, "Новые"
+        public RelayCommand SelectViewNoReadBookCommand => new RelayCommand(() => { FromDB("2"); });//, "Непрочитанные"
+        public RelayCommand SelectViewBestBookCommand => new RelayCommand(() => { FromDB("3"); });//, "С высоким рейтингом"
 
-        public ActionCommand OpenSelectedBookCommand2 => new ActionCommand(x => { MessageBox.Show("");  },null,"Открыть pdf-файл");
-        public ActionCommand SetBallCommand= new ActionCommand(x => { MessageBox.Show(""); }, null, "Открыть pdf-файл");
-        public ActionCommand LoadBookCommand = new ActionCommand(x => { MessageBox.Show(""); }, null, "Открыть pdf-файл");
         public void OnNavigatedTo()
         {
             if (!_isInitialized)
+            {
                 InitializeViewModel();
+            }
         }
-
+      
         public void OnNavigatedFrom()
         {
         }
 
         public void FromDB(string t)
-        { 
-            Books= booksFromDB.FindAll(x=>x.Name.Contains(t)); 
+        {
+            //Books.Clear();
+            //BooksFromDB.ToList().ForEach(x => Books.Add(x));
+
+            //BooksFromDB.ToList().FindAll(x => !x.Name.Contains(t)).ForEach(x=>Books.Remove(x));
         }
 
         public ListBooksViewModel()
-        { 
-          InitializeViewModel();
+        {
+            InitializeViewModel();
         }
         private void InitializeViewModel()
-        {  
-            booksFromDB = new List<Book>();
-            booksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf" });
-            booksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf" });
-            
-            Books = booksFromDB;
-            
+        {
+            BooksFromDB = new ObservableCollection<Book>();
+            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+
+            Books = BooksFromDB;
+            //Books = new ObservableCollection<Book>();
+            //BooksFromDB.ToList().ForEach(x=>Books.Add(x));
+
+            CurrentUser = new User() { Id = 1 };
+
+            Books[0].Users.Add(CurrentUser);
+            Books[2].Users.Add(CurrentUser);
+            Books[3].Users.Add(CurrentUser);
+            Books[0].SetCurrentUser(CurrentUser);
+
             var bookThemes = new List<string>();
             bookThemes.Add("Все");
             bookThemes.Add("Тема 1");
@@ -80,38 +95,18 @@ namespace CSharper.ViewModels
 
             BookThemes = bookThemes;
 
-            var selectCommands = new List<ActionCommand>();
-            selectCommands.Add(SelectViewAllBookCommand );
-            selectCommands.Add(SelectViewNewBookCommand );
-            selectCommands.Add(SelectViewNoReadBookCommand);
-            selectCommands.Add(SelectViewBestBookCommand);
+            //var selectCommands = new Dictionary<string,RelayCommand>();
+            //selectCommands.Add("Все",SelectViewAllBookCommand);
+            //selectCommands.Add("1",SelectViewNewBookCommand);
+            //selectCommands.Add("2",SelectViewNoReadBookCommand);
+            //selectCommands.Add("3",SelectViewBestBookCommand);
 
-            SelectCommands= selectCommands;
-            
+            //SelectCommands = selectCommands;
             _isInitialized = true;
         }
 
-        
 
-        [RelayCommand]
-        private void OnSelectBook(string parameter)
-        {
-           
-        
-        }
-
-        private void OpenSelectedBook()
-        {
-             MessageBox.Show("");
-            ////var path = SelectBook.LocalLink;
-            ////new Wpf.Ui.Controls.NavigationItem()
-            ////{
-            ////    Content = "Читалка",
-            ////    PageTag = "pdfviewer",
-            ////    PageType = typeof(Views.Pages.PdfViewerPage)
-            ////};
-        //    Views.Pages.BooksPage._NavigationFrame.Navigate(new Views.Pages.PdfViewerPage());
-
-        }
+   
     }
+
 }
