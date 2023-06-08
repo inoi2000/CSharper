@@ -24,17 +24,17 @@ namespace CSharper.Models
             return Name;
         }
 
-        public override bool Equals(object? obj)
-        {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+        //public override bool Equals(object? obj)
+        //{
+        //    if (obj == null) throw new ArgumentNullException(nameof(obj));
 
-            if (obj is Subject subject)
-            {
-                if (this.Id == subject.Id) { return true; }
-                else { return false; }
-            }
-            else throw new ArgumentException(nameof(obj));
-        }
+        //    if (obj is Subject subject)
+        //    {
+        //        if (this.Id == subject.Id) { return true; }
+        //        else { return false; }
+        //    }
+        //    else throw new ArgumentException(nameof(obj));
+        //}
 
         public override int GetHashCode()
         {

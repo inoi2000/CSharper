@@ -16,10 +16,55 @@
     <Grid Margin="56,0" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
-        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+        <StackPanel Grid.Column="0"
+                    Width="350">
+            <ui:TextBox x:Name="NameTextBox"
+                        Width="auto" Height="auto"
+                        Margin="10"
+                        Text="{Binding ViewModel.Name}"
+                        PlaceholderText="Название урока"/>
+            <ui:TextBox x:Name="DescriptionTextBox"
+                        Width="auto" Height="auto"
+                        Margin="10"
+                        Text="{Binding ViewModel.Description}"
+                        PlaceholderText="Описание"/>
+            <ui:NumberBox x:Name="ExperienceNumberBox"
+                          Width="auto" Height="auto"
+                          Margin="10"
+                          Value="{Binding ViewModel.Experience}"/>
+            <ui:TextBox x:Name="UrlTextBox"
+                        Width="auto" Height="auto"
+                        Margin="10"
+                        Text="{Binding ViewModel.Uri}"
+                        PlaceholderText="Ссылка"/>
+            <ComboBox x:Name="ComplexityComboBox"
+                      Width="auto" Height="auto"
+                      Margin="10"
+                      ItemsSource="{Binding ViewModel.Complexities}"
+                      SelectedItem="{Binding ViewModel.SelectedComplexity}"/>
+            <ComboBox x:Name="SubjectsComboBox"
+                      Width="auto" Height="auto"
+                      Margin="10"
+                      ItemsSource="{Binding ViewModel.Subjects}"
+                      SelectedItem="{Binding ViewModel.SelectedSubject}"/>
+
+            <ui:Button x:Name="AddNewLessonBtn"
+                       HorizontalAlignment="Center"
+                       Width="auto" Height="auto"
+                       Margin="10"
+                       Content="Добавить"
+                       Icon="AddSquareMultiple16"
+                       Command="{Binding ViewModel.AddNewBookCommand}"/>
+        </StackPanel>
+
+        <ListBox x:Name="LessonsListBox"
+                 Grid.Column="1"
+                 Width="auto" Height="auto"
+                 Margin="10"
+                 ItemsSource="{Binding ViewModel.Books}"/>
+
     </Grid>
 </ui:UiPage>

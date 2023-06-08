@@ -60,6 +60,15 @@ namespace CSharper.ViewModels
             NavigationItems.Add(
                 new NavigationItem()
                 {
+                    Content = "Добавить Предмет",
+                    PageTag = "addSubject",
+                    Icon = SymbolRegular.Add12,
+                    PageType = typeof(Views.Pages.AdminPages.AddSubjectPage )
+                }
+                );
+            NavigationItems.Add(
+                new NavigationItem()
+                {
                     Content = "Добавить Урок",
                     PageTag = "addLesson",
                     Icon = SymbolRegular.Add12,
@@ -109,6 +118,15 @@ namespace CSharper.ViewModels
         {
                 NavigationItems.Clear();
                 NavigationItems.Add(
+                    new NavigationItem()
+                    {
+                        Content = "Редактировать Предмет",
+                        PageTag = "esitSubject",
+                        Icon = SymbolRegular.Edit16,
+                        PageType = typeof(Views.Pages.AdminPages.EditSubjectPage)
+                    }
+                    );
+            NavigationItems.Add(
                     new NavigationItem()
                     {
                         Content = "Редактировать Урок",

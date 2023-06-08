@@ -38,6 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Pages\AdminPages\EditSubjectPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Pages\AdminPages\AddSubjectPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Pages\AdminPages\EditAssignmentPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

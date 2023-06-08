@@ -23,6 +23,11 @@ namespace CSharper.Services
             return book;
         }
 
+        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        {
+            return await _context.Books.ToListAsync();
+        }
+
         public async Task<IEnumerable<Book>> GetAllBooksAsync(Guid subjectId)
         {
             return (await _context.Subjects.Include(s => s.Books).FirstAsync(s => s.Id == subjectId))

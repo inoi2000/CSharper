@@ -24,6 +24,11 @@ namespace CSharper.Services
             return video;
         }
 
+        public async Task<IEnumerable<Video>> GetAllVideosAsync()
+        {
+            return await _context.Videos.ToListAsync();
+        }
+
         public async Task<IEnumerable<Video>> GetAllVideosAsync(Guid subjectId)
         {
             return (await _context.Subjects.Include(s => s.Videos).FirstAsync(s => s.Id == subjectId))

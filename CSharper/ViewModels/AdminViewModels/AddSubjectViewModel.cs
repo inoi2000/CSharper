@@ -12,82 +12,57 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace CSharper.ViewModels.AdminViewModels
 {
-    public partial class AddArticleViewModel : ObservableObject, INavigationAware
+    public partial class AddSubjectViewModel : ObservableObject, INavigationAware
     {
         public IEnumerable<Complexity> Complexities => Enum.GetValues(typeof(Complexity)).Cast<Complexity>();
-        private ArticleService _articleService { get; set; }
         private SubjectService _subjectService { get; set; }
 
 
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(AddNewArticleCommand))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewSubjectCommand))]
         private string _name = string.Empty;
 
         [ObservableProperty]
         private string? _description = string.Empty;
 
         [ObservableProperty]
-        private double _experience = 0D;
-
-        [ObservableProperty]
-        private string _uri = string.Empty;
-
-        [ObservableProperty]
-        private Complexity _complexity = 0;
+        private Complexity _selectedComplexity;
 
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
-        [ObservableProperty]
-        private IEnumerable<Article> _articles;
-
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(AddNewArticleCommand))]
-        private Subject _selectedSubject;
-
-        [ObservableProperty]
-        private Complexity _selectedComplexity;
-
         public async void OnNavigatedTo()
         {
             _subjectService = new SubjectService();
-            _articleService = new ArticleService();
-
             Subjects = await _subjectService.GetAllSubjectsAcync();
-            Articles = await _articleService.GetAllArticlesAsync();
         }
 
         public void OnNavigatedFrom()
         {
-            _articleService?.Dispose();
             _subjectService?.Dispose();
         }
 
-        [RelayCommand(CanExecute = nameof(CanAddNewArticle))]
-        private async Task AddNewArticle()
+        [RelayCommand(CanExecute = nameof(CanAddNewSubject))]
+        private async Task AddNewSubject()
         {
-            var article = new Article()
+            var subject = new Subject()
             {
                 Id = Guid.NewGuid(),
                 Name = this.Name,
                 Description = this.Description,
-                Complexity = SelectedComplexity,
-                Url = new Uri(Uri),
+                Complexity = SelectedComplexity
             };
 
-            if (await _articleService.AddArticle(article, SelectedSubject.Id))
+            if(await _subjectService.AddSubject(subject))
             {
                 Name = string.Empty;
                 Description = string.Empty;
-                Uri = string.Empty;
-
-                Articles = await _articleService.GetAllArticlesAsync();
             }
         }
 
-        private bool CanAddNewArticle()
+        private bool CanAddNewSubject()
         {
-            return !string.IsNullOrWhiteSpace(Name) && SelectedSubject != null;
+            return !string.IsNullOrWhiteSpace(Name);
         }
     }
 }

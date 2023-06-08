@@ -24,6 +24,11 @@ namespace CSharper.Services
             return lesson;
         }
 
+        public async Task<IEnumerable<Lesson>> GetAllLessonsAsync()
+        {
+            return await _context.Lessons.ToListAsync();
+        }
+
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync(Guid subjectId)
         {
             return (await _context.Subjects.Include(s => s.Lessons).FirstAsync(s => s.Id == subjectId))
@@ -33,6 +38,9 @@ namespace CSharper.Services
         public async Task<bool> AddLesson(Lesson lesson)
         {
             if (lesson.Subject == null) { throw new ArgumentNullException(nameof(lesson.Subject)); }
+            var tempSubject = await _context.Subjects.FirstAsync(s => s.Id == lesson.Subject.Id);
+            lesson.Subject = tempSubject;
+
             await _context.Lessons.AddAsync(lesson);
 
             int count = await _context.SaveChangesAsync();

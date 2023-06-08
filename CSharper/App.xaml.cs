@@ -59,6 +59,8 @@ namespace CSharper
                 services.AddScoped<ViewModels.SettingsViewModel>();
 
                 // Admin Views and ViewModels
+                services.AddScoped<Views.Pages.AdminPages.AddSubjectPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddSubjectViewModel>();
                 services.AddScoped<Views.Pages.AdminPages.AddLessonPage>();
                 services.AddScoped<ViewModels.AdminViewModels.AddLessonViewModel>();
                 services.AddScoped<Views.Pages.AdminPages.AddBookPage>();
@@ -69,6 +71,8 @@ namespace CSharper
                 services.AddScoped<ViewModels.AdminViewModels.AddArticleViewModel>();
                 services.AddScoped<Views.Pages.AdminPages.AddAssignmentPage>();
                 services.AddScoped<ViewModels.AdminViewModels.AddAssignmentViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditSubjectPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditSubjectViewModel>();
                 services.AddScoped<Views.Pages.AdminPages.EditLessonPage>();
                 services.AddScoped<ViewModels.AdminViewModels.EditLessonViewModel>();
                 services.AddScoped<Views.Pages.AdminPages.EditBookPage>();
