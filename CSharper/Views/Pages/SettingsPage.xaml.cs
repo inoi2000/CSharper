@@ -1,4 +1,9 @@
-﻿using Wpf.Ui.Common.Interfaces;
+﻿using CSharper.Services;
+using CSharper.ViewModels;
+using CSharper.Views.Windows;
+using System.Linq;
+using System.Windows;
+using Wpf.Ui.Common.Interfaces;
 
 namespace CSharper.Views.Pages
 {
@@ -17,6 +22,16 @@ namespace CSharper.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
+        }
+
+        private void OpenAdminWindowBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var adminWindow = Application.Current.Windows.OfType<Views.Windows.AdminWindow>().First();
+            var mainWindow = Application.Current.Windows.OfType<Views.Windows.MainWindow>().First();
+
+            mainWindow.Visibility = Visibility.Collapsed;
+            adminWindow.ShowDialog();
+            mainWindow.Visibility = Visibility.Visible;
         }
     }
 }

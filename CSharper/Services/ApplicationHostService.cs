@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using CSharper.Views.Windows;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Threading;
@@ -15,6 +16,7 @@ namespace CSharper.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private INavigationWindow _navigationWindow;
+        private INavigationWindow _adminWindow;
 
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
@@ -46,13 +48,11 @@ namespace CSharper.Services
         {
             await Task.CompletedTask;
 
-            if (!Application.Current.Windows.OfType<Views.Windows.MainWindow>().Any())
-            {
-                _navigationWindow = (_serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow)!;
-                _navigationWindow!.ShowWindow();
+            _navigationWindow = (_serviceProvider.GetService(typeof(Views.Windows.MainWindow)) as INavigationWindow)!;
+            _adminWindow = (_serviceProvider.GetService(typeof(Views.Windows.AdminWindow)) as INavigationWindow)!;
+            _navigationWindow!.ShowWindow();
 
-                _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
-            }
+            _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
 
             await Task.CompletedTask;
         }
