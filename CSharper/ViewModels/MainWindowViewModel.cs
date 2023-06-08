@@ -40,9 +40,9 @@ namespace CSharper.ViewModels
                 new NavigationItem()
                 {
                     Content = "Home",
-                    PageTag = "dashboard",
+                    PageTag = "home",
                     Icon = SymbolRegular.Home24,
-                    PageType = typeof(Views.Pages.DashboardPage)
+                    PageType = typeof(Views.Pages.HomePage)
                 },
                  new NavigationItem()
                 {

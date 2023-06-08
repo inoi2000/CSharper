@@ -12,6 +12,7 @@
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
                 <ResourceDictionary Source="Resources/ListItemBookDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/ListItemSubjectDictionary.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
