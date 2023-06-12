@@ -33,7 +33,7 @@ namespace CSharper.Models
                 if (this.Id == article.Id) { return true; }
                 else { return false; }
             }
-            else throw new ArgumentException(nameof(obj));
+            else return false;
         }
 
         public override int GetHashCode()

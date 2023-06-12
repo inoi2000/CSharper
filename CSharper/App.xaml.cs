@@ -43,8 +43,12 @@ namespace CSharper
                 services.AddSingleton<INavigationService, NavigationService>();
 
                 // Main window with navigation
-                services.AddScoped<INavigationWindow, Views.Windows.MainWindow>();
+                services.AddScoped<Views.Windows.MainWindow>();
                 services.AddScoped<ViewModels.MainWindowViewModel>();
+
+                // Admin window with navigation
+                services.AddScoped<Views.Windows.AdminWindow>();
+                services.AddScoped<ViewModels.AdminWindowViewModel>();
 
                 // Views and ViewModels
                 services.AddScoped<Views.Pages.HomePage>();
@@ -53,12 +57,41 @@ namespace CSharper
                 services.AddScoped<ViewModels.DataViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
+              
                 services.AddScoped<Views.Pages.BooksPage>();
                 services.AddScoped<ViewModels.BooksViewModel>();
                 services.AddScoped<Views.Pages.ListBooksPage>();
                 services.AddScoped<ViewModels.ListBooksViewModel>();
                 services.AddScoped<Views.Pages.PdfViewerPage>();
                 services.AddScoped<ViewModels.PdfViewerViewModel>();
+
+
+                // Admin Views and ViewModels
+                services.AddScoped<Views.Pages.AdminPages.AddSubjectPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddSubjectViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.AddLessonPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddLessonViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.AddBookPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddBookViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.AddVideoPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddVideoViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.AddArticlePage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddArticleViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.AddAssignmentPage>();
+                services.AddScoped<ViewModels.AdminViewModels.AddAssignmentViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditSubjectPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditSubjectViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditLessonPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditLessonViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditBookPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditBookViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditVideoPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditVideoViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditArticlePage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditArticleViewModel>();
+                services.AddScoped<Views.Pages.AdminPages.EditAssignmentPage>();
+                services.AddScoped<ViewModels.AdminViewModels.EditAssignmentViewModel>();
+
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();

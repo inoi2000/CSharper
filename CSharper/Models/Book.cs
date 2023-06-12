@@ -25,10 +25,23 @@ namespace CSharper.Models
             return Name;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+
+            if (obj is Book book)
+            {
+                if (this.Id == book.Id) { return true; }
+                else { return false; }
+            }
+            else return false;
+        }
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+    }
 
       
       
@@ -71,5 +84,4 @@ namespace CSharper.Models
             book.Name = "ttt"; //БАГ!!!  Это изменение не отражается на форме
         }
     }
-
 }
