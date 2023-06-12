@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CSharper.Models;
+using System.Collections.Generic;
 using Wpf.Ui.Common.Interfaces;
 
 namespace CSharper.ViewModels
@@ -20,7 +22,7 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private void OnCounterIncrement()
         {
-            Counter++;
+          //  Counter++;
         }
     }
 }
