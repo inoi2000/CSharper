@@ -15,6 +15,9 @@ namespace CSharper.Models
         hard,
         hardcore
     }
+    
+    
+
      public static class ComplexityExtensions
         {
             new public static string _ToString(this Complexity? complexity)

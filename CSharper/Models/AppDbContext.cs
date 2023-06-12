@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,6 @@ namespace CSharper.Models
         private const string ConnectionString = "Data Source=CSharper.db";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Batteries.Init();
             optionsBuilder.UseSqlite(ConnectionString);
         }
 
@@ -24,7 +22,5 @@ namespace CSharper.Models
         public DbSet<Video> Videos => Set<Video>();
         public DbSet<Article> Articles => Set<Article>();
         public DbSet<Assignment> Assignments => Set<Assignment>();
-
-
     }
 }
