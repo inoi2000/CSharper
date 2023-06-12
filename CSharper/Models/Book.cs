@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CSharper.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,15 +45,19 @@ namespace CSharper.Models
         }
 
 
+        //[NotMapped]
+        //public bool Reading => Users.Contains(AppConfig.User);
+
+
         [NotMapped]
         public Reading Reading
         {
             get { return this.reading(); }
             set
-              {
+            {
                 this.setReading(value);
-               
-              }
+
+            }
         }
 
     }
