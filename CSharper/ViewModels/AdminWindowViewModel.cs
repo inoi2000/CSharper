@@ -138,7 +138,7 @@ namespace CSharper.ViewModels
                 NavigationItems.Add(
                     new NavigationItem()
                     {
-                        Content = "Редактировать книгу",
+                        Content = "Редактировать Книгу",
                         PageTag = "esitBook",
                         Icon = SymbolRegular.Edit20,
                         PageType = typeof(Views.Pages.AdminPages.EditBookPage)
