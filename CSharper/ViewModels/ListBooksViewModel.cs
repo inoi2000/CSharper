@@ -79,7 +79,7 @@ namespace CSharper.ViewModels
             //Books = new ObservableCollection<Book>();
             //BooksFromDB.ToList().ForEach(x=>Books.Add(x));
 
-            CurrentUser = new User() { Id = 1 };
+            CurrentUser = new User() { Id = Guid.NewGuid() };
 
             Books[0].Users.Add(CurrentUser);
             Books[2].Users.Add(CurrentUser);
