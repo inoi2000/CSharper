@@ -20,13 +20,13 @@ namespace CSharper.Services
 
         public async Task<Video> GetVideoAsync(Guid id)
         {
-            var video = await _context.Videos.FirstAsync(v => v.Id == id);
+            var video = await _context.Videos.Include(v => v.Subject).FirstAsync(v => v.Id == id);
             return video;
         }
 
         public async Task<IEnumerable<Video>> GetAllVideosAsync()
         {
-            return await _context.Videos.ToListAsync();
+            return await _context.Videos.Include(v => v.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Video>> GetAllVideosAsync(Guid subjectId)
@@ -68,13 +68,16 @@ namespace CSharper.Services
         {
             var originalVideo = await _context.Videos.FirstAsync(v => v.Id == originalVideoId);
 
-            originalVideo.Name = modifiedVideo.Name;
-            originalVideo.Description = modifiedVideo.Description;
-            originalVideo.Experience = modifiedVideo.Experience;
-            originalVideo.LocalLink = modifiedVideo.LocalLink;
-            originalVideo.Url = modifiedVideo.Url;
-            originalVideo.Complexity = modifiedVideo.Complexity;
-            originalVideo.Subject = modifiedVideo.Subject;
+            if (originalVideo.Name != modifiedVideo.Name) originalVideo.Name = modifiedVideo.Name;
+            if (originalVideo.Description != modifiedVideo.Description) originalVideo.Description = modifiedVideo.Description;
+            if (originalVideo.Experience != modifiedVideo.Experience) originalVideo.Experience = modifiedVideo.Experience;
+            if (originalVideo.Url != modifiedVideo.Url) originalVideo.Url = modifiedVideo.Url;
+            if (originalVideo.Complexity != modifiedVideo.Complexity) originalVideo.Complexity = modifiedVideo.Complexity;
+
+            if (originalVideo.Subject.Id != modifiedVideo.Subject.Id)
+            {
+                originalVideo.Subject = await _context.Subjects.FirstAsync(s => s.Id == modifiedVideo.Subject.Id);
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

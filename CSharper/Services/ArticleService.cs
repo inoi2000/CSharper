@@ -19,13 +19,13 @@ namespace CSharper.Services
 
         public async Task<Article> GetArticleAsync(Guid id)
         {
-            var article = await _context.Articles.FirstAsync(a => a.Id == id);
+            var article = await _context.Articles.Include(a => a.Subject).FirstAsync(a => a.Id == id);
             return article;
         }
 
         public async Task<IEnumerable<Article>> GetAllArticlesAsync()
         {
-            return await _context.Articles.ToListAsync();
+            return await _context.Articles.Include(a => a.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Article>> GetAllArticlesAsync(Guid subjectId)
@@ -55,57 +55,60 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> RemoveBook(Book book)
+        public async Task<bool> RemoveArticle(Article article)
         {
-            _context.Books.Remove(book);
+            _context.Articles.Remove(article);
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
         }
 
-        public async Task<bool> EditBook(Book modifiedBook, Guid originalBookId)
+        public async Task<bool> EditArticle(Article modifiedArticle, Guid originalArticleId)
         {
-            var originalBook = await _context.Books.FirstAsync(b => b.Id == originalBookId);
+            var originalArticle = await _context.Articles.FirstAsync(a => a.Id == originalArticleId);
 
-            originalBook.Name = modifiedBook.Name;
-            originalBook.Description = modifiedBook.Description;
-            originalBook.Experience = modifiedBook.Experience;
-            originalBook.LocalLink = modifiedBook.LocalLink;
-            originalBook.Url = modifiedBook.Url;
-            originalBook.Complexity = modifiedBook.Complexity;
-            originalBook.Subject = modifiedBook.Subject;
+            if(originalArticle.Name != modifiedArticle.Name) originalArticle.Name = modifiedArticle.Name;
+            if(originalArticle.Description != modifiedArticle.Description) originalArticle.Description = modifiedArticle.Description;
+            if (originalArticle.Experience != modifiedArticle.Experience) originalArticle.Experience = modifiedArticle.Experience;
+            if (originalArticle.Url != modifiedArticle.Url) originalArticle.Url = modifiedArticle.Url;
+            if (originalArticle.Complexity != modifiedArticle.Complexity) originalArticle.Complexity = modifiedArticle.Complexity;
 
-            int count = await _context.SaveChangesAsync();
-            if (count > 0) { return true; }
-            else { return false; }
-        }
-
-        public async Task<bool> IsAccomplitBookAsync(Guid userId, Guid bookId)
-        {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
-            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
-
-            return tempUser.Books.Contains(tempBook);
-        }
-
-        public async Task<bool> AccomplitBookAsync(Guid userId, Guid bookId)
-        {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
-            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
-
-            tempUser.Books.Add(tempBook);
+            if (originalArticle.Subject.Id != modifiedArticle.Subject.Id)
+            {
+                originalArticle.Subject = await _context.Subjects.FirstAsync(s => s.Id == modifiedArticle.Subject.Id);
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitBookAsync(Guid userId, Guid bookId)
+        public async Task<bool> IsAccomplitArticleAsync(Guid userId, Guid articleId)
         {
-            var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
-            var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
+            var tempUser = await _context.Users.Include(u => u.Articles).FirstAsync(u => u.Id == userId);
+            var tempArticle = await _context.Articles.FirstAsync(a => a.Id == articleId);
 
-            tempUser.Books.Remove(tempBook);
+            return tempUser.Articles.Contains(tempArticle);
+        }
+
+        public async Task<bool> AccomplitArticleAsync(Guid userId, Guid articleId)
+        {
+            var tempUser = await _context.Users.Include(u => u.Articles).FirstAsync(u => u.Id == userId);
+            var tempArticle = await _context.Articles.FirstAsync(a => a.Id == articleId);
+
+            tempUser.Articles.Add(tempArticle);
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
+
+        public async Task<bool> CancelAccomplitArticleAsync(Guid userId, Guid articleId)
+        {
+            var tempUser = await _context.Users.Include(u => u.Articles).FirstAsync(u => u.Id == userId);
+            var tempArticle = await _context.Articles.FirstAsync(a => a.Id == articleId);
+
+            tempUser.Articles.Remove(tempArticle);
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

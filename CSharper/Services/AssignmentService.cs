@@ -19,13 +19,13 @@ namespace CSharper.Services
 
         public async Task<Assignment> GetAssignmentAsync(Guid id)
         {
-            var assignment = await _context.Assignments.FirstAsync(b => b.Id == id);
+            var assignment = await _context.Assignments.Include(a => a.Subject).FirstAsync(b => b.Id == id);
             return assignment;
         }
 
         public async Task<IEnumerable<Assignment>> GetAllAssignmentsAsync()
         {
-            return await _context.Assignments.ToListAsync();
+            return await _context.Assignments.Include(a => a.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Assignment>> GetAllAssignmentsAsync(Guid subjectId)
@@ -67,13 +67,16 @@ namespace CSharper.Services
         {
             var originalAssignment = await _context.Assignments.FirstAsync(a => a.Id == originalAssignmentId);
 
-            originalAssignment.Name = modifiedAssignment.Name;
-            originalAssignment.Description = modifiedAssignment.Description;
-            originalAssignment.Experience = modifiedAssignment.Experience;
-            originalAssignment.LocalLink = modifiedAssignment.LocalLink;
-            originalAssignment.Url = modifiedAssignment.Url;
-            originalAssignment.Complexity = modifiedAssignment.Complexity;
-            originalAssignment.Subject = modifiedAssignment.Subject;
+            if (originalAssignment.Name != modifiedAssignment.Name) originalAssignment.Name = modifiedAssignment.Name;
+            if (originalAssignment.Description != modifiedAssignment.Description) originalAssignment.Description = modifiedAssignment.Description;
+            if (originalAssignment.Experience != modifiedAssignment.Experience) originalAssignment.Experience = modifiedAssignment.Experience;
+            if (originalAssignment.Url != modifiedAssignment.Url) originalAssignment.Url = modifiedAssignment.Url;
+            if (originalAssignment.Complexity != modifiedAssignment.Complexity) originalAssignment.Complexity = modifiedAssignment.Complexity;
+
+            if (originalAssignment.Subject.Id != modifiedAssignment.Subject.Id)
+            {
+                originalAssignment.Subject = await _context.Subjects.FirstAsync(s => s.Id == modifiedAssignment.Subject.Id);
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

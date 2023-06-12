@@ -19,13 +19,13 @@ namespace CSharper.Services
 
         public async Task<Book> GetBookAsync(Guid id)
         {
-            var book = await _context.Books.FirstAsync(b => b.Id == id);
+            var book = await _context.Books.Include(b => b.Subject).FirstAsync(b => b.Id == id);
             return book;
         }
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(b => b.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync(Guid subjectId)
@@ -65,15 +65,18 @@ namespace CSharper.Services
 
         public async Task<bool> EditBook(Book modifiedBook, Guid originalBookId)
         {
-            var originalBook= await _context.Books.FirstAsync(b => b.Id == originalBookId);
+            var originalBook = await _context.Books.FirstAsync(b => b.Id == originalBookId);
 
-            originalBook.Name = modifiedBook.Name;
-            originalBook.Description = modifiedBook.Description;
-            originalBook.Experience = modifiedBook.Experience;
-            originalBook.LocalLink = modifiedBook.LocalLink;
-            originalBook.Url = modifiedBook.Url;
-            originalBook.Complexity = modifiedBook.Complexity;
-            originalBook.Subject = modifiedBook.Subject;
+            if (originalBook.Name != modifiedBook.Name) originalBook.Name = modifiedBook.Name;
+            if (originalBook.Description != modifiedBook.Description) originalBook.Description = modifiedBook.Description;
+            if (originalBook.Experience != modifiedBook.Experience) originalBook.Experience = modifiedBook.Experience;
+            if (originalBook.Url != modifiedBook.Url) originalBook.Url = modifiedBook.Url;
+            if (originalBook.Complexity != modifiedBook.Complexity) originalBook.Complexity = modifiedBook.Complexity;
+
+            if (originalBook.Subject.Id != modifiedBook.Subject.Id)
+            {
+                originalBook.Subject = await _context.Subjects.FirstAsync(s => s.Id == modifiedBook.Subject.Id);
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

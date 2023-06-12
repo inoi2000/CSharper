@@ -20,13 +20,13 @@ namespace CSharper.Services
 
         public async Task<Lesson> GetLessonAsync(Guid id)
         {
-            var lesson = await _context.Lessons.FirstAsync(l => l.Id == id);
+            var lesson = await _context.Lessons.Include(l => l.Subject).FirstAsync(l => l.Id == id);
             return lesson;
         }
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync()
         {
-            return await _context.Lessons.ToListAsync();
+            return await _context.Lessons.Include(l => l.Subject).ToListAsync();
         }
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync(Guid subjectId)
@@ -71,13 +71,16 @@ namespace CSharper.Services
         {
             var originalLesson = await _context.Lessons.FirstAsync(l => l.Id == originalLessonId);
 
-            originalLesson.Name = modifiedLesson.Name;
-            originalLesson.Description = modifiedLesson.Description;
-            originalLesson.Experience = modifiedLesson.Experience;
-            originalLesson.LocalLink = modifiedLesson.LocalLink;
-            originalLesson.Url = modifiedLesson.Url;
-            originalLesson.Complexity = modifiedLesson.Complexity;
-            originalLesson.Subject = modifiedLesson.Subject;
+            if (originalLesson.Name != modifiedLesson.Name) originalLesson.Name = modifiedLesson.Name;
+            if (originalLesson.Description != modifiedLesson.Description) originalLesson.Description = modifiedLesson.Description;
+            if (originalLesson.Experience != modifiedLesson.Experience) originalLesson.Experience = modifiedLesson.Experience;
+            if (originalLesson.Url != modifiedLesson.Url) originalLesson.Url = modifiedLesson.Url;
+            if (originalLesson.Complexity != modifiedLesson.Complexity) originalLesson.Complexity = modifiedLesson.Complexity;
+
+            if (originalLesson.Subject.Id != modifiedLesson.Subject.Id)
+            {
+                originalLesson.Subject = await _context.Subjects.FirstAsync(s => s.Id == modifiedLesson.Subject.Id);
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

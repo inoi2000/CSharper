@@ -25,7 +25,7 @@
                         Width="auto" Height="auto"
                         Margin="10"
                         Text="{Binding ViewModel.Name}"
-                        PlaceholderText="Название урока"/>
+                        PlaceholderText="Название статьи"/>
             <ui:TextBox x:Name="DescriptionTextBox"
                         Width="auto" Height="auto"
                         Margin="10"
@@ -34,7 +34,7 @@
             <ui:NumberBox x:Name="ExperienceNumberBox"
                           Width="auto" Height="auto"
                           Margin="10"
-                          Value="{Binding ViewModel.Experience}"/>
+                          Text="{Binding ViewModel.Experience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <ui:TextBox x:Name="UrlTextBox"
                         Width="auto" Height="auto"
                         Margin="10"
@@ -60,7 +60,7 @@
                        Command="{Binding ViewModel.AddNewArticleCommand}"/>
         </StackPanel>
 
-        <ListBox x:Name="LessonsListBox"
+        <ListBox x:Name="ArticleListBox"
                  Grid.Column="1"
                  Width="auto" Height="auto"
                  Margin="10"

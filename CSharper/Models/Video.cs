@@ -14,7 +14,7 @@ namespace CSharper.Models
         public double Experience { get; set; }
         public string? LocalLink { get; set; }
         public Uri? Url { get; set; }
-        public Complexity? Complexity { get; set; }
+        public Complexity Complexity { get; set; }
 
         public Subject Subject { get; set; }
         public ICollection<User> Users { get; set; } = new List<User>();
@@ -33,7 +33,7 @@ namespace CSharper.Models
                 if (this.Id == video.Id) { return true; }
                 else { return false; }
             }
-            else throw new ArgumentException(nameof(obj));
+            else return false;
         }
 
         public override int GetHashCode()

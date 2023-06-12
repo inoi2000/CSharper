@@ -34,7 +34,7 @@
             <ui:NumberBox x:Name="ExperienceNumberBox"
                           Width="auto" Height="auto"
                           Margin="10"
-                          Value="{Binding ViewModel.Experience}"/>
+                          Text="{Binding ViewModel.Experience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <ui:TextBox x:Name="UrlTextBox"
                         Width="auto" Height="auto"
                         Margin="10"

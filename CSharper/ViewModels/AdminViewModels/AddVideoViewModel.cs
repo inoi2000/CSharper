@@ -72,6 +72,7 @@ namespace CSharper.ViewModels.AdminViewModels
                 Name = this.Name,
                 Description = this.Description,
                 Complexity = SelectedComplexity,
+                Experience = Experience,
                 Url = new Uri(Uri),
             };
 
