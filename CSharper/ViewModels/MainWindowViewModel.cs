@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CSharper.Models;
 using System;
 using System.Collections.ObjectModel;
 using Wpf.Ui.Common;
@@ -39,10 +40,18 @@ namespace CSharper.ViewModels
                 new NavigationItem()
                 {
                     Content = "Home",
-                    PageTag = "dashboard",
+                    PageTag = "home",
                     Icon = SymbolRegular.Home24,
-                    PageType = typeof(Views.Pages.DashboardPage)
+                    PageType = typeof(Views.Pages.HomePage)
                 },
+                 new NavigationItem()
+                {
+                    Content = "Литература",
+                    PageTag = "books",
+                    Icon = SymbolRegular.Book24,
+                    PageType = typeof(Views.Pages.BooksPage)
+                },
+               
                 new NavigationItem()
                 {
                     Content = "Data",
@@ -70,6 +79,8 @@ namespace CSharper.ViewModels
                     Header = "Home",
                     Tag = "tray_home"
                 }
+
+
             };
 
             _isInitialized = true;

@@ -21,6 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
+    <PackageReference Include="Apitron.PDF.Rasterizer" Version="3.0.170" />
     <PackageReference Include="WPF-UI" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
@@ -35,6 +36,12 @@
   <ItemGroup>
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Views\Pages\books.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

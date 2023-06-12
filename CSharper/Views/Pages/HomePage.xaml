@@ -1,0 +1,48 @@
+﻿<ui:UiPage x:Class="CSharper.Views.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CSharper.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="HomePage"
+    d:DataContext="{d:DesignInstance local:HomePage, IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:Background="{DynamicResource ApplicationBackgroundBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d"
+>
+        <DockPanel  Margin="56,0" LastChildFill="True">
+            <Image Margin="10" Source="c:/csharp5.png" Width="100" Height="100" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
+            <Grid Margin="0,10,0,0" DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Margin="0,0,20,0" >Опыт</Label>
+                <ProgressBar Value="100" Maximum="300" Grid.Column="1"></ProgressBar>
+            </Grid>
+        <StackPanel Margin="0,20,0,0" DockPanel.Dock="Top" Orientation="Horizontal">
+            <Label Margin="0,10,20,10">Выбранная тема</Label>
+            <TextBlock Text="{Binding ViewModel.CurrentSubject,Mode=TwoWay}" VerticalAlignment="Center" 
+                       FontSize="16" />
+        </StackPanel>
+        <ListBox  ItemsSource="{Binding ViewModel.Subjects,Mode=TwoWay}" 
+                  Margin="0,0,0,20"
+                  FontSize="20"
+                  FontWeight="Medium"   
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"                 
+                  ItemTemplate="{DynamicResource listBoxItemSubjectTemplate}"
+                  >
+                <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" IsItemsHost="True" 
+                                 HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+               </ListBox.ItemsPanel>
+        </ListBox>
+            
+        </DockPanel>
+
+</ui:UiPage>
