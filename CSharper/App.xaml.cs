@@ -51,12 +51,20 @@ namespace CSharper
                 services.AddScoped<ViewModels.AdminWindowViewModel>();
 
                 // Views and ViewModels
-                services.AddScoped<Views.Pages.DashboardPage>();
-                services.AddScoped<ViewModels.DashboardViewModel>();
+                services.AddScoped<Views.Pages.HomePage>();
+                services.AddScoped<ViewModels.HomeViewModel>();
                 services.AddScoped<Views.Pages.DataPage>();
                 services.AddScoped<ViewModels.DataViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
+              
+                services.AddScoped<Views.Pages.BooksPage>();
+                services.AddScoped<ViewModels.BooksViewModel>();
+                services.AddScoped<Views.Pages.ListBooksPage>();
+                services.AddScoped<ViewModels.ListBooksViewModel>();
+                services.AddScoped<Views.Pages.PdfViewerPage>();
+                services.AddScoped<ViewModels.PdfViewerViewModel>();
+
 
                 // Admin Views and ViewModels
                 services.AddScoped<Views.Pages.AdminPages.AddSubjectPage>();

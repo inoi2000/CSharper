@@ -51,8 +51,7 @@ namespace CSharper.Services
             _navigationWindow = (_serviceProvider.GetService(typeof(Views.Windows.MainWindow)) as INavigationWindow)!;
             _adminWindow = (_serviceProvider.GetService(typeof(Views.Windows.AdminWindow)) as INavigationWindow)!;
             _navigationWindow!.ShowWindow();
-
-            _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+            _navigationWindow.Navigate(typeof(Views.Pages.HomePage));            
 
             await Task.CompletedTask;
         }

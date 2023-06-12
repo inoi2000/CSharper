@@ -58,6 +58,7 @@ namespace CSharper.Services
         public async Task<bool> RemoveArticle(Article article)
         {
             _context.Articles.Remove(article);
+
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }
             else { return false; }

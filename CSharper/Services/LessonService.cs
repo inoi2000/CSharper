@@ -38,9 +38,10 @@ namespace CSharper.Services
         public async Task<bool> AddLesson(Lesson lesson)
         {
             if (lesson.Subject == null) { throw new ArgumentNullException(nameof(lesson.Subject)); }
+            
             var tempSubject = await _context.Subjects.FirstAsync(s => s.Id == lesson.Subject.Id);
             lesson.Subject = tempSubject;
-
+            
             await _context.Lessons.AddAsync(lesson);
 
             int count = await _context.SaveChangesAsync();
@@ -70,7 +71,7 @@ namespace CSharper.Services
         public async Task<bool> EditLesson(Lesson modifiedLesson, Guid originalLessonId)
         {
             var originalLesson = await _context.Lessons.FirstAsync(l => l.Id == originalLessonId);
-
+            
             if (originalLesson.Name != modifiedLesson.Name) originalLesson.Name = modifiedLesson.Name;
             if (originalLesson.Description != modifiedLesson.Description) originalLesson.Description = modifiedLesson.Description;
             if (originalLesson.Experience != modifiedLesson.Experience) originalLesson.Experience = modifiedLesson.Experience;

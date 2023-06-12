@@ -43,7 +43,6 @@ namespace CSharper.Services
             await _context.Entry(subject).Collection(s => s.Assignments).LoadAsync();
         }
 
-
         public async Task<bool> AddSubject(Subject subject)
         {
             await _context.Subjects.AddAsync(subject);
@@ -51,7 +50,7 @@ namespace CSharper.Services
             if (count > 0) { return true; }
             else { return false; }
         }
-
+        
         public async Task<bool> EditSubject(Subject modifiedSubject, Guid originalSubjectId)
         {
             var originalSubject = await _context.Subjects.FirstAsync(s => s.Id == originalSubjectId);
@@ -64,7 +63,6 @@ namespace CSharper.Services
             if (count > 0) { return true; }
             else { return false; }
         }
-
 
         public void Dispose()
         {

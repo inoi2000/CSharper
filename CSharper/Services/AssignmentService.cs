@@ -66,7 +66,7 @@ namespace CSharper.Services
         public async Task<bool> EditAssignment(Assignment modifiedAssignment, Guid originalAssignmentId)
         {
             var originalAssignment = await _context.Assignments.FirstAsync(a => a.Id == originalAssignmentId);
-
+            
             if (originalAssignment.Name != modifiedAssignment.Name) originalAssignment.Name = modifiedAssignment.Name;
             if (originalAssignment.Description != modifiedAssignment.Description) originalAssignment.Description = modifiedAssignment.Description;
             if (originalAssignment.Experience != modifiedAssignment.Experience) originalAssignment.Experience = modifiedAssignment.Experience;

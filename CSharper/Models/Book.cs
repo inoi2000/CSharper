@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,48 @@ namespace CSharper.Models
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+    }
+
+      
+      
+      
+
+        public Reading Reading
+        {
+            get { return this.reading(); }
+            set
+              {
+                this.setReading(value);
+               
+              }
+        }
+
+    }
+
+    public static class BookExtensions
+    {
+        private static User user;
+
+        public static void SetCurrentUser(this Book book,User _user)
+        {
+            user = _user;
+        }
+
+        public static Reading reading(this Book book)
+        {
+            if(book.Users.Contains(user))
+               return Reading.Yes;
+
+            return Reading.No;
+        }
+        public static void setReading(this Book book, Reading r)
+        {
+            
+            if (r !=0) book?.Users.Add(user);
+            else if (book?.Users.Contains(user)==true)
+                book.Users.Remove(user);
+            book.Name = "ttt"; //БАГ!!!  Это изменение не отражается на форме
         }
     }
 }
