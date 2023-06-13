@@ -1,4 +1,5 @@
-﻿<ui:UiPage x:Class="CSharper.Views.Pages.ArticlesPage"
+﻿<ui:UiPage
+    x:Class="CSharper.Views.Pages.ArticlesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,9 +18,8 @@
         <UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
             <StackPanel Orientation="Vertical">
                 <Label>Тема</Label>
-                <ComboBox SelectedIndex="0" Margin="0,0,10,0"
-                              ItemsSource="{Binding ViewModel.Title}">
-
+                <ComboBox x:Name="subjectsComboBox" SelectedIndex="0" Margin="0,0,10,0"
+                              ItemsSource="{Binding ViewModel.Subjects}">
                 </ComboBox>
             </StackPanel>
         </UniformGrid>
@@ -27,7 +27,8 @@
                      FontWeight="Medium"
                      Margin="0,0,0,20"
                      ItemsSource="{Binding ViewModel.Articles, Mode=TwoWay}"
-                     
+                     MouseDoubleClick="ListBox_MouseDoubleClick"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
                      ItemTemplate="{DynamicResource articleItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

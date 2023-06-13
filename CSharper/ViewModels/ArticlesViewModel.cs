@@ -15,12 +15,14 @@ namespace CSharper.ViewModels
 {
     public partial class ArticlesViewModel : ObservableObject, INavigationAware
     {
-        public string? Title { get; set; } // Delete maybe, don't know why it's here
-
         private ArticleService _articleService;
+        private SubjectService _subjectService;
 
         [ObservableProperty]
         private IEnumerable<Article> _articles;
+
+        [ObservableProperty]
+        private IEnumerable<Subject> _subjects;
 
         public ArticlesViewModel()
         {
@@ -33,9 +35,11 @@ namespace CSharper.ViewModels
 
         public async void OnNavigatedTo()
         {
+            _subjectService = new SubjectService();
             _articleService = new ArticleService();
+
+            Subjects = await _subjectService.GetAllSubjectsAcync();
             Articles = await _articleService.GetAllArticlesAsync();
-            
         }
 
         public void OnNavigatedFrom()

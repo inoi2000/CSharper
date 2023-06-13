@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSharper.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,19 @@ namespace CSharper.Views.Pages
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //ListBox listBox = (ListBox)sender;
+            //foreach (Article item in listBox.Items)
+            //{
+            //    if (item.Id == )
+            //}
 
+            // TODO: REMOVE HARDCODED LINK
+            string destinationUrl = "https://mark-borg.github.io/blog/2017/interop/";
+            var startInfo = new System.Diagnostics.ProcessStartInfo(destinationUrl)
+            {
+                UseShellExecute = true
+            };
+            System.Diagnostics.Process.Start(startInfo);
         }
     }
 }

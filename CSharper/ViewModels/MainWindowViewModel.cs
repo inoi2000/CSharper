@@ -53,8 +53,8 @@ namespace CSharper.ViewModels
                 },
                new NavigationItem()
                 {
-                    Content = "Articles",
-                    PageTag = "article",
+                    Content = "Статьи",
+                    PageTag = "articles",
                     Icon = SymbolRegular.Accessibility24,
                     PageType = typeof(Views.Pages.ArticlesPage)
                 }
