@@ -1,4 +1,6 @@
-﻿namespace CSharper.Models
+﻿using CSharper.Services;
+
+namespace CSharper.Models
 {
     public class AppConfig
     {
@@ -8,5 +10,11 @@
 
         public static User? User { get; set; }
         public static Subject? Subject { get; set; }
+
+        static AppConfig()
+        {
+            var userService = new UserService();
+            User = userService.GetTestUser();
+        }
     }
 }

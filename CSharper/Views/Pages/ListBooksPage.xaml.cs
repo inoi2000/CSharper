@@ -7,6 +7,11 @@ using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 using System.Linq;
 
+using CSharper.Services;
+using System.IO;
+using System.Threading;
+using System;
+
 namespace CSharper.Views.Pages
 {
     /// <summary>
@@ -18,8 +23,8 @@ namespace CSharper.Views.Pages
             (x =>
             {
                 if (x == null) return;
-                Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
-                x.setReading(r); 
+                //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
+                //x.setReading(r); 
                });
         public static RelayCommand<Book> ReadingClickCommand
         {
@@ -36,9 +41,9 @@ namespace CSharper.Views.Pages
              ViewModel = new ViewModels.ListBooksViewModel();
              
              InitializeComponent();
-        }
+        }        
 
-        private void SelectListBook(object sender, System.Windows.RoutedEventArgs e)
+        private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
              ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
         }
@@ -61,7 +66,11 @@ namespace CSharper.Views.Pages
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 
+            DownloadProgresRing.Visibility = Visibility.Collapsed;
+            BooksListBox.Visibility = Visibility.Visible;
 
+            Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
+                    .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
         }
 
         private void SelectListBook(object sender, SelectionChangedEventArgs e)

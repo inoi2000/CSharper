@@ -11,75 +11,146 @@ using System.Windows;
 using System.Linq;
 using CSharper.Services;
 
+using System.Threading.Tasks;
+using Wpf.Ui.Controls.Interfaces;
+using System.Windows.Controls;
+using System.Diagnostics;
+using System.Threading;
+using static System.Reflection.Metadata.BlobBuilder;
+
 namespace CSharper.ViewModels
 {
     public partial class ListBooksViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
 
-        private BookService bookService;
-        private SubjectService subjectService;
+<<<<<< DownloadingEntity
+        private static CancellationTokenSource cts = null;
+
+        private SubjectService _subjectService { get; set; }
+        private BookService _bookService { get; set; }
+
+
         [ObservableProperty]
         private User _currentUser;
 
         [ObservableProperty]
+
         private Subject _currentSubject;
 
         [ObservableProperty]
+
         private IEnumerable<Book> _books;
 
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
         [ObservableProperty]
-        private Book _selectBook;
+        private Book _selectedBook;
+
+        public string LocalPath => SelectedBook?.LocalLink ?? string.Empty;
+
+        private string _selectedOrderingType;
+        public string SelectedOrderingType
+        {
+            get { return _selectedOrderingType; }
+            set
+            {
+                _selectedOrderingType = value;
+                OnPropertyChanged(nameof(SelectedOrderingType));
+                SelectCommands[_selectedOrderingType].Execute(null);
+            }
+        }
 
         [ObservableProperty]
         private Dictionary<string,RelayCommand> _selectCommands;
 
-        public RelayCommand SelectViewAllBookCommand => new RelayCommand(() => {  });//, "Все"
-        public RelayCommand SelectViewNewBookCommand => new RelayCommand(() => {  });//, "Новые"
-        public RelayCommand SelectViewNoReadBookCommand => new RelayCommand(() => {  });//, "Непрочитанные"
-        public RelayCommand SelectViewBestBookCommand => new RelayCommand(() => {  });//, "С высоким рейтингом"
 
-        public void OnNavigatedTo()
+        public RelayCommand SelectViewAllBookCommand => new RelayCommand(() => { FromDB("Книга"); });//, "Все"
+        public RelayCommand SelectViewNoReadBookCommand => new RelayCommand(() => { FromDB("2"); });//, "Непрочитанные"
+        public RelayCommand SelectViewMostExperienceCommand => new RelayCommand(() => { FromDB("3"); });//, "С наибольшим опытом"
+        public RelayCommand SelectViewHighestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые сложноы"
+        public RelayCommand SelectViewLowestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые легкие"
+
+
+
+        public async void OnNavigatedTo()
         {
             if (!_isInitialized)
-            {
                 InitializeViewModel();
-            }
+
+            cts = new CancellationTokenSource();
+
+            _subjectService = new SubjectService();
+            Subjects = await _subjectService.GetAllSubjectsAcync();
+
+            _bookService = new BookService();
+            Books = await _bookService.GetAllBooksAsync();
         }
-      
+
         public void OnNavigatedFrom()
         {
+            cts.Cancel();
+            _subjectService?.Dispose();
+            _bookService?.Dispose();
         }
 
-        public ListBooksViewModel()
-        {
-            InitializeViewModel();
-        }
-        private async void InitializeViewModel()
-        {
-            bookService= new BookService();
-            subjectService= new SubjectService();
-            _currentUser = AppConfig.User;
-            _currentSubject = AppConfig.Subject;
-            _books =await bookService.GetAllBooksAsync();
-            _subjects=await subjectService.GetAllSubjectsAcync();
 
-            var selectCommands = new Dictionary<string,RelayCommand>();
-            selectCommands.Add("Все",SelectViewAllBookCommand);
-            selectCommands.Add("1",SelectViewNewBookCommand);
-            selectCommands.Add("2",SelectViewNoReadBookCommand);
-            selectCommands.Add("3",SelectViewBestBookCommand);
-
-            _selectCommands = selectCommands;
+        private void InitializeViewModel()
+        {
+            SelectCommands = new Dictionary<string,RelayCommand>();
+            SelectCommands.Add("Все", SelectViewAllBookCommand);
+            SelectCommands.Add("Непрочитанные", SelectViewNoReadBookCommand);
+            SelectCommands.Add("С наибольшим опытом", SelectViewMostExperienceCommand);
+            SelectCommands.Add("Сложные", SelectViewHighestComplexityCommand);
+            SelectCommands.Add("Легкие", SelectViewLowestComplexityCommand);
 
             _isInitialized = true;
         }
 
+        private double _downloadProgress;
+        public double DownloadProgress
 
-   
+        public ListBooksViewModel()
+
+        {
+            get { return _downloadProgress; }
+            set { _downloadProgress = value; OnPropertyChanged(); }
+        }
+
+
+        public async Task<bool> DownloadSelectedBook()
+        {
+            var progress = new Progress<double>();
+            progress.ProgressChanged += (sender, current) =>
+            {
+                DownloadProgress = current;
+                OnPropertyChanged(nameof(DownloadProgress));
+            };
+
+            CancellationToken token = cts.Token;
+
+            //
+            //TODO реализавать отдельное исполнение метода
+            await ReadBook(); // но пока он здесь
+            //
+
+            return await _bookService.DownloadBookAsync(SelectedBook.Id, progress, token);
+
+        }
+
+        public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
+
+        [RelayCommand]
+        private async Task ReadBook()
+        {
+            await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
+        }
+
+        public async Task FromDB(string t)
+        {
+            //TODO реализация функционала групировки книг
+        }
     }
 
 }
