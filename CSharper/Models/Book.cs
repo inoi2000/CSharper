@@ -39,6 +39,7 @@ namespace CSharper.Models
             else return false;
         }
 
+
         //public override int GetHashCode()
         //{
         //    return base.GetHashCode();
@@ -47,6 +48,7 @@ namespace CSharper.Models
 
         [NotMapped]
         public bool Reading => Users.Contains(AppConfig.User);
+
 
 
         //[NotMapped]
