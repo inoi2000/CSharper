@@ -7,73 +7,66 @@ using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
 using System.Linq;
 
-using CSharper.Services;
-using System.IO;
-using System.Threading;
-using System;
 
 namespace CSharper.Views.Pages
 {
     /// <summary>
     /// Interaction logic for SettingsPage.xaml
     /// </summary>
-    public partial class ListBooksPage : INavigableView<ViewModels.ListBooksViewModel>
+    public partial class ListLessonsPage : INavigableView<ViewModels.ListLessonsViewModel>
     {
-        private static RelayCommand<Book> readingClickCommand=new RelayCommand<Book>
+        private static RelayCommand<Lesson> readingClickCommand=new RelayCommand<Lesson>
             (x =>
             {
-                if (x == null) return;
+                //if (x == null) return;
                 //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
                 //x.setReading(r); 
                });
-        public static RelayCommand<Book> ReadingClickCommand
+        public static RelayCommand<Lesson> ReadingClickCommand
         {
             get  {   return readingClickCommand;   }
         }
 
-        public ViewModels.ListBooksViewModel ViewModel
+        public ViewModels.ListLessonsViewModel ViewModel
         {
             get;
         }
 
-        public ListBooksPage()
+        public ListLessonsPage()
         {
-             ViewModel = new ViewModels.ListBooksViewModel();
+             ViewModel = new ViewModels.ListLessonsViewModel();
              
              InitializeComponent();
-        }        
+        }
 
-        private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SelectListLesson(object sender, System.Windows.RoutedEventArgs e)
         {
              ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
         }
         
 
-        private void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OpenSelectedLesson(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var path = ((sender as ListBox).SelectedItem as Book).LocalLink;
+            
+            var path = ((sender as ListBox).SelectedItem as Lesson).LocalLink;
             if (path == null)
             {
                 path = "downloadbooks/books.pdf";
             }
-            var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
+           var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
 
             var readerWindow = Application.Current.Windows.OfType<Windows.PdfViewerWindow>().First();
-
+ 
             mainWindow.Visibility = Visibility.Collapsed;
 
             readerWindow.Open(path);
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 
-            DownloadProgresRing.Visibility = Visibility.Collapsed;
-            BooksListBox.Visibility = Visibility.Visible;
 
-            Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
-                    .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
         }
 
-        private void SelectListBook(object sender, SelectionChangedEventArgs e)
+        private void SelectListLesson(object sender, SelectionChangedEventArgs e)
         {
             //ViewModel.SelectCommands[ ((sender as ComboBox).SelectedItem as string)].Execute(null);
 
