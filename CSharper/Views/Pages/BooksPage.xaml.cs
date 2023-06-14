@@ -1,6 +1,8 @@
 ﻿using Wpf.Ui.Common.Interfaces;
 
 using System.Windows.Controls;
+using System.Windows;
+using System.Linq;
 
 namespace CSharper.Views.Pages
 {
@@ -19,9 +21,9 @@ namespace CSharper.Views.Pages
              ViewModel = viewModel;
 
             InitializeComponent();
-           
-            _NavigationFrame.Navigate(new ListBooksPage()); ; ;
-            ;
+            //var mainWindow = Application.Current.Windows.OfType<Views.Windows.MainWindow>().First();
+            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First().Navigate(typeof(Views.Pages.ListBooksPage));
+            _NavigationFrame.Navigate(new ListBooksPage());
         }
 
     }

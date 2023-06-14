@@ -168,9 +168,8 @@ namespace CSharper.Views.Pages
 
          private void OnCloseFileClick(object sender, RoutedEventArgs e)
         {
-            (Application.Current.Windows[0] as Views.Windows.MainWindow).RootNavigation.
-               PageService.GetPage<BooksPage>()._NavigationFrame.Navigate(new ListBooksPage());
-
+            Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?.Navigate(typeof(Views.Pages.HomePage));
+            Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?.Navigate(typeof(Views.Pages.ListBooksPage));
         }
 
         private void OnLinkClick(object sender, RoutedEventArgs routedEventArgs)

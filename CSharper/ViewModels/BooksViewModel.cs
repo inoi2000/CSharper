@@ -14,21 +14,6 @@ namespace CSharper.ViewModels
     public partial class BooksViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-
-        //private ActionCommand _readingClickCommand = new ActionCommand(x => { MessageBox.Show(""); }, null, "Открыть pdf-файл");
-
-        //public ActionCommand ReadingClickCommand 
-        //    {
-        //        get
-        //        {
-                    
-        //            return _readingClickCommand;
-        //        }
-        //   }
-    
-                //<MenuItem Command = "{x:Static ApplicationCommands.Cut}" CommandParameter="Cut it!"/>
-                //<MenuItem Command = "{x:Static ApplicationCommands.Copy}" CommandParameter="Copy it!"/>
-                //<MenuItem Command = "{x:Static ApplicationCommands.Paste}" CommandParameter="Paste it!"/>
            
         public void OnNavigatedTo()
         {
@@ -43,7 +28,7 @@ namespace CSharper.ViewModels
  
         private void InitializeViewModel()
         {            
-;           _isInitialized = true;
+            _isInitialized = true;
         }
 
      }

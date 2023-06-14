@@ -9,6 +9,13 @@ using System.Collections.Generic;
 
 using System.Windows;
 using System.Linq;
+using CSharper.Services;
+using System.Threading.Tasks;
+using Wpf.Ui.Controls.Interfaces;
+using System.Windows.Controls;
+using System.Diagnostics;
+using System.Threading;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace CSharper.ViewModels
 {
@@ -16,97 +23,118 @@ namespace CSharper.ViewModels
     {
         private bool _isInitialized = false;
 
-        private ObservableCollection<Book> BooksFromDB;
+        private static CancellationTokenSource cts = null;
+
+        private SubjectService _subjectService { get; set; }
+        private BookService _bookService { get; set; }
 
         [ObservableProperty]
         private User _currentUser;
 
         [ObservableProperty]
-        private ObservableCollection<Book> _books;
+        private IEnumerable<Book> _books;
 
         [ObservableProperty]
-        private List<string> _bookThemes;
+        private IEnumerable<Subject> _subjects;
 
         [ObservableProperty]
-        private Book _selectBook;
+        private Book _selectedBook;
+
+        public string LocalPath => SelectedBook?.LocalLink ?? string.Empty;
+
+        private string _selectedOrderingType;
+        public string SelectedOrderingType
+        {
+            get { return _selectedOrderingType; }
+            set
+            {
+                _selectedOrderingType = value;
+                OnPropertyChanged(nameof(SelectedOrderingType));
+                SelectCommands[_selectedOrderingType].Execute(null);
+            }
+        }
 
         [ObservableProperty]
         private Dictionary<string,RelayCommand> _selectCommands;
 
         public RelayCommand SelectViewAllBookCommand => new RelayCommand(() => { FromDB("Книга"); });//, "Все"
-        public RelayCommand SelectViewNewBookCommand => new RelayCommand(() => { FromDB("1"); });//, "Новые"
         public RelayCommand SelectViewNoReadBookCommand => new RelayCommand(() => { FromDB("2"); });//, "Непрочитанные"
-        public RelayCommand SelectViewBestBookCommand => new RelayCommand(() => { FromDB("3"); });//, "С высоким рейтингом"
+        public RelayCommand SelectViewMostExperienceCommand => new RelayCommand(() => { FromDB("3"); });//, "С наибольшим опытом"
+        public RelayCommand SelectViewHighestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые сложноы"
+        public RelayCommand SelectViewLowestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые легкие"
 
-        public void OnNavigatedTo()
+
+        public async void OnNavigatedTo()
         {
             if (!_isInitialized)
-            {
                 InitializeViewModel();
-            }
+
+            cts = new CancellationTokenSource();
+
+            _subjectService = new SubjectService();
+            Subjects = await _subjectService.GetAllSubjectsAcync();
+
+            _bookService = new BookService();
+            Books = await _bookService.GetAllBooksAsync();
         }
-      
+
         public void OnNavigatedFrom()
         {
+            cts.Cancel();
+            _subjectService?.Dispose();
+            _bookService?.Dispose();
         }
 
-        public void FromDB(string t)
-        {
-            //Books.Clear();
-            //BooksFromDB.ToList().ForEach(x => Books.Add(x));
-
-            //BooksFromDB.ToList().FindAll(x => !x.Name.Contains(t)).ForEach(x=>Books.Remove(x));
-        }
-
-        public ListBooksViewModel()
-        {
-            InitializeViewModel();
-        }
         private void InitializeViewModel()
         {
-            BooksFromDB = new ObservableCollection<Book>();
-            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга1", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга2", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
-            BooksFromDB.Add(new Book() { Name = "Книга3", LocalLink = "DownloadBooks/books.pdf", Complexity = Complexity.easy });
+            SelectCommands = new Dictionary<string,RelayCommand>();
+            SelectCommands.Add("Все", SelectViewAllBookCommand);
+            SelectCommands.Add("Непрочитанные", SelectViewNoReadBookCommand);
+            SelectCommands.Add("С наибольшим опытом", SelectViewMostExperienceCommand);
+            SelectCommands.Add("Сложные", SelectViewHighestComplexityCommand);
+            SelectCommands.Add("Легкие", SelectViewLowestComplexityCommand);
 
-            Books = BooksFromDB;
-            //Books = new ObservableCollection<Book>();
-            //BooksFromDB.ToList().ForEach(x=>Books.Add(x));
-
-            CurrentUser = new User() { Id = Guid.NewGuid() };
-
-            Books[0].Users.Add(CurrentUser);
-            Books[2].Users.Add(CurrentUser);
-            Books[3].Users.Add(CurrentUser);
-            Books[0].SetCurrentUser(CurrentUser);
-
-            var bookThemes = new List<string>();
-            bookThemes.Add("Все");
-            bookThemes.Add("Тема 1");
-            bookThemes.Add("Тема 2");
-            bookThemes.Add("Тема 3");
-            bookThemes.Add("Тема 4");
-
-            BookThemes = bookThemes;
-
-            //var selectCommands = new Dictionary<string,RelayCommand>();
-            //selectCommands.Add("Все",SelectViewAllBookCommand);
-            //selectCommands.Add("1",SelectViewNewBookCommand);
-            //selectCommands.Add("2",SelectViewNoReadBookCommand);
-            //selectCommands.Add("3",SelectViewBestBookCommand);
-
-            //SelectCommands = selectCommands;
             _isInitialized = true;
         }
 
+        private double _downloadProgress;
+        public double DownloadProgress
+        {
+            get { return _downloadProgress; }
+            set { _downloadProgress = value; OnPropertyChanged(); }
+        }
 
-   
+        public async Task<bool> DownloadSelectedBook()
+        {
+            var progress = new Progress<double>();
+            progress.ProgressChanged += (sender, current) =>
+            {
+                DownloadProgress = current;
+                OnPropertyChanged(nameof(DownloadProgress));
+            };
+
+            CancellationToken token = cts.Token;
+
+            //
+            //TODO реализавать отдельное исполнение метода
+            await ReadBook(); // но пока он здесь
+            //
+
+            return await _bookService.DownloadBookAsync(SelectedBook.Id, progress, token);
+        }
+
+        public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
+
+        [RelayCommand]
+        private async Task ReadBook()
+        {
+            await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
+        }
+
+        public async Task FromDB(string t)
+        {
+            //TODO реализация функционала групировки книг
+        }
     }
 
 }

@@ -49,7 +49,7 @@ namespace CSharper.ViewModels
                     Content = "Литература",
                     PageTag = "books",
                     Icon = SymbolRegular.Book24,
-                    PageType = typeof(Views.Pages.BooksPage)
+                    PageType = typeof(Views.Pages.ListBooksPage)
                 },
                
                 new NavigationItem()
