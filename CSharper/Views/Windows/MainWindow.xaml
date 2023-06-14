@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="clr-namespace:CSharper.Views.Pages"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
+     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1100"
     Height="650"
     d:DataContext="{d:DesignInstance local:MainWindow,
@@ -19,6 +19,7 @@
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -30,7 +31,8 @@
             Grid.Column="0"
             Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
             Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
-            Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
+            Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" 
+           />
 
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"

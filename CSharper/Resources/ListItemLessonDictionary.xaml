@@ -1,15 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converts="clr-namespace:CSharper.Models"                   
-                    x:Class="CSharper.Resources.ListItemSubjectDictionary"
-                    xmlns:ap="clr-namespace:CSharper.ViewModels"
+                    x:Class="CSharper.Resources.ListItemLessonDictionary"
+                    xmlns:ap="clr-namespace:CSharper.Views.Pages"
                  
                     >
     <converts:ComplexityConverter x:Key="ComplexityConverter"/>
     <converts:ReadingToVisibilityConverter x:Key="ReadingToVisibilityConverter"/>
     <converts:NoReadingToVisibilityConverter x:Key="NoReadingToVisibilityConverter"/>
     <converts:ReadingToStringConverter x:Key="ReadingToStringConverter"/>
-    <BitmapImage x:Key="SubjectSource" UriSource="pack://application:,,,/Assets/c-sharp.png" />
+
+    <BitmapImage x:Key="LessonSource" UriSource="pack://application:,,,/Assets/lesson.png" />
 
     <!--<Style x:Key="ButtonBall" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
@@ -30,13 +31,13 @@
             </Trigger>
         </Style.Triggers>
     </Style>-->
-    <DataTemplate x:Key="listBoxItemSubjectTemplate">
+    <DataTemplate x:Key="listBoxItemLessonTemplate">
         <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
             <StackPanel Margin="5">
                 <Label Content="{Binding Name, Mode=OneWay}" HorizontalAlignment="Center"/>
                 <Border  BorderThickness="1" BorderBrush="LightGray"
                                      Background="Transparent"  Height="200">
-                    <Image Source="{StaticResource SubjectSource}" 
+                    <Image Source="{StaticResource LessonSource}"
                            Opacity="0.6"  />
 
                 </Border>
@@ -69,12 +70,36 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu FontSize="14">
-                                <MenuItem    Header="Выбрать" 
-                                             HorizontalAlignment="Left"
-                                             Command="{x:Static ap:HomeViewModel.SubjectClickCommand }"  
-                                             CommandParameter="{Binding}"
+                                <Grid>
+                                    <MenuItem    Header="Прочитано" 
+                                                              IsCheckable="True"
+                                                              HorizontalAlignment="Left"
+                                                              Visibility="{Binding Reading, Converter={StaticResource ReadingToVisibilityConverter}, Mode=TwoWay}"
+                                                              
+                                                              Command="{x:Static ap:ListBooksPage.ReadingClickCommand}"  
+                                                 CommandParameter="{Binding}"
                                        >
                                     </MenuItem>
+
+                                    <MenuItem  Header="Не прочитано" 
+                                                              IsCheckable="True"
+                                                              HorizontalAlignment="Left"
+                                                              Visibility="{Binding Reading, Converter={StaticResource NoReadingToVisibilityConverter}, Mode=TwoWay}"
+                                                              Command="{x:Static ap:ListBooksPage.ReadingClickCommand}"  
+                                                              CommandParameter="{Binding}"
+                                                               />
+
+                                </Grid>
+                                <Separator></Separator>
+                                <MenuItem Header=" Скачать" Command="{Binding LoadBookCommand}"></MenuItem>
+                                <MenuItem Header="Уровень">
+                                    <StackPanel Orientation="Vertical">
+                                        <Button Style="{StaticResource ButtonBall}" Click="ReadingClick">Легкий</Button>
+                                        <Button Style="{StaticResource ButtonBall}" Click="ReadingClick">Средний</Button>
+                                        <Button Style="{StaticResource ButtonBall}" Click="ReadingClick">Высокий</Button>
+                                        <Button Style="{StaticResource ButtonBall}" Click="ReadingClick">Продвинутый</Button>
+                                    </StackPanel>
+                                </MenuItem>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

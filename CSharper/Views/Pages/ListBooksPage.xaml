@@ -46,8 +46,9 @@
                   ItemsSource="{Binding ViewModel.Books}"
                   SelectedItem="{Binding ViewModel.SelectedBook}"
                   MouseDoubleClick="OpenSelectedBook"
-                  ScrollViewer.VerticalScrollBarVisibility="Visible"
-                  ItemTemplate="{DynamicResource listBoxItemTemplate}">
+                
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"                 
+                  ItemTemplate="{DynamicResource listBoxItemBookTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="3" IsItemsHost="True" 

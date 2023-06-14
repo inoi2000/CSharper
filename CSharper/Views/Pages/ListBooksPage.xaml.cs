@@ -44,10 +44,17 @@ namespace CSharper.Views.Pages
 
         private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            DownloadProgresRing.Visibility = Visibility.Visible;
-            BooksListBox.Visibility = Visibility.Collapsed;
+             ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
+        }
+        
 
-            await ViewModel.DownloadSelectedBook();            
+        private void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //ViewModel.Books.RemoveAt(0); //a удаление отражается
+            
+            var path = ((sender as ListBox).SelectedItem as Book).LocalLink;
+            (Application.Current.Windows[0] as Views.Windows.MainWindow).RootNavigation.
+                PageService.GetPage<BooksPage>()._NavigationFrame.Navigate(new Views.Pages.PdfViewerPage(path));
 
             DownloadProgresRing.Visibility = Visibility.Collapsed;
             BooksListBox.Visibility = Visibility.Visible;

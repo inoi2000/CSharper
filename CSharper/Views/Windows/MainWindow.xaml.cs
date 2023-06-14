@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -22,9 +23,17 @@ namespace CSharper.Views.Windows
             DataContext = this;
 
             InitializeComponent();
+//            RootFrame.NavigationUIVisibility = NavigationUIVisibility.Hidden;
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
+            
+            //RootNavigation.Navi
+            foreach (INavigationItem p in RootNavigation.Items)
+            { 
+                //как-то заблокировать
+            }
+
         }
 
         #region INavigationWindow methods
@@ -55,8 +64,6 @@ namespace CSharper.Views.Windows
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-
-            // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
         }
     }
