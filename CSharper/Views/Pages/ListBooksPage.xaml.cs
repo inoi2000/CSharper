@@ -43,10 +43,10 @@ namespace CSharper.Views.Pages
              InitializeComponent();
         }        
 
-        private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-             ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
-        }
+        //private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //     ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
+        //}
         
 
         private void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -69,8 +69,8 @@ namespace CSharper.Views.Pages
             DownloadProgresRing.Visibility = Visibility.Collapsed;
             BooksListBox.Visibility = Visibility.Visible;
 
-            Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
-                    .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
+            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
+            //        .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
         }
 
         private void SelectListBook(object sender, SelectionChangedEventArgs e)

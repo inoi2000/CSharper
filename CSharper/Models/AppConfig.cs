@@ -14,7 +14,7 @@ namespace CSharper.Models
         static AppConfig()
         {
             var userService = new UserService();
-            User = userService.GetTestUser();
+           //TODO User = userServiceGetTestUser();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace CSharper.ViewModels
     {
         private bool _isInitialized = false;
 
-<<<<<< DownloadingEntity
+
         private static CancellationTokenSource cts = null;
 
         private SubjectService _subjectService { get; set; }
@@ -98,22 +98,18 @@ namespace CSharper.ViewModels
 
         private void InitializeViewModel()
         {
-            SelectCommands = new Dictionary<string,RelayCommand>();
-            SelectCommands.Add("Все", SelectViewAllBookCommand);
-            SelectCommands.Add("Непрочитанные", SelectViewNoReadBookCommand);
-            SelectCommands.Add("С наибольшим опытом", SelectViewMostExperienceCommand);
-            SelectCommands.Add("Сложные", SelectViewHighestComplexityCommand);
-            SelectCommands.Add("Легкие", SelectViewLowestComplexityCommand);
+            //SelectCommands = new Dictionary<string,RelayCommand>();
+            //SelectCommands.Add("Все", SelectViewAllBookCommand);
+            //SelectCommands.Add("Непрочитанные", SelectViewNoReadBookCommand);
+            //SelectCommands.Add("С наибольшим опытом", SelectViewMostExperienceCommand);
+            //SelectCommands.Add("Сложные", SelectViewHighestComplexityCommand);
+            //SelectCommands.Add("Легкие", SelectViewLowestComplexityCommand);
 
             _isInitialized = true;
         }
 
         private double _downloadProgress;
-        public double DownloadProgress
-
-        public ListBooksViewModel()
-
-        {
+        public double DownloadProgress { 
             get { return _downloadProgress; }
             set { _downloadProgress = value; OnPropertyChanged(); }
         }
@@ -134,8 +130,8 @@ namespace CSharper.ViewModels
             //TODO реализавать отдельное исполнение метода
             await ReadBook(); // но пока он здесь
             //
-
-            return await _bookService.DownloadBookAsync(SelectedBook.Id, progress, token);
+            return true;
+            //return await _bookService..DownloadBookAsync(SelectedBook.Id, progress, token);
 
         }
 
