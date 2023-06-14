@@ -34,8 +34,11 @@ namespace CSharper.Views.Pages
             InitializeComponent();
         }
 
+
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            (articlesListbox.SelectedItem as Article).Url.ToString();
+
             //ListBox listBox = (ListBox)sender;
             //foreach (Article item in listBox.Items)
             //{
@@ -43,7 +46,8 @@ namespace CSharper.Views.Pages
             //}
 
             // TODO: REMOVE HARDCODED LINK
-            string destinationUrl = "https://mark-borg.github.io/blog/2017/interop/";
+            //string destinationUrl = "https://mark-borg.github.io/blog/2017/interop/";
+            string destinationUrl = (articlesListbox.SelectedItem as Article).Url.ToString();
             var startInfo = new System.Diagnostics.ProcessStartInfo(destinationUrl)
             {
                 UseShellExecute = true

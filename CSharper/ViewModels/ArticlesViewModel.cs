@@ -22,6 +22,9 @@ namespace CSharper.ViewModels
         private IEnumerable<Article> _articles;
 
         [ObservableProperty]
+        private Article selectedArticle;
+
+        [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
         public ArticlesViewModel()

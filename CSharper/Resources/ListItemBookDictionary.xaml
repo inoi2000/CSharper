@@ -29,6 +29,8 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    
     <DataTemplate x:Key="listBoxItemTemplate">
         <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
             <StackPanel Margin="5">

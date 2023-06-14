@@ -23,10 +23,11 @@
                 </ComboBox>
             </StackPanel>
         </UniformGrid>
-        <ListBox FontSize="20"
+        <ListBox x:Name="articlesListbox" FontSize="20"
                      FontWeight="Medium"
                      Margin="0,0,0,20"
                      ItemsSource="{Binding ViewModel.Articles, Mode=TwoWay}"
+                     SelectedItem="{Binding ViewModel.SelectedArticle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      MouseDoubleClick="ListBox_MouseDoubleClick"
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                      ItemTemplate="{DynamicResource articleItemTemplate}">
