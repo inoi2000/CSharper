@@ -51,7 +51,15 @@ namespace CSharper.ViewModels
                     Icon = SymbolRegular.Book24,
                     PageType = typeof(Views.Pages.BooksPage)
                 },
-               
+
+                 new NavigationItem()
+                {
+                    Content = "Задания",
+                    PageTag = "assignment",
+                    Icon = SymbolRegular.Book24,
+                    PageType = typeof(Views.Pages.Assignments)
+                },
+
                 new NavigationItem()
                 {
                     Content = "Data",

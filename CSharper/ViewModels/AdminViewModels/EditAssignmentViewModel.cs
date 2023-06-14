@@ -71,7 +71,7 @@ namespace CSharper.ViewModels.AdminViewModels
                     Description = assignment.Description;
                     Experience = assignment.Experience;
                     Uri = assignment.Url?.ToString() ?? string.Empty;
-                    SelectedComplexity = assignment.Complexity;
+                    SelectedComplexity = (Complexity)assignment.Complexity;
                     SelectedSubject = Subjects?.FirstOrDefault(s => s.Id == assignment.Subject.Id);
                 }
             }
