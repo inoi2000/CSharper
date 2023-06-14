@@ -1,5 +1,5 @@
 ﻿<ui:UiPage
-    x:Class="CSharper.Views.Pages.ListBooksPage"
+    x:Class="CSharper.Views.Pages.ListLessonsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:ap="clr-namespace:CSharper.Resources"
     Title="ListBooksPage"
-    d:DataContext="{d:DesignInstance local:ListBooksPage,
+    d:DataContext="{d:DesignInstance local:ListLessonsPage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -29,7 +29,7 @@
                     <ComboBox  SelectedIndex="0" 
                            Margin="5,0,20,0" 
                            ItemsSource="{Binding ViewModel.SelectCommands.Keys}"
-                           SelectionChanged="SelectListBook"
+                           SelectionChanged="SelectListLesson"
                            >
                     </ComboBox>
                 </StackPanel>
@@ -41,12 +41,12 @@
             <ListBox  FontSize="20"
                   FontWeight="Medium"   
                   Margin="0,0,0,20"
-                  ItemsSource="{Binding ViewModel.Books, Mode=TwoWay}"
-                  SelectedItem="{Binding ViewModel.SelectBook, Mode=TwoWay}"
-                  MouseDoubleClick="OpenSelectedBook"
+                  ItemsSource="{Binding ViewModel.Lessons, Mode=TwoWay}"
+                  SelectedItem="{Binding ViewModel.SelectLesson, Mode=TwoWay}"
+                  MouseDoubleClick="OpenSelectedLesson"
                 
                   ScrollViewer.VerticalScrollBarVisibility="Visible"                 
-                  ItemTemplate="{DynamicResource listBoxItemBookTemplate}">
+                  ItemTemplate="{DynamicResource listBoxItemLessonTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="3" IsItemsHost="True" 

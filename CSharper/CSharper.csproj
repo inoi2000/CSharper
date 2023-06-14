@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="applicationIcon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -30,12 +26,30 @@
   <ItemGroup>
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
+    <None Remove="Assets\article.png" />
+    <None Remove="Assets\authorization.png" />
+    <None Remove="Assets\book.png" />
+    <None Remove="Assets\c-sharp.png" />
+    <None Remove="Assets\homework.png" />
+    <None Remove="Assets\lesson.png" />
+    <None Remove="Assets\subject.png" />
+    <None Remove="Assets\user.png" />
+    <None Remove="Assets\video.png" />
     <None Remove="CSharper.db" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
+    <Resource Include="Assets\article.png" />
+    <Resource Include="Assets\authorization.png" />
+    <Resource Include="Assets\book.png" />
+    <Resource Include="Assets\c-sharp.png" />
+    <Resource Include="Assets\homework.png" />
+    <Resource Include="Assets\lesson.png" />
+    <Resource Include="Assets\subject.png" />
+    <Resource Include="Assets\user.png" />
+    <Resource Include="Assets\video.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,9 +86,6 @@
     <Compile Update="Views\Pages\AdminPages\AddBookPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Update="Views\Pages\books.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

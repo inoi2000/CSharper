@@ -39,7 +39,7 @@ namespace CSharper.ViewModels
             {
                 new NavigationItem()
                 {
-                    Content = "Home",
+                    Content = "Начальная страница",
                     PageTag = "home",
                     Icon = SymbolRegular.Home24,
                     PageType = typeof(Views.Pages.HomePage)
@@ -49,9 +49,16 @@ namespace CSharper.ViewModels
                     Content = "Литература",
                     PageTag = "books",
                     Icon = SymbolRegular.Book24,
-                    PageType = typeof(Views.Pages.BooksPage)
+                    PageType = typeof(Views.Pages.ListBooksPage)
                 },
-               
+                   new NavigationItem()
+                {
+                    Content = "Уроки",
+                    PageTag = "lessons",
+                    Icon = SymbolRegular.BookTheta24,
+                    PageType = typeof(Views.Pages.ListLessonsPage)
+                },
+
                 new NavigationItem()
                 {
                     Content = "Data",
@@ -63,6 +70,13 @@ namespace CSharper.ViewModels
 
             NavigationFooter = new ObservableCollection<INavigationControl>
             {
+                new NavigationItem()
+                {
+                    Content = "Авторизация",
+                    PageTag = "autorization",
+                    Icon = SymbolRegular.HomeAdd24,
+                    PageType = typeof(Views.Pages.AutorizationPage)
+                },
                 new NavigationItem()
                 {
                     Content = "Settings",

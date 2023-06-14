@@ -13,11 +13,11 @@ using CSharper.Services;
 
 namespace CSharper.ViewModels
 {
-    public partial class ListBooksViewModel : ObservableObject, INavigationAware
+    public partial class ListLessonsViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
 
-        private BookService bookService;
+        private LessonService lessonService;
         private SubjectService subjectService;
         [ObservableProperty]
         private User _currentUser;
@@ -26,13 +26,13 @@ namespace CSharper.ViewModels
         private Subject _currentSubject;
 
         [ObservableProperty]
-        private IEnumerable<Book> _books;
+        private IEnumerable<Lesson> _lessons;
 
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
         [ObservableProperty]
-        private Book _selectBook;
+        private Lesson _selectLesson;
 
         [ObservableProperty]
         private Dictionary<string,RelayCommand> _selectCommands;
@@ -54,27 +54,19 @@ namespace CSharper.ViewModels
         {
         }
 
-        public ListBooksViewModel()
+        public ListLessonsViewModel()
         {
             InitializeViewModel();
         }
         private async void InitializeViewModel()
         {
-            bookService= new BookService();
+            lessonService= new LessonService();
             subjectService= new SubjectService();
-            _currentUser = AppConfig.User;
-            _currentSubject = AppConfig.Subject;
-            _books =await bookService.GetAllBooksAsync();
+            CurrentUser = AppConfig.User;
+            CurrentSubject = AppConfig.Subject;
+            _lessons = await lessonService.GetAllLessonsAsync();
             _subjects=await subjectService.GetAllSubjectsAcync();
-
-            var selectCommands = new Dictionary<string,RelayCommand>();
-            selectCommands.Add("Все",SelectViewAllBookCommand);
-            selectCommands.Add("1",SelectViewNewBookCommand);
-            selectCommands.Add("2",SelectViewNoReadBookCommand);
-            selectCommands.Add("3",SelectViewBestBookCommand);
-
-            _selectCommands = selectCommands;
-
+            _selectLesson = null;
             _isInitialized = true;
         }
 
