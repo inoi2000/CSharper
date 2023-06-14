@@ -43,13 +43,12 @@ namespace CSharper.Models
         {
             return base.GetHashCode();
         }
+    }
 
+      
+      
+      
 
-        //[NotMapped]
-        //public bool Reading => Users.Contains(AppConfig.User);
-
-
-        [NotMapped]
         public Reading Reading
         {
             get { return this.reading(); }
