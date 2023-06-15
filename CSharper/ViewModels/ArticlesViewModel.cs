@@ -25,6 +25,9 @@ namespace CSharper.ViewModels
         private Article selectedArticle;
 
         [ObservableProperty]
+        private Subject selectedSubject;
+
+        [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
         public ArticlesViewModel()
@@ -42,12 +45,17 @@ namespace CSharper.ViewModels
             _articleService = new ArticleService();
 
             Subjects = await _subjectService.GetAllSubjectsAcync();
-            Articles = await _articleService.GetAllArticlesAsync();
+            Articles = await _articleService.GetAllArticlesAsync(selectedSubject.Id);
         }
 
         public void OnNavigatedFrom()
         {
             _articleService.Dispose();
+        }
+
+        public async void UpdateArticlesList()
+        {
+            Articles = await _articleService.GetAllArticlesAsync(selectedSubject.Id);
         }
 
         // old code, not mine

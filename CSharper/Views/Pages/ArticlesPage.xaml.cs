@@ -32,27 +32,24 @@ namespace CSharper.Views.Pages
             ViewModel = viewModel;
 
             InitializeComponent();
+
+            //ViewModel.SelectedSubject = subjectsComboBox.SelectedItem as Subject;
         }
 
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            (articlesListbox.SelectedItem as Article).Url.ToString();
-
-            //ListBox listBox = (ListBox)sender;
-            //foreach (Article item in listBox.Items)
-            //{
-            //    if (item.Id == )
-            //}
-
-            // TODO: REMOVE HARDCODED LINK
-            //string destinationUrl = "https://mark-borg.github.io/blog/2017/interop/";
             string destinationUrl = (articlesListbox.SelectedItem as Article).Url.ToString();
             var startInfo = new System.Diagnostics.ProcessStartInfo(destinationUrl)
             {
                 UseShellExecute = true
             };
             System.Diagnostics.Process.Start(startInfo);
+        }
+
+        private void subjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.UpdateArticlesList();
         }
     }
 }

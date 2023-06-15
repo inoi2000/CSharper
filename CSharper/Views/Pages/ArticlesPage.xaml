@@ -19,7 +19,9 @@
             <StackPanel Orientation="Vertical">
                 <Label>Тема</Label>
                 <ComboBox x:Name="subjectsComboBox" SelectedIndex="0" Margin="0,0,10,0"
-                              ItemsSource="{Binding ViewModel.Subjects}">
+                          ItemsSource="{Binding ViewModel.Subjects}"
+                          SelectedItem="{Binding ViewModel.SelectedSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionChanged="subjectsComboBox_SelectionChanged">
                 </ComboBox>
             </StackPanel>
         </UniformGrid>
