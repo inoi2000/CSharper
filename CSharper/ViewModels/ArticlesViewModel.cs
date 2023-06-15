@@ -37,6 +37,7 @@ namespace CSharper.ViewModels
 
         private void InitializeViewModel()
         {
+            selectedSubject = new Subject();
         }
 
         public async void OnNavigatedTo()
@@ -51,6 +52,7 @@ namespace CSharper.ViewModels
         public void OnNavigatedFrom()
         {
             _articleService.Dispose();
+            _subjectService.Dispose();
         }
 
         public async void UpdateArticlesList()

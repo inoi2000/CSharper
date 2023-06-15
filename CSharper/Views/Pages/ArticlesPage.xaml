@@ -14,10 +14,10 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <DockPanel Margin="56" LastChildFill="True">
+    <DockPanel Margin="40, 10" LastChildFill="True">
         <UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
             <StackPanel Orientation="Vertical">
-                <Label>Тема</Label>
+                <Label Margin="12 0" FontSize="16">Тема</Label>
                 <ComboBox x:Name="subjectsComboBox" SelectedIndex="0" Margin="0,0,10,0"
                           ItemsSource="{Binding ViewModel.Subjects}"
                           SelectedItem="{Binding ViewModel.SelectedSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -27,7 +27,7 @@
         </UniformGrid>
         <ListBox x:Name="articlesListbox" FontSize="20"
                      FontWeight="Medium"
-                     Margin="0,0,0,20"
+                     Margin="0,10,0,20"
                      ItemsSource="{Binding ViewModel.Articles, Mode=TwoWay}"
                      SelectedItem="{Binding ViewModel.SelectedArticle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      MouseDoubleClick="ListBox_MouseDoubleClick"
@@ -35,7 +35,7 @@
                      ItemTemplate="{DynamicResource articleItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="3" IsItemsHost="True" HorizontalAlignment="Stretch"/>
+                    <UniformGrid Columns="3" IsItemsHost="True" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
