@@ -31,11 +31,13 @@
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
     <None Remove="CSharper.db" />
+    <None Remove="Resources\books.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
+    <Resource Include="Resources\books.png" />
   </ItemGroup>
 
   <ItemGroup>

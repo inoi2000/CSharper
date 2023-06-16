@@ -5,5 +5,8 @@
         public string ConfigurationsFolder { get; set; }
 
         public string AppPropertiesFileName { get; set; }
+
+        public static User? User { get; set; }
+        public static Subject? Subject { get; set; }
     }
 }

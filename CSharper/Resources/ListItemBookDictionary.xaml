@@ -29,13 +29,15 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    
     <DataTemplate x:Key="listBoxItemTemplate">
         <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
             <StackPanel Margin="5">
                 <Label Content="{Binding Name, Mode=OneWay}" HorizontalAlignment="Center"/>
                 <Border  BorderThickness="1" BorderBrush="LightGray"
                                      Background="Transparent"  Height="200">
-                    <Image Source="c:/books.png" 
+                    <Image Source="./DownloadBooks/books.png" 
                            Opacity="0.6"  />
 
                 </Border>

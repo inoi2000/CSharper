@@ -53,8 +53,6 @@ namespace CSharper
                 // Views and ViewModels
                 services.AddScoped<Views.Pages.HomePage>();
                 services.AddScoped<ViewModels.HomeViewModel>();
-                services.AddScoped<Views.Pages.DataPage>();
-                services.AddScoped<ViewModels.DataViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
               
@@ -64,6 +62,8 @@ namespace CSharper
                 services.AddScoped<ViewModels.ListBooksViewModel>();
                 services.AddScoped<Views.Pages.PdfViewerPage>();
                 services.AddScoped<ViewModels.PdfViewerViewModel>();
+                services.AddScoped<Views.Pages.ArticlesPage>();
+                services.AddScoped<ViewModels.ArticlesViewModel>();
 
 
                 // Admin Views and ViewModels
