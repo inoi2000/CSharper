@@ -30,23 +30,15 @@ namespace CSharper.ViewModels
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
-        public ArticlesViewModel()
-        {
-            InitializeViewModel();
-        }
-
-        private void InitializeViewModel()
-        {
-            selectedSubject = new Subject();
-        }
-
         public async void OnNavigatedTo()
         {
             _subjectService = new SubjectService();
             _articleService = new ArticleService();
 
             Subjects = await _subjectService.GetAllSubjectsAcync();
-            Articles = await _articleService.GetAllArticlesAsync(selectedSubject.Id);
+
+            if (SelectedSubject != null) { Articles = await _articleService.GetAllArticlesAsync(SelectedSubject.Id); }
+            else { Articles = await _articleService.GetAllArticlesAsync(); }
         }
 
         public void OnNavigatedFrom()
@@ -55,19 +47,9 @@ namespace CSharper.ViewModels
             _subjectService.Dispose();
         }
 
-        public async void UpdateArticlesList()
+        public async Task UpdateArticlesList()
         {
-            Articles = await _articleService.GetAllArticlesAsync(selectedSubject.Id);
-        }
-
-        // old code, not mine
-        [ObservableProperty]
-        private int _counter = 0;
-
-        [RelayCommand]
-        private void OnCounterIncrement()
-        {
-            Counter++;
+            if(SelectedSubject != null) Articles = await _articleService.GetAllArticlesAsync(SelectedSubject.Id);
         }
     }
 }

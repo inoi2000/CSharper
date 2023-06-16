@@ -47,9 +47,9 @@ namespace CSharper.Views.Pages
             System.Diagnostics.Process.Start(startInfo);
         }
 
-        private void subjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void subjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.UpdateArticlesList();
+            await ViewModel.UpdateArticlesList();
         }
     }
 }
