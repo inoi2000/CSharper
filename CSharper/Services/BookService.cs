@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSharper.Services
@@ -109,6 +111,41 @@ namespace CSharper.Services
             var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
 
             tempUser.Books.Remove(tempBook);
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
+
+        public async Task<Stream> OpenBookAsync(Guid bookId)
+        {
+            var book = await _context.Books.FirstAsync(b => b.Id == bookId);
+            using (var _downloadingService = new DownloadingService())
+            {
+                return await _downloadingService.DownloadToMemoryAsync(book.Url);
+            }
+        }
+
+        public async Task<bool> DownloadBookAsync(Guid bookId, IProgress<double> progress, CancellationToken token)
+        {
+            var book = await _context.Books.FirstAsync(b => b.Id == bookId);
+
+            if (!string.IsNullOrEmpty(book.LocalLink) && File.Exists(book.LocalLink)) { return true; }
+
+            using (var _downloadingService = new DownloadingService())
+            {
+                if (book.Url != null)
+                {
+                    string fileName = $"{book.Id.ToString()}.pdf";
+                    try
+                    {
+                        await _downloadingService.DownloadToFileAsync(book.Url, fileName, progress, token);
+                    }
+                    catch (OperationCanceledException) { return false; }
+                    book.LocalLink = $"{_downloadingService.OutPutDirectory}\\{fileName}";
+                }
+                else { return false; }
+            }
 
             int count = await _context.SaveChangesAsync();
             if (count > 0) { return true; }

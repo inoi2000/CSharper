@@ -49,20 +49,28 @@ namespace CSharper.Views.Pages
         //}
         
 
-        private void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var path = ((sender as ListBox).SelectedItem as Book).LocalLink;
-            if (path == null)
-            {
-                path = "downloadbooks/books.pdf";
-            }
+            DownloadProgresRing.Visibility = Visibility.Visible;
+            BooksListBox.Visibility = Visibility.Collapsed;
+
+            await ViewModel.DownloadSelectedBook();
+
+            DownloadProgresRing.Visibility = Visibility.Collapsed;
+            BooksListBox.Visibility = Visibility.Visible;
+
+            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
+            //        .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
+
+
+
             var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
 
             var readerWindow = Application.Current.Windows.OfType<Windows.PdfViewerWindow>().First();
 
             mainWindow.Visibility = Visibility.Collapsed;
 
-            readerWindow.Open(path);
+            readerWindow.Open(ViewModel.LocalPath);
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 

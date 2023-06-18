@@ -130,8 +130,8 @@ namespace CSharper.ViewModels
             //TODO реализавать отдельное исполнение метода
             await ReadBook(); // но пока он здесь
             //
-            return true;
-            //return await _bookService..DownloadBookAsync(SelectedBook.Id, progress, token);
+            //return true;
+            return await _bookService.DownloadBookAsync(SelectedBook.Id, progress, token);
         }
 
         public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
