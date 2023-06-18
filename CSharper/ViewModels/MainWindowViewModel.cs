@@ -58,13 +58,19 @@ namespace CSharper.ViewModels
                     Icon = SymbolRegular.BookTheta24,
                     PageType = typeof(Views.Pages.ListLessonsPage)
                 },
-
                 new NavigationItem()
                 {
                     Content = "Статьи",
                     PageTag = "articles",
                     Icon = SymbolRegular.Accessibility24,
                     PageType = typeof(Views.Pages.ArticlesPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "Практические задания",
+                    PageTag = "assignments",
+                    Icon = SymbolRegular.BookCoins20,
+                    PageType = typeof(Views.Pages.ListAssignmentsPage)
                 }
             };
 

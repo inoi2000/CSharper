@@ -68,8 +68,10 @@ namespace CSharper
                 services.AddScoped<ViewModels.ListLessonsViewModel>();
                 services.AddScoped<Views.Pages.ArticlesPage>();
                 services.AddScoped<ViewModels.ArticlesViewModel>();
+                services.AddScoped<Views.Pages.ListAssignmentsPage>();
+                services.AddScoped<ViewModels.ListAssignmentsViewModel>();
 
-                
+
 
                 // Admin Views and ViewModels
                 services.AddScoped<Views.Pages.AdminPages.AddSubjectPage>();
