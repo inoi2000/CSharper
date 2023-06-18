@@ -17,6 +17,8 @@ namespace CSharper.ViewModels
         private bool _isInitialized = false;
         private SubjectService subjectService;
 
+        public User User => AppConfig.User;
+
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
