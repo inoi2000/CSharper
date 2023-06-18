@@ -59,13 +59,7 @@ namespace CSharper.Views.Pages
             DownloadProgresRing.Visibility = Visibility.Collapsed;
             BooksListBox.Visibility = Visibility.Visible;
 
-            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
-            //        .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
-
-
-
             var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
-
             var readerWindow = Application.Current.Windows.OfType<Windows.PdfViewerWindow>().First();
 
             mainWindow.Visibility = Visibility.Collapsed;
@@ -76,9 +70,6 @@ namespace CSharper.Views.Pages
 
             DownloadProgresRing.Visibility = Visibility.Collapsed;
             BooksListBox.Visibility = Visibility.Visible;
-
-            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
-            //        .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
         }
 
         private void SelectListBook(object sender, SelectionChangedEventArgs e)
