@@ -1,4 +1,5 @@
 ﻿using CSharper.Services;
+using System;
 
 namespace CSharper.Models
 {
@@ -14,7 +15,16 @@ namespace CSharper.Models
         static AppConfig()
         {
             var userService = new UserService();
-           //TODO User = userServiceGetTestUser();
+            //TODO User = userServiceGetTestUser();
+
+            User = new User 
+            { 
+                Id = Guid.NewGuid(),
+                Login = "Not_Logn",
+                Password = "User",
+                Level = "0"
+            };
+
         }
     }
 }

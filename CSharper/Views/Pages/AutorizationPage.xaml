@@ -21,14 +21,27 @@
 
     <StackPanel Margin="56,0,112,0" HorizontalAlignment="Center" VerticalAlignment="Center">
    
-        <ui:TextBox   Width="250" Height="40" Margin="0,24,0,0"    PlaceholderText="Логин"    />
+        <ui:TextBox Width="250" Height="40"
+                    Margin="0,24,0,0"
+                    PlaceholderText="Логин"
+                    Text="{Binding ViewModel.Login, UpdateSourceTrigger=PropertyChanged}"/>
         
-        <ui:PasswordBox  Width="250" Height="40" Margin="0,12,0,0" PlaceholderText="Пароль" />
+        <ui:PasswordBox Width="250" Height="40"
+                        Margin="0,12,0,0"
+                        PlaceholderText="Пароль"
+                        Password="{Binding ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        />
         <ui:Button x:Name="AutorizationButton"                  
                    Width="250" Height="40"
                    Margin="0,24,0,6"
                    Content="Подтвердить"
-                   Command="{Binding ViewModel.AutorizationCommand, UpdateSourceTrigger=PropertyChanged}"
+                   Command="{Binding ViewModel.AuthorizationCommand, UpdateSourceTrigger=PropertyChanged}"
+                   />
+        <ui:Button x:Name="RegistrationButton"                  
+                   Width="250" Height="40"
+                   Margin="0,5,0,6"
+                   Content=" Регистрация"
+                   Command="{Binding ViewModel.RegistrationCommand, UpdateSourceTrigger=PropertyChanged}"
                    />
         <ui:Hyperlink Icon="Home24"  Command="{Binding ViewModel.NoAutorizationCommand}" Width="250" Height="30" FontSize="11"
                       > Зайти без авторизации</ui:Hyperlink>

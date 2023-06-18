@@ -28,5 +28,5 @@ namespace CSharper.Views.Pages
             InitializeComponent();
         }
 
-     }
+    }
 }
