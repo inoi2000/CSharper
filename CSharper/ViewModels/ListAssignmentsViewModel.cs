@@ -99,8 +99,7 @@ namespace CSharper.ViewModels
             //
             //TODO реализавать отдельное исполнение метода
             await ReadAssignment(); // но пока он здесь
-            //
-            //return true;
+            
             return await _assignmentService.DownloadAssignmentAsync(SelectedAssignment.Id, progress, token);
         }
 
@@ -109,6 +108,8 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private async Task ReadAssignment()
         {
+            if (AppConfig.User.Login == "Неавторизованный пользователь") return;
+
             await _assignmentService.AccomplitAssignmentAsync(AppConfig.User.Id, _selectedAssignment.Id);
         }
     }

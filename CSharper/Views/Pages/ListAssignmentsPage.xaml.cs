@@ -19,18 +19,6 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListAssignmentsPage : INavigableView<ViewModels.ListAssignmentsViewModel>
     {
-        private static RelayCommand<Assignment> readingClickCommand=new RelayCommand<Assignment>
-            (x =>
-            {
-                if (x == null) return;
-                //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
-                //x.setReading(r); 
-               });
-        public static RelayCommand<Assignment> ReadingClickCommand
-        {
-            get  {   return readingClickCommand;   }
-        }
-
         public ViewModels.ListAssignmentsViewModel ViewModel
         {
             get;

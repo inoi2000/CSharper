@@ -20,7 +20,7 @@ namespace CSharper.Models
             User = new User 
             { 
                 Id = Guid.NewGuid(),
-                Login = "Not_Logn",
+                Login = "Неавторизованный пользователь",
                 Password = "User",
                 Level = "0"
             };
