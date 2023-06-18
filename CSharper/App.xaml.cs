@@ -66,8 +66,6 @@ namespace CSharper
                 services.AddScoped<ViewModels.ListBooksViewModel>();
                 services.AddScoped<Views.Pages.ListLessonsPage>();
                 services.AddScoped<ViewModels.ListLessonsViewModel>();
-                //services.AddScoped<Views.Pages.PdfViewerPage>();
-                //services.AddScoped<ViewModels.PdfViewerViewModel>();
                 services.AddScoped<Views.Pages.ArticlesPage>();
                 services.AddScoped<ViewModels.ArticlesViewModel>();
 
