@@ -39,26 +39,8 @@ namespace CSharper.Models
             else return false;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-
-        //[NotMapped]
-        //public bool Reading => Users.Contains(AppConfig.User);
-
-
         [NotMapped]
-        public Reading Reading
-        {
-            get { return this.reading(); }
-            set
-            {
-                this.setReading(value);
-
-            }
-        }
+        public bool Reading => Users.Contains(AppConfig.User);
 
     }
 

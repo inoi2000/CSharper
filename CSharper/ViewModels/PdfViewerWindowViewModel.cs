@@ -13,9 +13,25 @@ using System.ComponentModel;
 namespace CSharper.ViewModels
 {
     using System.Collections.ObjectModel;
-    public partial class PdfViewerViewModel : ObservableObject, INavigationAware
+    using Wpf.Ui.Controls;
+    using Wpf.Ui.Controls.Interfaces;
+
+    public partial class PdfViewerWindowViewModel : ObservableObject
     {
         private bool _isInitialized = false;
+
+        [ObservableProperty]
+        private string _applicationTitle = String.Empty;
+
+        [ObservableProperty]
+        private ObservableCollection<INavigationControl> _navigationItems = new();
+
+        [ObservableProperty]
+        private ObservableCollection<INavigationControl> _navigationFooter = new();
+
+        [ObservableProperty]
+        private ObservableCollection<MenuItem> _trayMenuItems = new();
+
 
         public void OnNavigatedTo()
         {
@@ -29,6 +45,19 @@ namespace CSharper.ViewModels
        
         private void InitializeViewModel()
         {
+            ApplicationTitle = "WPF UI - CSharper";
+            TrayMenuItems = new ObservableCollection<MenuItem>
+            {
+                new MenuItem
+                {
+                    Header = "Home",
+                    Tag = "tray_home"
+                }
+
+
+            };
+
+            _isInitialized = true;
         }
         #region Fields
 

@@ -1,7 +1,9 @@
 ﻿using Apitron.PDF.Rasterizer;
 using Apitron.PDF.Rasterizer.Configuration;
 using Apitron.PDF.Rasterizer.Navigation;
+using CSharper.Services;
 using CSharper.ViewModels;
+
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -21,44 +23,51 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Controls.Interfaces;
+using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Mvvm.Services;
 using Page = Apitron.PDF.Rasterizer.Page;
 
 
-namespace CSharper.Views.Pages
+namespace CSharper.Views.Windows
 {
     using Button = System.Windows.Controls.Button;
     using Rectangle = Apitron.PDF.Rasterizer.Rectangle;
     /// <summary>
     /// Логика взаимодействия для PdfViewerPage.xaml
     /// </summary>
-    public partial class PdfViewerPage : INavigableView<ViewModels.PdfViewerViewModel>
+    public partial class PdfViewerWindow : INavigationWindow,INavigableView<PdfViewerWindowViewModel>
     {
-        public PdfViewerPage()
+ 
+        public PdfViewerWindow(ViewModels.PdfViewerWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
         {
-            InitializeComponent();
-            this.document = new PdfViewerViewModel();
+            ViewModel = viewModel;
+            DataContext = this;
+            this.document = new PdfViewerWindowViewModel();
             this.DataContext = this.document;
             this.document.PropertyChanged += DocumentOnPropertyChanged;
+
+            InitializeComponent();
+        
+            navigationService.SetNavigationControl(null);
         }
 
-        public PdfViewerViewModel ViewModel { get; }
 
-        public PdfViewerPage(string FileName)
+        public PdfViewerWindowViewModel ViewModel { get; }
+
+        public void Open(string FileName)
         {
-            InitializeComponent();
-            this.document = new PdfViewerViewModel();
-            this.DataContext = this.document;
-            this.document.PropertyChanged += DocumentOnPropertyChanged;
-
+            
             Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
             (this.document).Document = document;
 
         }
+
         #region Fields
 
         private delegate void SetImageSourceDelegate(byte[] source, IList<Link> links, int width, int height);
 
-        public PdfViewerViewModel document = null;
+        public PdfViewerWindowViewModel document = null;
 
         private Task task;
 
@@ -160,16 +169,18 @@ namespace CSharper.Views.Pages
 
             this.PageScroller.ScrollToHorizontalOffset(destinationInfo.Left * scale);
             this.PageScroller.ScrollToVerticalOffset((this.PageImage.ActualHeight - destinationInfo.Top) * scale);
+
         }
 
         #endregion
 
         #region Event Handlers
 
-         private void OnCloseFileClick(object sender, RoutedEventArgs e)
+        private void OnCloseFileClick(object sender, RoutedEventArgs e)
         {
-            (Application.Current.Windows[0] as Views.Windows.MainWindow).RootNavigation.
-               PageService.GetPage<BooksPage>()._NavigationFrame.Navigate(new ListBooksPage());
+            Close();
+            //(Application.Current.Windows[0] as Views.Windows.MainWindow).RootNavigation.
+            //   PageService.GetPage<BooksPage>()._NavigationFrame.Navigate(new ListBooksPage());
 
         }
 
@@ -228,5 +239,34 @@ namespace CSharper.Views.Pages
 
         #endregion
 
+        #region INavigationWindow methods
+
+        public Frame GetFrame()
+                => RootFrame;
+
+        public INavigation GetNavigation()
+            => null;
+
+        public bool Navigate(Type pageType)
+            => false;
+
+        public void SetPageService(IPageService pageService)
+        { }
+
+        public void ShowWindow()
+        {
+            Show();
+        }
+
+        public void CloseWindow()
+        {
+            Hide();
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+        #endregion
     }
 }

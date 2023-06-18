@@ -17,6 +17,7 @@ namespace CSharper.Services
         private readonly IServiceProvider _serviceProvider;
         private INavigationWindow _navigationWindow;
         private INavigationWindow _adminWindow;
+        private INavigationWindow _readerWindow;
 
         public ApplicationHostService(IServiceProvider serviceProvider)
         {
@@ -50,8 +51,12 @@ namespace CSharper.Services
 
             _navigationWindow = (_serviceProvider.GetService(typeof(Views.Windows.MainWindow)) as INavigationWindow)!;
             _adminWindow = (_serviceProvider.GetService(typeof(Views.Windows.AdminWindow)) as INavigationWindow)!;
-            _navigationWindow!.ShowWindow();
-            _navigationWindow.Navigate(typeof(Views.Pages.HomePage));            
+            _readerWindow = (_serviceProvider.GetService(typeof(Views.Windows.PdfViewerWindow)) as INavigationWindow)!;
+            
+             _navigationWindow!.ShowWindow();
+           
+            _navigationWindow.Navigate(typeof(Views.Pages.AutorizationPage));
+
 
             await Task.CompletedTask;
         }

@@ -9,8 +9,9 @@
     <converts:ReadingToVisibilityConverter x:Key="ReadingToVisibilityConverter"/>
     <converts:NoReadingToVisibilityConverter x:Key="NoReadingToVisibilityConverter"/>
     <converts:ReadingToStringConverter x:Key="ReadingToStringConverter"/>
-   
-    <Style x:Key="ButtonBall" TargetType="Button">
+    <BitmapImage x:Key="SubjectSource" UriSource="pack://application:,,,/Assets/c-sharp.png" />
+
+    <!--<Style x:Key="ButtonBall" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="LightGray"/>
         <Setter Property="Command" Value="{Binding SetBallCommand}"/>
@@ -28,14 +29,14 @@
                 <Setter Property="Background" Value="Gray"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
+    </Style>-->
     <DataTemplate x:Key="listBoxItemSubjectTemplate">
         <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
             <StackPanel Margin="5">
                 <Label Content="{Binding Name, Mode=OneWay}" HorizontalAlignment="Center"/>
                 <Border  BorderThickness="1" BorderBrush="LightGray"
                                      Background="Transparent"  Height="200">
-                    <Image Source="c:/csharp5.png" 
+                    <Image Source="{StaticResource SubjectSource}" 
                            Opacity="0.6"  />
 
                 </Border>

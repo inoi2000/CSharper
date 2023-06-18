@@ -14,18 +14,29 @@
     mc:Ignorable="d"
 >
         <DockPanel  Margin="56,0" LastChildFill="True">
-            <Image Margin="10" Source="c:/csharp5.png" Width="100" Height="100" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
-            <Grid Margin="0,10,0,0" DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Label Margin="0,0,20,0" >Опыт</Label>
-                <ProgressBar Value="100" Maximum="300" Grid.Column="1"></ProgressBar>
-            </Grid>
+        <DockPanel DockPanel.Dock="Top">
+            <Image Margin="10" Source="{StaticResource SubjectSource}" Width="100" Height="100" DockPanel.Dock="Left"/>
+            <StackPanel Orientation="Vertical"
+                        Margin="5"
+                        Width="auto" Height="auto"
+                        VerticalAlignment="Center">
+                <Label Content="{Binding ViewModel.User, UpdateSourceTrigger=PropertyChanged}"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       />
+                <Grid Margin="0,10,0,0" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Margin="0,0,20,0" >Опыт</Label>
+                    <ProgressBar Value="100" Maximum="300" Grid.Column="1"></ProgressBar>
+                </Grid>
+            </StackPanel>
+        </DockPanel>
         <StackPanel Margin="0,20,0,0" DockPanel.Dock="Top" Orientation="Horizontal">
             <Label Margin="0,10,20,10">Выбранная тема</Label>
-            <TextBlock Text="{Binding ViewModel.CurrentSubject,Mode=TwoWay}" VerticalAlignment="Center" 
+            <TextBlock Text="{Binding ViewModel.CurrentSubject}" VerticalAlignment="Center" 
                        FontSize="16" />
         </StackPanel>
         <ListBox  ItemsSource="{Binding ViewModel.Subjects,Mode=TwoWay}" 

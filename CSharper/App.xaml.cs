@@ -46,6 +46,9 @@ namespace CSharper
                 services.AddScoped<Views.Windows.MainWindow>();
                 services.AddScoped<ViewModels.MainWindowViewModel>();
 
+                services.AddScoped<Views.Windows.PdfViewerWindow>();
+                services.AddScoped<ViewModels.PdfViewerWindowViewModel>();
+
                 // Admin window with navigation
                 services.AddScoped<Views.Windows.AdminWindow>();
                 services.AddScoped<ViewModels.AdminWindowViewModel>();
@@ -55,16 +58,20 @@ namespace CSharper
                 services.AddScoped<ViewModels.HomeViewModel>();
                 services.AddScoped<Views.Pages.SettingsPage>();
                 services.AddScoped<ViewModels.SettingsViewModel>();
-              
-                services.AddScoped<Views.Pages.BooksPage>();
-                services.AddScoped<ViewModels.BooksViewModel>();
+                services.AddScoped<Views.Pages.AutorizationPage>();
+                services.AddScoped<ViewModels.AutorizationViewModel>();
+
+
                 services.AddScoped<Views.Pages.ListBooksPage>();
                 services.AddScoped<ViewModels.ListBooksViewModel>();
+                services.AddScoped<Views.Pages.ListLessonsPage>();
+                services.AddScoped<ViewModels.ListLessonsViewModel>();
                 services.AddScoped<Views.Pages.PdfViewerPage>();
                 services.AddScoped<ViewModels.PdfViewerViewModel>();
                 services.AddScoped<Views.Pages.ArticlesPage>();
                 services.AddScoped<ViewModels.ArticlesViewModel>();
 
+                
 
                 // Admin Views and ViewModels
                 services.AddScoped<Views.Pages.AdminPages.AddSubjectPage>();

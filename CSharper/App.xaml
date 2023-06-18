@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Resources/ListItemArticleDictionary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Resources/ListItemBookDictionary.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Resources/ListItemSubjectDictionary.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/ListItemLessonDictionary.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

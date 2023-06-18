@@ -5,6 +5,12 @@ using System.Windows;
 using CSharper.Models;
 using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
+using System.Linq;
+
+using CSharper.Services;
+using System.IO;
+using System.Threading;
+using System;
 
 namespace CSharper.Views.Pages
 {
@@ -17,8 +23,8 @@ namespace CSharper.Views.Pages
             (x =>
             {
                 if (x == null) return;
-                Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
-                x.setReading(r); 
+                //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
+                //x.setReading(r); 
                });
         public static RelayCommand<Book> ReadingClickCommand
         {
@@ -35,23 +41,36 @@ namespace CSharper.Views.Pages
              ViewModel = new ViewModels.ListBooksViewModel();
              
              InitializeComponent();
-        }
+        }        
 
-        private void SelectListBook(object sender, System.Windows.RoutedEventArgs e)
-        {
-             ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
-        }
+        //private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        //{
+        //     ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
+        //}
         
 
         private void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            //ViewModel.Books.RemoveAt(0); //a удаление отражается
-            
             var path = ((sender as ListBox).SelectedItem as Book).LocalLink;
-            (Application.Current.Windows[0] as Views.Windows.MainWindow).RootNavigation.
-                PageService.GetPage<BooksPage>()._NavigationFrame.Navigate(new Views.Pages.PdfViewerPage(path));
+            if (path == null)
+            {
+                path = "downloadbooks/books.pdf";
+            }
+            var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
 
+            var readerWindow = Application.Current.Windows.OfType<Windows.PdfViewerWindow>().First();
 
+            mainWindow.Visibility = Visibility.Collapsed;
+
+            readerWindow.Open(path);
+            readerWindow.ShowDialog();
+            mainWindow.Visibility = Visibility.Visible;
+
+            DownloadProgresRing.Visibility = Visibility.Collapsed;
+            BooksListBox.Visibility = Visibility.Visible;
+
+            //Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()?
+            //        .RootFrame.Navigate(new Views.Pages.PdfViewerPage(ViewModel.LocalPath));
         }
 
         private void SelectListBook(object sender, SelectionChangedEventArgs e)
