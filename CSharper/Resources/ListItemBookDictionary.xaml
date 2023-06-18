@@ -30,7 +30,7 @@
                 <Setter Property="Background" Value="Gray"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
+   </Style>
     <DataTemplate x:Key="listBoxItemBookTemplate">
         <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
             <StackPanel Margin="5">

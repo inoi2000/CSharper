@@ -37,6 +37,7 @@
     <None Remove="Assets\user.png" />
     <None Remove="Assets\video.png" />
     <None Remove="CSharper.db" />
+    <None Remove="Resources\books.png" />
   </ItemGroup>
 
   <ItemGroup>

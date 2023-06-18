@@ -132,7 +132,6 @@ namespace CSharper.ViewModels
             //
             return true;
             //return await _bookService..DownloadBookAsync(SelectedBook.Id, progress, token);
-
         }
 
         public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });

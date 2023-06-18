@@ -61,10 +61,10 @@ namespace CSharper.ViewModels
 
                 new NavigationItem()
                 {
-                    Content = "Data",
-                    PageTag = "data",
-                    Icon = SymbolRegular.DataHistogram24,
-                    PageType = typeof(Views.Pages.DataPage)
+                    Content = "Статьи",
+                    PageTag = "articles",
+                    Icon = SymbolRegular.Accessibility24,
+                    PageType = typeof(Views.Pages.ArticlesPage)
                 }
             };
 
