@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSharper.Services
@@ -115,6 +117,40 @@ namespace CSharper.Services
             else { return false; }
         }
 
+        public async Task<Stream> OpenAssignmentAsync(Guid assignmentId)
+        {
+            var assignment = await _context.Assignments.FirstAsync(a => a.Id == assignmentId);
+            using (var _downloadingService = new DownloadingService())
+            {
+                return await _downloadingService.DownloadToMemoryAsync(assignment.Url);
+            }
+        }
+
+        public async Task<bool> DownloadAssignmentAsync(Guid assignmentId, IProgress<double> progress, CancellationToken token)
+        {
+            var assignment = await _context.Assignments.FirstAsync(a => a.Id == assignmentId);
+
+            if (!string.IsNullOrEmpty(assignment.LocalLink) && File.Exists(assignment.LocalLink)) { return true; }
+
+            using (var _downloadingService = new DownloadingService())
+            {
+                if (assignment.Url != null)
+                {
+                    string fileName = $"{assignment.Id.ToString()}.pdf";
+                    try
+                    {
+                        await _downloadingService.DownloadToFileAsync(assignment.Url, fileName, progress, token);
+                    }
+                    catch (OperationCanceledException) { return false; }
+                    assignment.LocalLink = $"{_downloadingService.OutPutDirectory}\\{fileName}";
+                }
+                else { return false; }
+            }
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
         public void Dispose()
         {
             _context.Dispose();
