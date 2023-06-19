@@ -1,4 +1,5 @@
-﻿using CSharper.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using CSharper.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,17 @@ namespace CSharper.Views.Pages
         private async void subjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             await ViewModel.UpdateVideosList();
+        }
+
+        [RelayCommand]
+        public void OpenInBrowser()
+        {
+            string destinationUrl = (videosListbox.SelectedItem as Video).Url.ToString();
+            var startInfo = new System.Diagnostics.ProcessStartInfo(destinationUrl)
+            {
+                UseShellExecute = true
+            };
+            System.Diagnostics.Process.Start(startInfo);
         }
     }
 }
