@@ -32,6 +32,7 @@ using Page = Apitron.PDF.Rasterizer.Page;
 namespace CSharper.Views.Windows
 {
     using Button = System.Windows.Controls.Button;
+   
     using Rectangle = Apitron.PDF.Rasterizer.Rectangle;
     /// <summary>
     /// Логика взаимодействия для PdfViewerPage.xaml
@@ -57,10 +58,15 @@ namespace CSharper.Views.Windows
 
         public void Open(string FileName)
         {
-            
-            Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
-            (this.document).Document = document;
-
+            try
+            {
+                Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
+                (this.document).Document = document;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString());
+            }
         }
 
         #region Fields

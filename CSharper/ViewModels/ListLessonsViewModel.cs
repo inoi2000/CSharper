@@ -64,7 +64,9 @@ namespace CSharper.ViewModels
             {
                 _selectedOrderingType = value;
                 OnPropertyChanged(nameof(SelectedOrderingType));
-                _complexity = _selectCommands[SelectedOrderingType].Value;
+                _complexityLesson = null;
+                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityLesson);
+
                 GetLessonsOnFilter();
             }
         }
@@ -74,7 +76,7 @@ namespace CSharper.ViewModels
         private string _findName;
  
         [ObservableProperty]
-        private Complexity _complexity;
+        private Complexity? _complexityLesson;
         public async void OnNavigatedTo()
         {
             if (!_isInitialized)
@@ -115,19 +117,17 @@ namespace CSharper.ViewModels
 
             IEnumerable<Lesson> lessons = await _lessonService.GetAllLessonsAsync();
 
-            // books.ToList().ForEach(book => { book.Subject.Equals(_currentSubject)})
-            if (_currentSubject != null)
-                //  books.ToList().RemoveAll(x => x.Subject != _currentSubject);
-                lessons = lessons.Where(book => book.Subject.ToString().Equals(_currentSubject.ToString()) == true).ToList();
+             if (_currentSubject != null)
+                lessons = lessons.Where(lesson => lesson.Subject.Id==_currentSubject.Id).ToList();
 
-            //authorsList = authorsList.Where(x => x.FirstName != "Bob").ToList();
+            
             if (!String.IsNullOrEmpty(_findName))
-                lessons = lessons.Where(book => book.Name.Contains(_findName) == true);
+                lessons = lessons.Where(lesson => lesson.Name.Contains(_findName) == true);
 
-            if (_complexity != null)
-                lessons = lessons.Where(book => book.Complexity == _complexity);
+            if (_complexityLesson != null)
+                lessons = lessons.Where(lesson => lesson.Complexity == _complexityLesson);
 
-            _lessons = lessons;
+           Lessons = lessons;
 
         }
         private double _downloadProgress;
@@ -148,7 +148,7 @@ namespace CSharper.ViewModels
             };
 
             CancellationToken token = cts.Token;
-
+            if (_selectedLesson == null) return false;
             //
             //TODO реализавать отдельное исполнение метода
             await ReadLesson(); // но пока он здесь

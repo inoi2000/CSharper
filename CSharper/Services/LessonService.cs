@@ -125,7 +125,7 @@ namespace CSharper.Services
 
         public async Task<bool> DownloadLessonAsync(Guid lessonId, IProgress<double> progress, CancellationToken token)
         {
-            var lesson = await _context.Books.FirstAsync(b => b.Id == lessonId);
+            var lesson = await _context.Lessons.FirstAsync(b => b.Id == lessonId);
 
             if (!string.IsNullOrEmpty(lesson.LocalLink) && File.Exists(lesson.LocalLink)) { return true; }
 

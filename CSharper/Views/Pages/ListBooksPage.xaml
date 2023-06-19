@@ -28,7 +28,7 @@
                     />
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <Label Margin="5,0,20,0">Сначала</Label>
+                    <Label Margin="5,0,20,0">Уровень</Label>
                 <ComboBox   
                            Margin="5,0,20,0" 
                            ItemsSource="{Binding ViewModel.SelectCommands.Keys}"
@@ -51,8 +51,8 @@
             <ListBox x:Name="BooksListBox"  FontSize="20"
                   FontWeight="Medium"   
                   Margin="0,0,0,20"
-                  ItemsSource="{Binding ViewModel.Books}"
-                  SelectedItem="{Binding ViewModel.SelectedBook}"
+                  ItemsSource="{Binding ViewModel.Books,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ViewModel.SelectedBook,UpdateSourceTrigger=PropertyChanged}"
                   MouseDoubleClick="OpenSelectedBook"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"                 

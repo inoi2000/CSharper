@@ -76,7 +76,7 @@ namespace CSharper.Views.Pages
 
         private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
         {
-          //  ViewModel.SetCurrentSubject();
+          
             await ViewModel.GetBooksOnFilter();
         }
 

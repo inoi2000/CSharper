@@ -75,9 +75,14 @@ namespace CSharper.Views.Pages
 
         }
 
-        private void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
+        private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
         {
-            ViewModel.SetCurrentSubject();
+            await ViewModel.GetLessonsOnFilter();
+        }
+
+        private async void ChangeFindName(object sender, TextChangedEventArgs e)
+        {
+            await ViewModel.GetLessonsOnFilter();
         }
     }
 }

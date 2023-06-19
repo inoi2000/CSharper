@@ -24,21 +24,24 @@
                                ItemsSource="{Binding ViewModel.Subjects}"
                                SelectedItem="{Binding ViewModel.CurrentSubject}"
                                SelectionChanged="SelectCurrentSubject"
+                              
                     />
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <Label Margin="5,0,20,0">Сначала</Label>
+                <Label Margin="5,0,20,0">Уровень</Label>
                     <ComboBox  SelectedIndex="0" 
                            Margin="5,0,20,0" 
                            ItemsSource="{Binding ViewModel.SelectCommands.Keys}"
                            SelectedItem="{Binding ViewModel.SelectedOrderingType, UpdateSourceTrigger=PropertyChanged}"                               
-                          
+                           
                            >
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Margin="-5,0,10,0">Поиск</Label>
-                    <TextBox   Margin="-5,0,0,0"/>
+                <TextBox   Margin="-5,0,0,0" 
+                           Text="{Binding ViewModel.FindName, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+                           TextChanged="ChangeFindName"/>
                 </StackPanel>
             </UniformGrid>
             <ListBox 
@@ -46,8 +49,8 @@
                   FontSize="20"
                   FontWeight="Medium"   
                   Margin="0,0,0,20"
-                  ItemsSource="{Binding ViewModel.Lessons}"
-                  SelectedItem="{Binding ViewModel.SelectLesson}"
+                  ItemsSource="{Binding ViewModel.Lessons, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ViewModel.SelectedLesson,UpdateSourceTrigger=PropertyChanged}"
                   MouseDoubleClick="OpenSelectedLesson"
                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"                 

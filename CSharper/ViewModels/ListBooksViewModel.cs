@@ -33,13 +33,13 @@ namespace CSharper.ViewModels
         [ObservableProperty]
         private Subject _currentSubject;
 
-        //public void SetCurrentSubject()
-        //{
+        public void SetCurrentSubject()
+        {
 
-        //    AppConfig.Subject = _currentSubject;
+           AppConfig.Subject = _currentSubject;
           
 
-        //}
+        }
 
         [ObservableProperty]
         private IEnumerable<Book> _books;
@@ -69,7 +69,11 @@ namespace CSharper.ViewModels
             {
                 _selectedOrderingType = value;
                 OnPropertyChanged(nameof(SelectedOrderingType));
-                _complexity = _selectCommands[SelectedOrderingType].Value;
+                _complexityBook = null;
+                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityBook);
+
+                
+               
                 GetBooksOnFilter();
               
             }
@@ -81,7 +85,7 @@ namespace CSharper.ViewModels
         private string _findName;
 
         [ObservableProperty] 
-        private Complexity _complexity;
+        private Complexity? _complexityBook;
 
         public async void OnNavigatedTo()
         {
@@ -91,12 +95,6 @@ namespace CSharper.ViewModels
  
             cts = new CancellationTokenSource();
 
-
-             //CurrentSubject = AppConfig.Subject;
-
-           // if (_bookService == null) _bookService = new BookService();
-           // await GetBooksOnSubject();
-
              _subjectService = new SubjectService();
              Subjects = await _subjectService.GetAllSubjectsAcync();
 
@@ -104,6 +102,8 @@ namespace CSharper.ViewModels
             Books=await _bookService.GetAllBooksAsync();
 
             CurrentSubject = AppConfig.Subject;
+
+            _complexityBook = null;
 
         }
 
@@ -127,19 +127,16 @@ namespace CSharper.ViewModels
 
              IEnumerable<Book> books=await _bookService.GetAllBooksAsync();
 
-           // books.ToList().ForEach(book => { book.Subject.Equals(_currentSubject)})
             if (_currentSubject != null)
-              //  books.ToList().RemoveAll(x => x.Subject != _currentSubject);
-                books=books.Where(book => book.Subject.ToString().Equals(_currentSubject.ToString())==true).ToList();
+                books=books.Where(book => book.Subject.Id==_currentSubject.Id).ToList();
 
-            //authorsList = authorsList.Where(x => x.FirstName != "Bob").ToList();
             if (!String.IsNullOrEmpty(_findName))
                 books=books.Where(book => book.Name.Contains(_findName)==true);
             
-            if(_complexity!=null)
-                books = books.Where(book => book.Complexity == _complexity);
+            if(_complexityBook !=null)
+                books = books.Where(book => book.Complexity == _complexityBook);
 
-            _books = books;
+            Books = books;
         
         }
         
@@ -162,11 +159,13 @@ namespace CSharper.ViewModels
 
             CancellationToken token = cts.Token;
 
+            if (_selectedBook == null) return false;
+            //
             //
             //TODO реализавать отдельное исполнение метода
             await ReadBook(); // но пока он здесь
             //
-            //return true;
+            
             return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
         }
 
@@ -178,10 +177,6 @@ namespace CSharper.ViewModels
             await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
         }
 
-        //public async Task FromDB(string t)
-        //{
-        //    //TODO реализация функционала групировки книг
-        //}
     }
 
 }
