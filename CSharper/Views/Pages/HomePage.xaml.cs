@@ -21,5 +21,10 @@ namespace CSharper.Views.Pages
 
             InitializeComponent();
         }
+
+         private void SelectionCurrentSubject(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+           ViewModel.SetCurrentSubject();
+        }
     }
 }

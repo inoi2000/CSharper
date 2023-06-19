@@ -10,13 +10,10 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
 using CSharper.Services;
-
 using System.Threading.Tasks;
-using Wpf.Ui.Controls.Interfaces;
-using System.Windows.Controls;
-using System.Diagnostics;
 using System.Threading;
-using static System.Reflection.Metadata.BlobBuilder;
+using Wpf.Ui.Mvvm.Interfaces;
+
 
 namespace CSharper.ViewModels
 {
@@ -35,11 +32,17 @@ namespace CSharper.ViewModels
         private User _currentUser;
 
         [ObservableProperty]
-
         private Subject _currentSubject;
 
-        [ObservableProperty]
+        public void SetCurrentSubject()
+        {
 
+           AppConfig.Subject = _currentSubject;
+          
+
+        }
+
+        [ObservableProperty]
         private IEnumerable<Book> _books;
 
         [ObservableProperty]
@@ -48,7 +51,16 @@ namespace CSharper.ViewModels
         [ObservableProperty]
         private Book _selectedBook;
 
-        public string LocalPath => SelectedBook?.LocalLink ?? string.Empty;
+       
+        [ObservableProperty]
+        private Dictionary<string, Complexity?> _selectCommands=new Dictionary<string, Complexity?>()
+        {
+            { "Все",    null},
+            { "Средний",Complexity.medium},
+            { "Сложный",Complexity.hard}, 
+            { "Продвинутый",Complexity.hardcore},
+            { "Легкий",Complexity.easy }
+        };
 
         private string _selectedOrderingType;
         public string SelectedOrderingType
@@ -58,34 +70,42 @@ namespace CSharper.ViewModels
             {
                 _selectedOrderingType = value;
                 OnPropertyChanged(nameof(SelectedOrderingType));
-                SelectCommands[_selectedOrderingType].Execute(null);
+                _complexityBook = null;
+                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityBook);
+
+                
+               
+                GetBooksOnFilter();
+              
             }
         }
+        public string LocalPath => SelectedBook?.LocalLink ?? string.Empty;
 
+        
         [ObservableProperty]
-        private Dictionary<string,RelayCommand> _selectCommands;
+        private string _findName;
 
-
-        public RelayCommand SelectViewAllBookCommand => new RelayCommand(() => { FromDB("Книга"); });//, "Все"
-        public RelayCommand SelectViewNoReadBookCommand => new RelayCommand(() => { FromDB("2"); });//, "Непрочитанные"
-        public RelayCommand SelectViewMostExperienceCommand => new RelayCommand(() => { FromDB("3"); });//, "С наибольшим опытом"
-        public RelayCommand SelectViewHighestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые сложноы"
-        public RelayCommand SelectViewLowestComplexityCommand => new RelayCommand(() => { FromDB("3"); });//, "Самые легкие"
-
-
+        [ObservableProperty] 
+        private Complexity? _complexityBook;
 
         public async void OnNavigatedTo()
         {
             if (!_isInitialized)
                 InitializeViewModel();
 
+ 
             cts = new CancellationTokenSource();
 
-            _subjectService = new SubjectService();
-            Subjects = await _subjectService.GetAllSubjectsAcync();
+             _subjectService = new SubjectService();
+             Subjects = await _subjectService.GetAllSubjectsAcync();
 
-            _bookService = new BookService();
-            Books = await _bookService.GetAllBooksAsync();
+             _bookService=new BookService();            
+            await GetBooksOnFilter();
+
+            CurrentSubject = AppConfig.Subject;
+
+            _complexityBook = null;
+
         }
 
         public void OnNavigatedFrom()
@@ -98,15 +118,29 @@ namespace CSharper.ViewModels
 
         private void InitializeViewModel()
         {
-            //SelectCommands = new Dictionary<string,RelayCommand>();
-            //SelectCommands.Add("Все", SelectViewAllBookCommand);
-            //SelectCommands.Add("Непрочитанные", SelectViewNoReadBookCommand);
-            //SelectCommands.Add("С наибольшим опытом", SelectViewMostExperienceCommand);
-            //SelectCommands.Add("Сложные", SelectViewHighestComplexityCommand);
-            //SelectCommands.Add("Легкие", SelectViewLowestComplexityCommand);
 
             _isInitialized = true;
         }
+
+        public async Task GetBooksOnFilter()
+        {
+            if (_bookService == null) return;
+
+             IEnumerable<Book> books=await _bookService.GetAllBooksAsync();
+
+            if (_currentSubject != null)
+                books=books.Where(book => book.Subject.Id==_currentSubject.Id).ToList();
+
+            if (!String.IsNullOrEmpty(_findName))
+                books=books.Where(book => book.Name.Contains(_findName)==true);
+            
+            if(_complexityBook !=null)
+                books = books.Where(book => book.Complexity == _complexityBook);
+
+            Books = books;
+        
+        }
+        
 
         private double _downloadProgress;
         public double DownloadProgress { 
@@ -126,12 +160,14 @@ namespace CSharper.ViewModels
 
             CancellationToken token = cts.Token;
 
+            if (_selectedBook == null) return false;
+            //
             //
             //TODO реализавать отдельное исполнение метода
             await ReadBook(); // но пока он здесь
             //
-            //return true;
-            return await _bookService.DownloadBookAsync(SelectedBook.Id, progress, token);
+            
+            return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
         }
 
         public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
@@ -142,10 +178,6 @@ namespace CSharper.ViewModels
             await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
         }
 
-        public async Task FromDB(string t)
-        {
-            //TODO реализация функционала групировки книг
-        }
     }
 
 }

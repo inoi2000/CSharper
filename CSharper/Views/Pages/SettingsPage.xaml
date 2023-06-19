@@ -49,7 +49,7 @@
         <ui:Button x:Name="OpenAdminWindowBtn"
                    Width="250" Height="40"
                    Margin="0,24,0,0"
-                   Content="Открыть панель администратора"
+                   Content="Открыть панель админестратора"
                    Click="OpenAdminWindowBtn_Click"
                    />
     </StackPanel>

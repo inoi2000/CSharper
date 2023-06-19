@@ -6,32 +6,10 @@
                  
                     >
     <converts:ComplexityConverter x:Key="ComplexityConverter"/>
-    <converts:ReadingToVisibilityConverter x:Key="ReadingToVisibilityConverter"/>
-    <converts:NoReadingToVisibilityConverter x:Key="NoReadingToVisibilityConverter"/>
-    <converts:ReadingToStringConverter x:Key="ReadingToStringConverter"/>
     <BitmapImage x:Key="SubjectSource" UriSource="pack://application:,,,/Assets/c-sharp.png" />
 
-    <!--<Style x:Key="ButtonBall" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="LightGray"/>
-        <Setter Property="Command" Value="{Binding SetBallCommand}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" >
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
     <DataTemplate x:Key="listBoxItemSubjectTemplate">
-        <Border BorderThickness="2" BorderBrush="LightGray" MaxWidth="270">
+        <Border BorderThickness="2" BorderBrush="LightGray" Width="270" Height="320">
             <StackPanel Margin="5">
                 <Label Content="{Binding Name, Mode=OneWay}" HorizontalAlignment="Center"/>
                 <Border  BorderThickness="1" BorderBrush="LightGray"
@@ -41,7 +19,7 @@
 
                 </Border>
                 <DockPanel>
-                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right" >
                         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right"
                                                  >
                             <Label Margin="10,0,10,0" FontSize="12" Opacity="0.4">Уровень</Label>
@@ -61,25 +39,10 @@
                             Content="{Binding Reading, Converter={StaticResource ReadingToStringConverter}}"
                            />
                     </StackPanel>
-                    <Label FontSize="10" Opacity="0.2" VerticalAlignment="Bottom" DockPanel.Dock="Left">11.02.2023</Label>
+                    
                 </DockPanel>
             </StackPanel>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu FontSize="14">
-                                <MenuItem    Header="Выбрать" 
-                                             HorizontalAlignment="Left"
-                                             Command="{x:Static ap:HomeViewModel.SubjectClickCommand }"  
-                                             CommandParameter="{Binding}"
-                                       >
-                                    </MenuItem>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Border.Style>
+            
         </Border>
     </DataTemplate>
  </ResourceDictionary>

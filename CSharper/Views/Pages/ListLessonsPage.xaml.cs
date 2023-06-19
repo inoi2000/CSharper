@@ -15,18 +15,17 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListLessonsPage : INavigableView<ViewModels.ListLessonsViewModel>
     {
-        private static RelayCommand<Lesson> readingClickCommand=new RelayCommand<Lesson>
-            (x =>
-            {
-                //if (x == null) return;
-                //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
-                //x.setReading(r); 
-               });
+        private static RelayCommand<Lesson> readingClickCommand = new RelayCommand<Lesson>
+                  (x =>
+                  {
+                      if (x == null) return;
+                      //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
+                      //x.setReading(r); 
+                  });
         public static RelayCommand<Lesson> ReadingClickCommand
         {
-            get  {   return readingClickCommand;   }
+            get { return readingClickCommand; }
         }
-
         public ViewModels.ListLessonsViewModel ViewModel
         {
             get;
@@ -45,24 +44,28 @@ namespace CSharper.Views.Pages
         }
         
 
-        private void OpenSelectedLesson(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async void OpenSelectedLesson(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
-            var path = ((sender as ListBox).SelectedItem as Lesson).LocalLink;
-            if (path == null)
-            {
-                path = "downloadbooks/books.pdf";
-            }
-           var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
 
+            DownloadProgresRing.Visibility = Visibility.Visible;
+            LessonsListBox.Visibility = Visibility.Collapsed;
+
+            await ViewModel.DownloadSelectedLesson();
+
+            DownloadProgresRing.Visibility = Visibility.Collapsed;
+            LessonsListBox.Visibility = Visibility.Visible;
+
+            var mainWindow = Application.Current.Windows.OfType<Windows.MainWindow>().First();
             var readerWindow = Application.Current.Windows.OfType<Windows.PdfViewerWindow>().First();
- 
+
             mainWindow.Visibility = Visibility.Collapsed;
 
-            readerWindow.Open(path);
+            readerWindow.Open(ViewModel.LocalPath);
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 
+            DownloadProgresRing.Visibility = Visibility.Collapsed;
+            LessonsListBox.Visibility = Visibility.Visible;
 
         }
 
@@ -70,6 +73,16 @@ namespace CSharper.Views.Pages
         {
             //ViewModel.SelectCommands[ ((sender as ComboBox).SelectedItem as string)].Execute(null);
 
+        }
+
+        private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
+        {
+            await ViewModel.GetLessonsOnFilter();
+        }
+
+        private async void ChangeFindName(object sender, TextChangedEventArgs e)
+        {
+            await ViewModel.GetLessonsOnFilter();
         }
     }
 }

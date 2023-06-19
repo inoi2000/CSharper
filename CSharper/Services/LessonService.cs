@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CSharper.Services
@@ -121,6 +123,31 @@ namespace CSharper.Services
             else { return false; }
         }
 
+        public async Task<bool> DownloadLessonAsync(Guid lessonId, IProgress<double> progress, CancellationToken token)
+        {
+            var lesson = await _context.Lessons.FirstAsync(b => b.Id == lessonId);
+
+            if (!string.IsNullOrEmpty(lesson.LocalLink) && File.Exists(lesson.LocalLink)) { return true; }
+
+            using (var _downloadingService = new DownloadingService())
+            {
+                if (lesson.Url != null)
+                {
+                    string fileName = $"{lesson.Id.ToString()}.pdf";
+                    try
+                    {
+                        await _downloadingService.DownloadToFileAsync(lesson.Url, fileName, progress, token);
+                    }
+                    catch (OperationCanceledException) { return false; }
+                    lesson.LocalLink = $"{_downloadingService.OutPutDirectory}\\{fileName}";
+                }
+                else { return false; }
+            }
+
+            int count = await _context.SaveChangesAsync();
+            if (count > 0) { return true; }
+            else { return false; }
+        }
 
         public void Dispose()
         {

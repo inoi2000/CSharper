@@ -19,16 +19,17 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListBooksPage : INavigableView<ViewModels.ListBooksViewModel>
     {
-        private static RelayCommand<Book> readingClickCommand=new RelayCommand<Book>
-            (x =>
-            {
-                if (x == null) return;
-                //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
-                //x.setReading(r); 
-               });
+
+        private static RelayCommand<Book> readingClickCommand = new RelayCommand<Book>
+           (x =>
+           {
+               if (x == null) return;
+               //Reading r = (x.Reading == Reading.Yes) ? Reading.No : Reading.Yes;
+               //x.setReading(r); 
+           });
         public static RelayCommand<Book> ReadingClickCommand
         {
-            get  {   return readingClickCommand;   }
+            get { return readingClickCommand; }
         }
 
         public ViewModels.ListBooksViewModel ViewModel
@@ -43,12 +44,7 @@ namespace CSharper.Views.Pages
              InitializeComponent();
         }        
 
-        //private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        //{
-        //     ((sender as ComboBox).SelectedItem as RelayCommand).Execute(null);
-        //}
-        
-
+  
         private async void OpenSelectedBook(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DownloadProgresRing.Visibility = Visibility.Visible;
@@ -76,6 +72,17 @@ namespace CSharper.Views.Pages
         {
             //ViewModel.SelectCommands[ ((sender as ComboBox).SelectedItem as string)].Execute(null);
 
+        }
+
+        private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
+        {
+          
+            await ViewModel.GetBooksOnFilter();
+        }
+
+        private async void ChangeFindName(object sender, TextChangedEventArgs e)
+        {
+            await ViewModel.GetBooksOnFilter();
         }
     }
 }

@@ -32,59 +32,10 @@
                      SelectedItem="{Binding ViewModel.SelectedArticle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      MouseDoubleClick="ListBox_MouseDoubleClick"
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
-                     >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="1.5" BorderBrush="#506088" Width="300" Height="330" CornerRadius="3">
-                        <DockPanel>
-                            <StackPanel DockPanel.Dock="Top" Margin="5">
-                                <TextBlock Margin="10 3" Text="{Binding Name, Mode=OneWay}" TextAlignment="Center" TextWrapping="Wrap"/>
-                                <Border   Height="200">
-                                    <TextBlock  Margin="12" Text="{Binding Description, Mode=OneWay}" FontSize="15" FontWeight="Light" TextWrapping="Wrap" TextAlignment="Justify"/>
-                                </Border>
-                            </StackPanel>
-
-                            <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                                <StackPanel  Orientation="Horizontal" DockPanel.Dock="Left" >
-                                    <TextBlock Margin="10,0,10,0" FontSize="14" Opacity="0.8">Сложность:</TextBlock>
-                                    <Label HorizontalContentAlignment="Right"
-                                                       Margin="0,0,0,0"
-                                                       FontSize="14"
-                                                       Content="{Binding Complexity, Converter={StaticResource ComplexityConverter}}" 
-                                                       />
-                                </StackPanel>
-                                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right"  DockPanel.Dock="Right">
-                                    <TextBlock Margin="10,0,10,0" FontSize="14" Opacity="0.8">Опыт:</TextBlock>
-                                    <Label HorizontalContentAlignment="Right"
-                                                           Margin="0,0,10,5"
-                                                           FontSize="14"
-                                                           Content="{Binding Experience}"
-                                                           />
-                                </StackPanel>
-                            </DockPanel>
-
-                        </DockPanel>
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="ContextMenu">
-                                    <Setter.Value>
-                                        <ContextMenu FontSize="14">
-                                            <!--NO COMMAND HERE-->
-                                            <MenuItem Header="Прочитано"></MenuItem>
-                                        </ContextMenu>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Border.Style>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                     ItemTemplate="{DynamicResource articleItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                               ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
-                               MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                               ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                    <UniformGrid Columns="3" IsItemsHost="True" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

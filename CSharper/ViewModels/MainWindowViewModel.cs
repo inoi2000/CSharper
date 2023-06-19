@@ -44,14 +44,14 @@ namespace CSharper.ViewModels
                     Icon = SymbolRegular.Home24,
                     PageType = typeof(Views.Pages.HomePage)
                 },
-                new NavigationItem()
+                 new NavigationItem()
                 {
                     Content = "Литература",
                     PageTag = "books",
                     Icon = SymbolRegular.Book24,
                     PageType = typeof(Views.Pages.ListBooksPage)
                 },
-                new NavigationItem()
+                   new NavigationItem()
                 {
                     Content = "Уроки",
                     PageTag = "lessons",
@@ -60,16 +60,9 @@ namespace CSharper.ViewModels
                 },
                 new NavigationItem()
                 {
-                    Content = "Видео",
-                    PageTag = "videos",
-                    Icon = SymbolRegular.Video24,
-                    PageType = typeof(Views.Pages.VideosPage)
-                },
-                new NavigationItem()
-                {
                     Content = "Статьи",
                     PageTag = "articles",
-                    Icon = SymbolRegular.Globe24,
+                    Icon = SymbolRegular.Accessibility24,
                     PageType = typeof(Views.Pages.ArticlesPage)
                 },
                 new NavigationItem()
