@@ -70,6 +70,8 @@ namespace CSharper
                 services.AddScoped<ViewModels.ArticlesViewModel>();
                 services.AddScoped<Views.Pages.ListAssignmentsPage>();
                 services.AddScoped<ViewModels.ListAssignmentsViewModel>();
+                services.AddScoped<Views.Pages.VideosPage>();
+                services.AddScoped<ViewModels.VideosViewModel>();
 
 
 
