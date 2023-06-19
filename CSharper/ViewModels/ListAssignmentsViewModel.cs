@@ -39,7 +39,6 @@ namespace CSharper.ViewModels
         private Subject _currentSubject;
 
         [ObservableProperty]
-
         private IEnumerable<Assignment> _assignments;
 
         [ObservableProperty]

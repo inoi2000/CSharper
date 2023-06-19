@@ -15,21 +15,21 @@ namespace CSharper.ViewModels
     public partial class HomeViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-        private SubjectService subjectService;
+        private SubjectService _subjectService;
 
         public User User => AppConfig.User;
 
         [ObservableProperty]
         private IEnumerable<Subject> _subjects;
 
+        [ObservableProperty]
+        private Subject _currentSubject;
 
-        public Subject CurrentSubject
+        public void SetCurrentSubject()
         {
-            get
-            {
-                return AppConfig.Subject;
-            }
-            
+          
+            AppConfig.Subject = _currentSubject;
+                       
         }
 
 
@@ -41,14 +41,19 @@ namespace CSharper.ViewModels
         }
 
 
-        public void OnNavigatedTo()
+        public async void OnNavigatedTo()
         {
             if (!_isInitialized)
             {
                 InitializeViewModel();
             }
+            _subjectService = new SubjectService();
+            Subjects = await _subjectService.GetAllSubjectsAcync();
+
+            CurrentSubject = AppConfig.Subject;
         }
 
+        
         public void OnNavigatedFrom()
         {
         }
@@ -58,10 +63,8 @@ namespace CSharper.ViewModels
         {
             InitializeViewModel();
         }
-        private async void InitializeViewModel()
+        private  void InitializeViewModel()
         {
-            subjectService = new SubjectService();
-            _subjects = await subjectService.GetAllSubjectsAcync();
            
             _isInitialized = true;
 

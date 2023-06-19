@@ -21,13 +21,15 @@
             <UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
                 <StackPanel Orientation="Vertical">
                 <Label>Предмет</Label>
-                    <ComboBox  SelectedIndex="0" Margin="0,0,10,0"
-                           ItemsSource="{Binding ViewModel.Subjects}"
+                    <ComboBox  Margin="0,0,10,0"
+                               ItemsSource="{Binding ViewModel.Subjects}"
+                               SelectedItem="{Binding ViewModel.CurrentSubject, UpdateSourceTrigger=PropertyChanged}"
+                               SelectionChanged="SelectCurrentSubject"
                     />
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Margin="5,0,20,0">Сначала</Label>
-                <ComboBox  SelectedIndex="0" 
+                <ComboBox   
                            Margin="5,0,20,0" 
                            ItemsSource="{Binding ViewModel.SelectCommands.Keys}"
                            SelectedItem="{Binding ViewModel.SelectedOrderingType, UpdateSourceTrigger=PropertyChanged}"                               
@@ -36,7 +38,13 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Label Margin="-5,0,10,0">Поиск</Label>
-                    <TextBox   Margin="-5,0,0,0"/>
+                <TextBox    x:Name="FindName"
+                            Margin="-5,0,0,0" 
+                            Text="{Binding ViewModel.FindName, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+                            TextChanged="ChangeFindName"
+                            >
+                    
+                </TextBox>
                 </StackPanel>
             </UniformGrid>
         <Grid>
@@ -46,13 +54,14 @@
                   ItemsSource="{Binding ViewModel.Books}"
                   SelectedItem="{Binding ViewModel.SelectedBook}"
                   MouseDoubleClick="OpenSelectedBook"
-                
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"                 
                   ItemTemplate="{DynamicResource listBoxItemBookTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" IsItemsHost="True" 
-                                 HorizontalAlignment="Stretch"/>
+                        <!--<UniformGrid Columns="3" IsItemsHost="True" 
+                                 HorizontalAlignment="Stretch"/>-->
+                        <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
