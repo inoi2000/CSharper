@@ -10,21 +10,31 @@ namespace CSharper.Models
         public string AppPropertiesFileName { get; set; }
 
         public static User? User { get; set; }
+        private static User _defaultUser;
         public static Subject? Subject { get; set; }
 
         static AppConfig()
         {
-            var userService = new UserService();
-            //TODO User = userServiceGetTestUser();
+            _defaultUser = CreateDefaultUser();
+            User = _defaultUser;
+        }
 
-            User = new User 
-            { 
+        private static User CreateDefaultUser()
+        {
+            return new User
+            {
                 Id = Guid.NewGuid(),
                 Login = "Неавторизованный пользователь",
                 Password = "User",
                 Level = "0"
             };
-
         }
+
+        public static bool IsСurrentUserDefault()
+        {
+            return User.Equals(_defaultUser);
+        }
+
+
     }
 }

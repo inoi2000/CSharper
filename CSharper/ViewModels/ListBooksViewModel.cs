@@ -139,6 +139,8 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private async Task ReadBook()
         {
+            if (AppConfig.IsСurrentUserDefault()) return;
+
             await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
         }
 

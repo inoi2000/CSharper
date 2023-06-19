@@ -108,7 +108,7 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private async Task ReadAssignment()
         {
-            if (AppConfig.User.Login == "Неавторизованный пользователь") return;
+            if (AppConfig.IsСurrentUserDefault()) return;
 
             await _assignmentService.AccomplitAssignmentAsync(AppConfig.User.Id, _selectedAssignment.Id);
         }

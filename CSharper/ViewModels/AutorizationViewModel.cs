@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
 using Wpf.Ui.Common.Interfaces;
 
 namespace CSharper.ViewModels
@@ -21,9 +22,13 @@ namespace CSharper.ViewModels
         private RegistrationService _registrationService;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RegistrationCommand))]
+        [NotifyCanExecuteChangedFor(nameof(AuthorizationCommand))]
         private string _login = string.Empty;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RegistrationCommand))]
+        [NotifyCanExecuteChangedFor(nameof(AuthorizationCommand))]
         private string _password = string.Empty;
 
         private RelayCommand noAutorizationCommand = new RelayCommand
@@ -41,7 +46,7 @@ namespace CSharper.ViewModels
             get { return noAutorizationCommand; }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanAutorizatUser))]
         private async Task Authorization()
         {
             _authorizationService = new AuthorizationService();
@@ -52,7 +57,7 @@ namespace CSharper.ViewModels
             }
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanAutorizatUser))]
         private async Task Registration()
         {
             _registrationService = new RegistrationService();
@@ -61,6 +66,10 @@ namespace CSharper.ViewModels
                 Application.Current.Windows.OfType<Views.Windows.MainWindow>().First()
                     .Navigate(typeof(Views.Pages.HomePage));
             }
+        }
+        private bool CanAutorizatUser()
+        {
+            return !string.IsNullOrWhiteSpace(Login) && !string.IsNullOrWhiteSpace(Password);
         }
 
         public void OnNavigatedTo()
@@ -74,8 +83,7 @@ namespace CSharper.ViewModels
         }
 
         private void InitializeViewModel()
-        {
-            
+        {            
             _isInitialized = true;
         }
         
