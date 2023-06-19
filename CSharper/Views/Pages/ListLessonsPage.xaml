@@ -44,6 +44,7 @@
                            TextChanged="ChangeFindName"/>
                 </StackPanel>
             </UniformGrid>
+        <Grid>
             <ListBox 
                   x:Name="LessonsListBox"
                   FontSize="20"
@@ -52,7 +53,7 @@
                   ItemsSource="{Binding ViewModel.Lessons, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding ViewModel.SelectedLesson,UpdateSourceTrigger=PropertyChanged}"
                   MouseDoubleClick="OpenSelectedLesson"
-                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"                 
                   ItemTemplate="{DynamicResource listBoxItemLessonTemplate}">
                 <ListBox.ItemsPanel>
@@ -63,12 +64,13 @@
                 </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
             </ListBox>
+       
         <ui:ProgressRing
                 x:Name="DownloadProgresRing"
                 Visibility="Collapsed"
                 Progress="{Binding ViewModel.DownloadProgress, UpdateSourceTrigger=PropertyChanged}">
         </ui:ProgressRing>
-
+      </Grid>
     </DockPanel>
     
 </ui:UiPage>

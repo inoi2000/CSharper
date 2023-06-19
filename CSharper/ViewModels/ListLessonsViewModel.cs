@@ -12,6 +12,7 @@ using System.Linq;
 using CSharper.Services;
 using System.Threading;
 using System.Threading.Tasks;
+using Wpf.Ui.Mvvm.Interfaces;
 
 namespace CSharper.ViewModels
 {
@@ -88,7 +89,7 @@ namespace CSharper.ViewModels
             Subjects = await _subjectService.GetAllSubjectsAcync();
 
             _lessonService = new LessonService();
-            Lessons = await _lessonService.GetAllLessonsAsync();
+            await GetLessonsOnFilter();
 
             CurrentSubject = AppConfig.Subject;
 

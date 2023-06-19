@@ -12,6 +12,7 @@ using System.Linq;
 using CSharper.Services;
 using System.Threading.Tasks;
 using System.Threading;
+using Wpf.Ui.Mvvm.Interfaces;
 
 
 namespace CSharper.ViewModels
@@ -98,8 +99,8 @@ namespace CSharper.ViewModels
              _subjectService = new SubjectService();
              Subjects = await _subjectService.GetAllSubjectsAcync();
 
-             _bookService=new BookService();
-            Books=await _bookService.GetAllBooksAsync();
+             _bookService=new BookService();            
+            await GetBooksOnFilter();
 
             CurrentSubject = AppConfig.Subject;
 
