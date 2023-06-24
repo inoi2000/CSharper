@@ -59,8 +59,6 @@
                   ItemTemplate="{DynamicResource listBoxItemBookTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <!--<UniformGrid Columns="3" IsItemsHost="True" 
-                                 HorizontalAlignment="Stretch"/>-->
                         <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
