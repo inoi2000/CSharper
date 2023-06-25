@@ -53,8 +53,7 @@
                 <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"/>
-                    <!--<UniformGrid Columns="3" IsItemsHost="True" 
-                                 HorizontalAlignment="Stretch"/>-->
+                    
                 </ItemsPanelTemplate>
                </ListBox.ItemsPanel>
         </ListBox>
