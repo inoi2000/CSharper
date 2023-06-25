@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CSharper.Services
 {
-    public class AssignmentService : IDisposable
+    public class AssignmentService : IDisposable, IPdfReadingService
     {
         private readonly AppDbContext _context;
 
@@ -85,7 +85,7 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> IsAccomplitAssignmentAsync(Guid userId, Guid assignmentId)
+        public async Task<bool> IsAccomplitAsync(Guid userId, Guid assignmentId)
         {
             var tempUser = await _context.Users.Include(u => u.Assignments).FirstAsync(u => u.Id == userId);
             var tempAssignment = await _context.Assignments.FirstAsync(a => a.Id == assignmentId);
@@ -93,7 +93,7 @@ namespace CSharper.Services
             return tempUser.Assignments.Contains(tempAssignment);
         }
 
-        public async Task<bool> AccomplitAssignmentAsync(Guid userId, Guid assignmentId)
+        public async Task<bool> AccomplitAsync(Guid userId, Guid assignmentId)
         {
             var tempUser = await _context.Users.Include(u => u.Assignments).FirstAsync(u => u.Id == userId);
             var tempAssignment = await _context.Assignments.FirstAsync(a => a.Id == assignmentId);
@@ -105,7 +105,7 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitAssignmentAsync(Guid userId, Guid assignmentId)
+        public async Task<bool> CancelAccomplitAsync(Guid userId, Guid assignmentId)
         {
             var tempUser = await _context.Users.Include(u => u.Assignments).FirstAsync(u => u.Id == userId);
             var tempAssignment = await _context.Assignments.FirstAsync(a => a.Id == assignmentId);

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CSharper.Services
 {
-    public class LessonService : IDisposable
+    public class LessonService : IDisposable, IPdfReadingService
     {
         private readonly AppDbContext _context;
 
@@ -91,7 +91,7 @@ namespace CSharper.Services
         }
 
 
-        public async Task<bool> IsAccomplitLessonAsync(Guid userId, Guid lessonId)
+        public async Task<bool> IsAccomplitAsync(Guid userId, Guid lessonId)
         {
             var tempUser = await _context.Users.Include(u => u.Lessons).FirstAsync(u => u.Id == userId);
             var tempLesson = await _context.Lessons.FirstAsync(l => l.Id == lessonId);
@@ -99,7 +99,7 @@ namespace CSharper.Services
             return tempUser.Lessons.Contains(tempLesson);
         }
 
-        public async Task<bool> AccomplitLessonAsync(Guid userId, Guid lessonId)
+        public async Task<bool> AccomplitAsync(Guid userId, Guid lessonId)
         {
             var tempUser = await _context.Users.Include(u => u.Lessons).FirstAsync(u => u.Id == userId);
             var tempLesson = await _context.Lessons.FirstAsync(l => l.Id == lessonId);
@@ -111,7 +111,7 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitLessonAsync(Guid userId, Guid lessonId)
+        public async Task<bool> CancelAccomplitAsync(Guid userId, Guid lessonId)
         {
             var tempUser = await _context.Users.Include(u => u.Lessons).FirstAsync(u => u.Id == userId);
             var tempLesson = await _context.Lessons.FirstAsync(l => l.Id == lessonId);

@@ -60,7 +60,8 @@ namespace CSharper.Views.Pages
 
             mainWindow.Visibility = Visibility.Collapsed;
 
-            readerWindow.Open(ViewModel.LocalPath);
+            readerWindow.Open(ViewModel.SelectedLesson);
+            readerWindow.SetPdfReadingService(ViewModel._lessonService);
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 

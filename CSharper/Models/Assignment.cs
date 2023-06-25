@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSharper.Models
 {
-    public class Assignment
+    public class Assignment : IPdfReading
     {
         public Guid Id { get; init; }
         public string Name { get; set; }

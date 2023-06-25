@@ -46,7 +46,8 @@ namespace CSharper.Views.Pages
 
             mainWindow.Visibility = Visibility.Collapsed;
 
-            readerWindow.Open(ViewModel.LocalPath);
+            readerWindow.Open(ViewModel.SelectedAssignment);
+            readerWindow.SetPdfReadingService(ViewModel._assignmentService);
             readerWindow.ShowDialog();
             mainWindow.Visibility = Visibility.Visible;
 

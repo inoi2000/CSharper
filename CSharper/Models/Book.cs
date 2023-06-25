@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CSharper.Models
 {
-    public class Book
+    public class Book : IPdfReading
     {
         public Guid Id { get; init; }
         public string Name { get; set; }

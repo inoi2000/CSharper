@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CSharper.Services
 {
-    public class BookService : IDisposable
+    public class BookService : IDisposable, IPdfReadingService
     {
         private readonly AppDbContext _context;
 
@@ -85,7 +85,7 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> IsAccomplitBookAsync(Guid userId, Guid bookId)
+        public async Task<bool> IsAccomplitAsync(Guid userId, Guid bookId)
         {
             var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
             var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
@@ -93,7 +93,7 @@ namespace CSharper.Services
             return tempUser.Books.Contains(tempBook);
         }
 
-        public async Task<bool> AccomplitBookAsync(Guid userId, Guid bookId)
+        public async Task<bool> AccomplitAsync(Guid userId, Guid bookId)
         {
             var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
             var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);
@@ -105,7 +105,7 @@ namespace CSharper.Services
             else { return false; }
         }
 
-        public async Task<bool> CancelAccomplitBookAsync(Guid userId, Guid bookId)
+        public async Task<bool> CancelAccomplitAsync(Guid userId, Guid bookId)
         {
             var tempUser = await _context.Users.Include(u => u.Books).FirstAsync(u => u.Id == userId);
             var tempBook = await _context.Books.FirstAsync(b => b.Id == bookId);

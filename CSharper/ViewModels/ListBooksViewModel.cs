@@ -25,7 +25,7 @@ namespace CSharper.ViewModels
         private static CancellationTokenSource cts = null;
 
         private SubjectService _subjectService { get; set; }
-        private BookService _bookService { get; set; }
+        public BookService _bookService { get; set; }
 
 
         [ObservableProperty]
@@ -161,11 +161,6 @@ namespace CSharper.ViewModels
             CancellationToken token = cts.Token;
 
             if (_selectedBook == null) return false;
-            //
-            //
-            //TODO реализавать отдельное исполнение метода
-            await ReadBook(); // но пока он здесь
-            //
             
             return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
         }
@@ -177,7 +172,7 @@ namespace CSharper.ViewModels
         {
             if (AppConfig.IsСurrentUserDefault()) return;
 
-            await _bookService.AccomplitBookAsync(AppConfig.User.Id, _selectedBook.Id);
+            await _bookService.AccomplitAsync(AppConfig.User.Id, _selectedBook.Id);
         }
 
     }

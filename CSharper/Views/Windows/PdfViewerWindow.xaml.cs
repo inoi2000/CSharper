@@ -1,6 +1,7 @@
 ﻿using Apitron.PDF.Rasterizer;
 using Apitron.PDF.Rasterizer.Configuration;
 using Apitron.PDF.Rasterizer.Navigation;
+using CSharper.Models;
 using CSharper.Services;
 using CSharper.ViewModels;
 
@@ -39,7 +40,7 @@ namespace CSharper.Views.Windows
     /// </summary>
     public partial class PdfViewerWindow : INavigationWindow,INavigableView<PdfViewerWindowViewModel>
     {
- 
+
         public PdfViewerWindow(ViewModels.PdfViewerWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
         {
             ViewModel = viewModel;
@@ -55,18 +56,28 @@ namespace CSharper.Views.Windows
 
 
         public PdfViewerWindowViewModel ViewModel { get; }
+        
+        private IPdfReading _pdfReading { get; set; }
+        private IPdfReadingService _pdfReadingService { get; set; }
 
-        public void Open(string FileName)
+        public void Open(IPdfReading pdfReading)
         {
+            _pdfReading = pdfReading;
             try
             {
-                Document document = new Document(new FileStream(FileName, FileMode.Open, FileAccess.Read));
+                Document document = new Document(new FileStream(pdfReading.LocalLink!, FileMode.Open, FileAccess.Read));
                 (this.document).Document = document;
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.ToString());
             }
+        }
+
+
+        public void SetPdfReadingService(IPdfReadingService pdfReadingService)
+        {
+            _pdfReadingService = pdfReadingService;
         }
 
         #region Fields
@@ -199,7 +210,7 @@ namespace CSharper.Views.Windows
         }
 
 
-        private void OnNavigationButtonClick(object sender, RoutedEventArgs e)
+        private async void OnNavigationButtonClick(object sender, RoutedEventArgs e)
         {
             Button source = (Button)e.Source;
             Document doc = document.Document;
@@ -224,6 +235,13 @@ namespace CSharper.Views.Windows
                     break;
                 default:
                     return;
+            }
+            if (!AppConfig.IsСurrentUserDefault() && _pdfReadingService != null)
+            {
+                if((doc.Pages.Count*0.9)< doc.Pages.IndexOf(navigator.CurrentPage))
+                {
+                    await _pdfReadingService.AccomplitAsync(AppConfig.User.Id, _pdfReading.Id);
+                }
             }
             this.destinationRectangle = null;
         }
