@@ -17,41 +17,64 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
-        <DockPanel Margin="56,0" LastChildFill="True">
-            <UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
-            <StackPanel Orientation="Vertical">
-                <Label>Предмет</Label>
-                <ComboBox  SelectedIndex="0" Margin="0,0,10,0"
-                           ItemsSource="{Binding ViewModel.Subjects}"
+	<DockPanel Margin="56,0" LastChildFill="True">
+		<UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
+			<StackPanel Orientation="Vertical">
+				<Label>Предмет</Label>
+				<ComboBox  Margin="0,0,10,0"
+                               ItemsSource="{Binding ViewModel.Subjects}"
+                               SelectedItem="{Binding ViewModel.CurrentSubject, UpdateSourceTrigger=PropertyChanged}"
+                               SelectionChanged="SelectCurrentSubject"
                     />
-            </StackPanel>
-        </UniformGrid>
-        <Grid>
-            <ListBox x:Name="AssignmentsListBox"  FontSize="20"
-                  FontWeight="Medium"   
+			</StackPanel>
+			<StackPanel Orientation="Vertical">
+				<Label Margin="5,0,20,0">Уровень</Label>
+				<ComboBox    SelectedIndex="0"
+                           Margin="5,0,20,0"
+                           ItemsSource="{Binding ViewModel.SelectCommands.Keys}"
+                           SelectedItem="{Binding ViewModel.SelectedOrderingType, UpdateSourceTrigger=PropertyChanged}"
+                           >
+				</ComboBox>
+			</StackPanel>
+			<StackPanel Orientation="Vertical">
+				<Label Margin="-5,0,10,0">Поиск</Label>
+				<TextBox    x:Name="FindName"
+                            Margin="-5,0,0,0"
+                            Text="{Binding ViewModel.FindName, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+                            TextChanged="ChangeFindName"
+                            >
+
+				</TextBox>
+			</StackPanel>
+
+
+		</UniformGrid>
+		<Grid>
+			<ListBox x:Name="AssignmentsListBox"  FontSize="20"
+                  FontWeight="Medium"
                   Margin="0,0,0,20"
                   ItemsSource="{Binding ViewModel.Assignments}"
                   SelectedItem="{Binding ViewModel.SelectedAssignment}"
                   MouseDoubleClick="OpenSelectedAssignment"
                 
-                  ScrollViewer.VerticalScrollBarVisibility="Visible"                 
-                  ItemTemplate="{DynamicResource listBoxItemBookTemplate}"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ItemTemplate="{DynamicResource listBoxItemAssignmentTemplate}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
                                ItemWidth="{Binding (ListView.View).ItemWidth, RelativeSource={RelativeSource AncestorType=ListView}}"
                                MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
                                ItemHeight="{Binding (ListView.View).ItemHeight, RelativeSource={RelativeSource AncestorType=ListView}}"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-            <ui:ProgressRing
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+			</ListBox>
+			<ui:ProgressRing
                 x:Name="DownloadProgresRing"
                 Visibility="Collapsed"
-                Progress="{Binding ViewModel.DownloadProgress, UpdateSourceTrigger=PropertyChanged}">                
-            </ui:ProgressRing>
-        </Grid>
-    </DockPanel>
-    
+                Progress="{Binding ViewModel.DownloadProgress, UpdateSourceTrigger=PropertyChanged}">
+			</ui:ProgressRing>
+		</Grid>
+	</DockPanel>
+
 </ui:UiPage>

@@ -47,7 +47,41 @@ namespace CSharper.ViewModels
         [ObservableProperty]
         private Assignment _selectedAssignment;
 
+        [ObservableProperty]
+        private Dictionary<string, Complexity?> _selectCommands = new Dictionary<string, Complexity?>()
+        {
+            { "Все",    null},
+            { "Средний",Complexity.medium},
+            { "Сложный",Complexity.hard},
+            { "Продвинутый",Complexity.hardcore},
+            { "Легкий",Complexity.easy }
+        };
+
+        private string _selectedOrderingType;
+        public string SelectedOrderingType
+        {
+            get { return _selectedOrderingType; }
+            set
+            {
+                _selectedOrderingType = value;
+                OnPropertyChanged(nameof(SelectedOrderingType));
+                _complexityAssignment = null;
+                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityAssignment);
+
+
+
+                GetAssignmentsOnFilter();
+
+            }
+        }
+
         public string LocalPath => SelectedAssignment?.LocalLink ?? string.Empty;
+
+        [ObservableProperty]
+        private string _findName;
+
+        [ObservableProperty]
+        private Complexity? _complexityAssignment;
 
         public async void OnNavigatedTo()
         {
@@ -60,7 +94,14 @@ namespace CSharper.ViewModels
             Subjects = await _subjectService.GetAllSubjectsAcync();
 
             _assignmentService = new AssignmentService();
-            Assignments = await _assignmentService.GetAllAssignmentsAsync();
+            //Assignments = await _assignmentService.GetAllAssignmentsAsync();
+
+            await GetAssignmentsOnFilter();
+
+            CurrentSubject = AppConfig.Subject;
+
+            _complexityAssignment = null;
+
         }
 
         public void OnNavigatedFrom()
@@ -74,6 +115,25 @@ namespace CSharper.ViewModels
         private void InitializeViewModel()
         {
             _isInitialized = true;
+        }
+
+        public async Task GetAssignmentsOnFilter()
+        {
+            if (_assignmentService == null) return;
+
+            IEnumerable<Assignment> assignments = await _assignmentService.GetAllAssignmentsAsync();
+
+            if (_currentSubject != null)
+                assignments = assignments.Where(assignment => assignment.Subject.Id == _currentSubject.Id).ToList();
+
+            if (!String.IsNullOrEmpty(_findName))
+                assignments = assignments.Where(assignment => assignment.Name.Contains(_findName) == true);
+
+            if (_complexityAssignment != null)
+                assignments = assignments.Where(assignment => assignment.Complexity == _complexityAssignment);
+
+            Assignments = assignments;
+
         }
 
         private double _downloadProgress;

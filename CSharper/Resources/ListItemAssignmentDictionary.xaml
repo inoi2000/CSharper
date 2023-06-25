@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converts="clr-namespace:CSharper.Models"                   
+                    x:Class="CSharper.Resources.ListItemAssignmentDictionary"
+                    xmlns:ap="clr-namespace:CSharper.Views.Pages"
+                 
+                    >
+    <converts:ComplexityConverter x:Key="ComplexityConverter"/>
+
+    <BitmapImage x:Key="AssignmentSource" UriSource="pack://application:,,,/Assets/book.png" />
+
+
+    <DataTemplate x:Key="listBoxItemAssignmentTemplate">
+        <Border BorderThickness="2" BorderBrush="LightGray" Width="270" Height="320">
+            <StackPanel Margin="5">
+                <Label Content="{Binding Name, Mode=OneWay}" HorizontalAlignment="Center"/>
+                <Border  BorderThickness="1" BorderBrush="LightGray"
+                                     Background="Transparent"  Height="200">
+                    <Image Source="{StaticResource AssignmentSource}"
+                           Opacity="0.6"  />
+
+                </Border>
+                <DockPanel>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right">
+                        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right"
+                                                 >
+                            <Label Margin="10,0,10,0" FontSize="12" Opacity="0.4">Уровень</Label>
+                            <Label HorizontalContentAlignment="Right"
+                                               Margin="10,0,0,0"
+                                               FontSize="12" Opacity="0.4"
+                                               Content="{Binding Complexity, Converter={StaticResource ComplexityConverter}}" 
+                                               />
+                        </StackPanel>
+
+                        <Label x:Name="ReadingLable"
+                            Padding="5"
+                            Margin="0,-5,0,0"                         
+                            HorizontalContentAlignment="Right"
+                            FontSize="10"
+                            Opacity="0.2"
+                           />
+
+                    </StackPanel>
+
+                </DockPanel>
+            </StackPanel>
+
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Reading}" Value="true">
+                <Setter TargetName="ReadingLable" Property="Content" Value="Прочитано"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Reading}" Value="false">
+                <Setter TargetName="ReadingLable" Property="Content" Value="Не прочитано"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+</ResourceDictionary>

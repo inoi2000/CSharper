@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CSharper.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
 namespace CSharper.Models
@@ -36,9 +39,13 @@ namespace CSharper.Models
             else return false;
         }
 
+        [NotMapped]
+        public bool Reading => Users.Contains(AppConfig.User);
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
     }
 }
