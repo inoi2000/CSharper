@@ -22,7 +22,7 @@ namespace CSharper.ViewModels
 
         private static CancellationTokenSource cts = null;
 
-        private LessonService _lessonService;
+        public LessonService _lessonService;
         private SubjectService _subjectService;
         
         public User CurrentUser { get { return AppConfig.User; } }
@@ -150,9 +150,6 @@ namespace CSharper.ViewModels
 
             CancellationToken token = cts.Token;
             if (_selectedLesson == null) return false;
-            //
-            //TODO реализавать отдельное исполнение метода
-            await ReadLesson(); // но пока он здесь
             
             return await _lessonService.DownloadLessonAsync(_selectedLesson.Id, progress, token);
         }
@@ -162,7 +159,7 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private async Task ReadLesson()
         {
-            await _lessonService.AccomplitLessonAsync(AppConfig.User.Id, _selectedLesson.Id);
+            await _lessonService.AccomplitAsync(AppConfig.User.Id, _selectedLesson.Id);
         }
 
 

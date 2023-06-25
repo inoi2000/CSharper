@@ -28,7 +28,7 @@ namespace CSharper.ViewModels
         private static CancellationTokenSource cts = null;
 
         private SubjectService _subjectService { get; set; }
-        private AssignmentService _assignmentService { get; set; }
+        public AssignmentService _assignmentService { get; set; }
 
 
         [ObservableProperty]
@@ -94,10 +94,6 @@ namespace CSharper.ViewModels
             };
 
             CancellationToken token = cts.Token;
-
-            //
-            //TODO реализавать отдельное исполнение метода
-            await ReadAssignment(); // но пока он здесь
             
             return await _assignmentService.DownloadAssignmentAsync(SelectedAssignment.Id, progress, token);
         }
@@ -109,7 +105,7 @@ namespace CSharper.ViewModels
         {
             if (AppConfig.IsСurrentUserDefault()) return;
 
-            await _assignmentService.AccomplitAssignmentAsync(AppConfig.User.Id, _selectedAssignment.Id);
+            await _assignmentService.AccomplitAsync(AppConfig.User.Id, _selectedAssignment.Id);
         }
     }
 
