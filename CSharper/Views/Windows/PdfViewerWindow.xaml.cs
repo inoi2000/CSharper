@@ -238,7 +238,7 @@ namespace CSharper.Views.Windows
             }
             if (!AppConfig.IsСurrentUserDefault() && _pdfReadingService != null)
             {
-                if((doc.Pages.Count*0.9)< doc.Pages.IndexOf(navigator.CurrentPage))
+                if((doc.Pages.Count*0.9)< (doc.Pages.IndexOf(navigator.CurrentPage)+1))
                 {
                     await _pdfReadingService.AccomplitAsync(AppConfig.User.Id, _pdfReading.Id);
 
