@@ -101,7 +101,20 @@ namespace CSharper.Services
             tempUser.Assignments.Add(tempAssignment);
 
             int count = await _context.SaveChangesAsync();
-            if (count > 0) { return true; }
+            if (count > 0) 
+            {
+                if (!AppConfig.IsСurrentUserDefault())
+                {
+                    tempUser.Experience += tempAssignment.Experience;
+                    if (tempUser.Experience >= 100)
+                    {
+                        tempUser.Experience -= 100;
+                        tempUser.Level = (int.Parse(tempUser.Level) + 1).ToString();
+                    }
+                    await _context.SaveChangesAsync();
+                }
+                return true;
+            }
             else { return false; }
         }
 

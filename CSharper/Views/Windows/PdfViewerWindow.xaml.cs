@@ -241,6 +241,7 @@ namespace CSharper.Views.Windows
                 if((doc.Pages.Count*0.9)< doc.Pages.IndexOf(navigator.CurrentPage))
                 {
                     await _pdfReadingService.AccomplitAsync(AppConfig.User.Id, _pdfReading.Id);
+
                 }
             }
             this.destinationRectangle = null;
