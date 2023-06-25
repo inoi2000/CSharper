@@ -19,13 +19,6 @@
     mc:Ignorable="d">
 	<DockPanel Margin="56,0" LastChildFill="True">
 		<UniformGrid DockPanel.Dock="Top" Height="70" Columns="3">
-			<!--<StackPanel Orientation="Vertical">
-                <Label>Предмет</Label>
-                <ComboBox  SelectedIndex="0" Margin="0,0,10,0"
-                           ItemsSource="{Binding ViewModel.Subjects}"
-                    />
-            </StackPanel>-->
-
 			<StackPanel Orientation="Vertical">
 				<Label>Предмет</Label>
 				<ComboBox  Margin="0,0,10,0"
