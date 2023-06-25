@@ -19,6 +19,8 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListAssignmentsPage : INavigableView<ViewModels.ListAssignmentsViewModel>
     {
+
+
         public ViewModels.ListAssignmentsViewModel ViewModel
         {
             get;
@@ -53,6 +55,17 @@ namespace CSharper.Views.Pages
 
             DownloadProgresRing.Visibility = Visibility.Collapsed;
             AssignmentsListBox.Visibility = Visibility.Visible;
+        }
+
+        private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
+        {
+            await ViewModel.GetAssignmentsOnFilter();
+        }
+
+
+        private async void ChangeFindName(object sender, TextChangedEventArgs e)
+        {
+            await ViewModel.GetAssignmentsOnFilter();
         }
     }
 }
