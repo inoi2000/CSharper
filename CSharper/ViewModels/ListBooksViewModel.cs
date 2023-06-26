@@ -99,7 +99,7 @@ namespace CSharper.ViewModels
              _subjectService = new SubjectService();
              Subjects = await _subjectService.GetAllSubjectsAcync();
 
-             _bookService=new BookService();            
+            _bookService=await new BookService();            
             await GetBooksOnFilter();
 
             CurrentSubject = AppConfig.Subject;
@@ -112,7 +112,7 @@ namespace CSharper.ViewModels
         {
             cts.Cancel();
             _subjectService?.Dispose();
-            _bookService?.Dispose();
+           // _bookService?.Dispose();
         }
 
 
@@ -161,19 +161,22 @@ namespace CSharper.ViewModels
             CancellationToken token = cts.Token;
 
             if (_selectedBook == null) return false;
-            
-            return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
-        }
 
-        public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
+             return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
+           
+         }
 
-        [RelayCommand]
-        private async Task ReadBook()
-        {
-            if (AppConfig.IsСurrentUserDefault()) return;
+        //public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
 
-            await _bookService.AccomplitAsync(AppConfig.User.Id, _selectedBook.Id);
-        }
+        //[RelayCommand]
+        //private async Task ReadBook()
+        //{
+        //    if (AppConfig.IsСurrentUserDefault()) return;
+
+        //    await _bookService.AccomplitAsync(AppConfig.User.Id, _selectedBook.Id);
+        //    OnPropertyChanged(nameof(Books));
+
+        //}
 
     }
 

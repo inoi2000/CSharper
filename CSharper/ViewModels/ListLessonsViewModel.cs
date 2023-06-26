@@ -99,7 +99,7 @@ namespace CSharper.ViewModels
         {
             cts.Cancel();
             _subjectService?.Dispose();
-            _lessonService?.Dispose();
+          //  _lessonService?.Dispose();
         }
 
         public ListLessonsViewModel()
@@ -150,8 +150,10 @@ namespace CSharper.ViewModels
 
             CancellationToken token = cts.Token;
             if (_selectedLesson == null) return false;
+
             
             return await _lessonService.DownloadLessonAsync(_selectedLesson.Id, progress, token);
+           ;
         }
 
         public RelayCommand DownloadSelectedLessonCommand => new RelayCommand(async () => { await DownloadSelectedLesson(); });
@@ -159,7 +161,11 @@ namespace CSharper.ViewModels
         [RelayCommand]
         private async Task ReadLesson()
         {
+            
+            if (AppConfig.IsСurrentUserDefault()) return;
+
             await _lessonService.AccomplitAsync(AppConfig.User.Id, _selectedLesson.Id);
+            OnPropertyChanged(nameof(Lessons));
         }
 
 

@@ -17,6 +17,7 @@ namespace CSharper.ViewModels
         private bool _isInitialized = false;
         private SubjectService _subjectService;
 
+        
         public User User => AppConfig.User;
 
         [ObservableProperty]
@@ -51,6 +52,10 @@ namespace CSharper.ViewModels
             Subjects = await _subjectService.GetAllSubjectsAcync();
 
             CurrentSubject = AppConfig.Subject;
+            
+            OnPropertyChanged(nameof(User));
+            OnPropertyChanged(nameof(User.Experience));
+            OnPropertyChanged(nameof(User.Level));
         }
 
         

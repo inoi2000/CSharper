@@ -1,4 +1,5 @@
-﻿using CSharper.Services;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CSharper.Services;
 using System;
 
 namespace CSharper.Models
@@ -10,6 +11,7 @@ namespace CSharper.Models
         public string AppPropertiesFileName { get; set; }
 
         public static User? User { get; set; }
+        
         private static User _defaultUser;
         public static Subject? Subject { get; set; }
 

@@ -61,6 +61,7 @@ namespace CSharper.Views.Pages
             readerWindow.Open(ViewModel.SelectedBook);
             readerWindow.SetPdfReadingService(ViewModel._bookService);
             readerWindow.ShowDialog();
+
             mainWindow.Visibility = Visibility.Visible;
 
             DownloadProgresRing.Visibility = Visibility.Collapsed;
