@@ -93,16 +93,15 @@ namespace CSharper.ViewModels
             if (!_isInitialized)
                 InitializeViewModel();
 
- 
-            cts = new CancellationTokenSource();
+             cts = new CancellationTokenSource();
 
              _subjectService = new SubjectService();
              Subjects = await _subjectService.GetAllSubjectsAcync();
 
-            _bookService=await new BookService();            
-            await GetBooksOnFilter();
+            _bookService=new BookService();            
+             await GetBooksOnFilter();
 
-            CurrentSubject = AppConfig.Subject;
+             CurrentSubject = AppConfig.Subject;
 
             _complexityBook = null;
 
