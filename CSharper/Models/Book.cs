@@ -44,29 +44,29 @@ namespace CSharper.Models
 
     }
 
-    public static class BookExtensions
-    {
-        private static User user;
+    //public static class BookExtensions
+    //{
+    //    private static User user;
 
-        public static void SetCurrentUser(this Book book,User _user)
-        {
-            user = _user;
-        }
+    //    public static void SetCurrentUser(this Book book,User _user)
+    //    {
+    //        user = _user;
+    //    }
 
-        public static Reading reading(this Book book)
-        {
-            if(book.Users.Contains(user))
-               return Reading.Yes;
+    //    public static Reading reading(this Book book)
+    //    {
+    //        if(book.Users.Contains(user))
+    //           return Reading.Yes;
 
-            return Reading.No;
-        }
-        public static void setReading(this Book book, Reading r)
-        {
+    //        return Reading.No;
+    //    }
+    //    public static void setReading(this Book book, Reading r)
+    //    {
             
-            if (r !=0) book?.Users.Add(user);
-            else if (book?.Users.Contains(user)==true)
-                book.Users.Remove(user);
-            book.Name = "ttt"; //БАГ!!!  Это изменение не отражается на форме
-        }
-    }
+    //        if (r !=0) book?.Users.Add(user);
+    //        else if (book?.Users.Contains(user)==true)
+    //            book.Users.Remove(user);
+    //        book.Name = "ttt"; //БАГ!!!  Это изменение не отражается на форме
+    //    }
+    //}
 }
