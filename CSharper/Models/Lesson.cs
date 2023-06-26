@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -41,5 +42,8 @@ namespace CSharper.Models
         {
             return base.GetHashCode();
         }
+
+        [NotMapped]
+        public bool Reading => Users.Contains(AppConfig.User);
     }
 }
