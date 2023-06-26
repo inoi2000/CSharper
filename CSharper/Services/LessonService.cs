@@ -28,12 +28,12 @@ namespace CSharper.Services
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync()
         {
-            return await _context.Lessons.Include(l => l.Subject).ToListAsync();
+            return await _context.Lessons.Include(l => l.Subject).Include(l => l.Users).ToListAsync();
         }
 
         public async Task<IEnumerable<Lesson>> GetAllLessonsAsync(Guid subjectId)
         {
-            return (await _context.Subjects.Include(s => s.Lessons).FirstAsync(s => s.Id == subjectId))
+            return (await _context.Subjects.Include(s => s.Lessons).ThenInclude(l => l.Users).FirstAsync(s => s.Id == subjectId))
                 .Lessons.ToList();
         }
 
