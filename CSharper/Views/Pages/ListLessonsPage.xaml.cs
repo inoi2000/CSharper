@@ -70,20 +70,14 @@ namespace CSharper.Views.Pages
 
         }
 
-        private void SelectListLesson(object sender, SelectionChangedEventArgs e)
-        {
-            //ViewModel.SelectCommands[ ((sender as ComboBox).SelectedItem as string)].Execute(null);
-
-        }
-
         private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.GetLessonsOnFilter();
+            await ViewModel.DebounceFilter();
         }
 
         private async void ChangeFindName(object sender, TextChangedEventArgs e)
         {
-            await ViewModel.GetLessonsOnFilter();
+            await ViewModel.DebounceFilter();
         }
     }
 }

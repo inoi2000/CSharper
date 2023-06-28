@@ -19,8 +19,8 @@ namespace CSharper.ViewModels
     public partial class ListLessonsViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-
         private static CancellationTokenSource cts = null;
+        private DebounceDispatcher _debounceDispatcher;
 
         public LessonService _lessonService;
         private SubjectService _subjectService;
@@ -32,9 +32,7 @@ namespace CSharper.ViewModels
 
         public void SetCurrentSubject()
         {
-
             AppConfig.Subject = _currentSubject;
-
         }
 
         [ObservableProperty]
@@ -45,7 +43,6 @@ namespace CSharper.ViewModels
 
         [ObservableProperty]
         private Lesson _selectedLesson;
-
         
         [ObservableProperty]
         private Dictionary<string, Complexity?> _selectCommands = new Dictionary<string, Complexity?>()
@@ -108,11 +105,16 @@ namespace CSharper.ViewModels
         }
         private async void InitializeViewModel()
         {
-          
+            _debounceDispatcher = new DebounceDispatcher();
             _isInitialized = true;
         }
 
-        public async Task GetLessonsOnFilter()
+        public async Task DebounceFilter()
+        {
+            await _debounceDispatcher.Debounce(TimeSpan.FromMilliseconds(500), () => GetLessonsOnFilter());
+        }
+
+        private async Task GetLessonsOnFilter()
         {
             if (_lessonService == null) return;
 
@@ -123,21 +125,20 @@ namespace CSharper.ViewModels
 
             
             if (!String.IsNullOrEmpty(_findName))
-                lessons = lessons.Where(lesson => lesson.Name.Contains(_findName) == true);
+                lessons = lessons.Where(lesson => lesson.Name.Contains(_findName));
 
             if (_complexityLesson != null)
                 lessons = lessons.Where(lesson => lesson.Complexity == _complexityLesson);
 
            Lessons = lessons;
-
         }
+
         private double _downloadProgress;
         public double DownloadProgress
         {
             get { return _downloadProgress; }
             set { _downloadProgress = value; OnPropertyChanged(); }
         }
-
 
         public async Task<bool> DownloadSelectedLesson()
         {
@@ -150,26 +151,19 @@ namespace CSharper.ViewModels
 
             CancellationToken token = cts.Token;
             if (_selectedLesson == null) return false;
-
             
             return await _lessonService.DownloadLessonAsync(_selectedLesson.Id, progress, token);
-           ;
         }
 
         public RelayCommand DownloadSelectedLessonCommand => new RelayCommand(async () => { await DownloadSelectedLesson(); });
 
         [RelayCommand]
         private async Task ReadLesson()
-        {
-            
+        {            
             if (AppConfig.IsСurrentUserDefault()) return;
 
             await _lessonService.AccomplitAsync(AppConfig.User.Id, _selectedLesson.Id);
             OnPropertyChanged(nameof(Lessons));
-        }
-
-
-       
+        }       
     }
-
 }

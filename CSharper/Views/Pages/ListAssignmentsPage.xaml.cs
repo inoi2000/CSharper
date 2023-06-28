@@ -19,8 +19,6 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListAssignmentsPage : INavigableView<ViewModels.ListAssignmentsViewModel>
     {
-
-
         public ViewModels.ListAssignmentsViewModel ViewModel
         {
             get;
@@ -59,13 +57,13 @@ namespace CSharper.Views.Pages
 
         private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.GetAssignmentsOnFilter();
+            await ViewModel.DebounceFilter();
         }
 
 
         private async void ChangeFindName(object sender, TextChangedEventArgs e)
         {
-            await ViewModel.GetAssignmentsOnFilter();
+            await ViewModel.DebounceFilter();
         }
     }
 }

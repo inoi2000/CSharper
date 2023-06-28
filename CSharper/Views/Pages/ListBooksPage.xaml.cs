@@ -19,17 +19,6 @@ namespace CSharper.Views.Pages
     /// </summary>
     public partial class ListBooksPage : INavigableView<ViewModels.ListBooksViewModel>
     {
-
-        //private static RelayCommand<Book> readingClickCommand = new RelayCommand<Book>
-        //   (x =>
-        //   {
-        //       if (x == null) return;
-        //   });
-        //public static RelayCommand<Book> ReadingClickCommand
-        //{
-        //    get { return readingClickCommand; }
-        //}
-
         public ViewModels.ListBooksViewModel ViewModel
         {
             get;
@@ -68,21 +57,14 @@ namespace CSharper.Views.Pages
             BooksListBox.Visibility = Visibility.Visible;
         }
 
-        //private void SelectListBook(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //ViewModel.SelectCommands[ ((sender as ComboBox).SelectedItem as string)].Execute(null);
-
-        //}
-
         private async void SelectCurrentSubject(object sender, SelectionChangedEventArgs e)
         {
-          
-            await ViewModel.GetBooksOnFilter();
+            await ViewModel.DebounceFilter();
         }
 
         private async void ChangeFindName(object sender, TextChangedEventArgs e)
         {
-            await ViewModel.GetBooksOnFilter();
+            await ViewModel.DebounceFilter();
         }
     }
 }

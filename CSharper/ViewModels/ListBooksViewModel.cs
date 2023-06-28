@@ -20,13 +20,11 @@ namespace CSharper.ViewModels
     public partial class ListBooksViewModel : ObservableObject, INavigationAware
     {
         private bool _isInitialized = false;
-
-
         private static CancellationTokenSource cts = null;
+        private DebounceDispatcher _debounceDispatcher;
 
         private SubjectService _subjectService { get; set; }
         public BookService _bookService { get; set; }
-
 
         [ObservableProperty]
         private User _currentUser;
@@ -36,10 +34,7 @@ namespace CSharper.ViewModels
 
         public void SetCurrentSubject()
         {
-
            AppConfig.Subject = _currentSubject;
-          
-
         }
 
         [ObservableProperty]
@@ -50,7 +45,6 @@ namespace CSharper.ViewModels
 
         [ObservableProperty]
         private Book _selectedBook;
-
        
         [ObservableProperty]
         private Dictionary<string, Complexity?> _selectCommands=new Dictionary<string, Complexity?>()
@@ -71,16 +65,12 @@ namespace CSharper.ViewModels
                 _selectedOrderingType = value;
                 OnPropertyChanged(nameof(SelectedOrderingType));
                 _complexityBook = null;
-                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityBook);
-
-                
+                _selectCommands.TryGetValue(SelectedOrderingType, out _complexityBook);                
                
-                GetBooksOnFilter();
-              
+                GetBooksOnFilter();              
             }
         }
         public string LocalPath => SelectedBook?.LocalLink ?? string.Empty;
-
         
         [ObservableProperty]
         private string _findName;
@@ -114,30 +104,33 @@ namespace CSharper.ViewModels
            // _bookService?.Dispose();
         }
 
-
         private void InitializeViewModel()
         {
-
+            _debounceDispatcher = new DebounceDispatcher();
             _isInitialized = true;
         }
 
-        public async Task GetBooksOnFilter()
+        public async Task DebounceFilter()
+        {
+            await _debounceDispatcher.Debounce(TimeSpan.FromMilliseconds(500), () => GetBooksOnFilter());
+        }
+
+        private async Task GetBooksOnFilter()
         {
             if (_bookService == null) return;
 
              IEnumerable<Book> books=await _bookService.GetAllBooksAsync();
 
-            if (_currentSubject != null)
+            if (_currentSubject != null) 
                 books=books.Where(book => book.Subject.Id==_currentSubject.Id).ToList();
 
             if (!String.IsNullOrEmpty(_findName))
-                books=books.Where(book => book.Name.Contains(_findName)==true);
+                books=books.Where(book => book.Name.Contains(_findName));
             
             if(_complexityBook !=null)
                 books = books.Where(book => book.Complexity == _complexityBook);
 
-            Books = books;
-        
+            Books = books;        
         }
         
 
@@ -146,7 +139,6 @@ namespace CSharper.ViewModels
             get { return _downloadProgress; }
             set { _downloadProgress = value; OnPropertyChanged(); }
         }
-
 
         public async Task<bool> DownloadSelectedBook()
         {
@@ -161,22 +153,7 @@ namespace CSharper.ViewModels
 
             if (_selectedBook == null) return false;
 
-             return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);
-           
+             return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);           
          }
-
-        //public RelayCommand DownloadSelectedBookCommand => new RelayCommand(async () => { await DownloadSelectedBook(); });
-
-        //[RelayCommand]
-        //private async Task ReadBook()
-        //{
-        //    if (AppConfig.IsСurrentUserDefault()) return;
-
-        //    await _bookService.AccomplitAsync(AppConfig.User.Id, _selectedBook.Id);
-        //    OnPropertyChanged(nameof(Books));
-
-        //}
-
     }
-
 }
