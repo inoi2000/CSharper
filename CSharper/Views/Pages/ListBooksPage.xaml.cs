@@ -11,6 +11,8 @@ using CSharper.Services;
 using System.IO;
 using System.Threading;
 using System;
+using System.Windows.Media;
+using CSharper.Helpers.Extensions;
 
 namespace CSharper.Views.Pages
 {
@@ -65,6 +67,16 @@ namespace CSharper.Views.Pages
         private async void ChangeFindName(object sender, TextChangedEventArgs e)
         {
             await ViewModel.DebounceFilter();
+        }
+
+        private async void BooksListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ScrollViewer scrollViewer = BooksListBox.GetScrollViewer();
+            if (scrollViewer.VerticalOffset == scrollViewer.ScrollableHeight)
+            {
+                ViewModel.LoadNewBook();
+                await ViewModel.DebounceFilter();
+            }
         }
     }
 }

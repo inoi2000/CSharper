@@ -23,6 +23,9 @@ namespace CSharper.ViewModels
         private static CancellationTokenSource cts = null;
         private DebounceDispatcher _debounceDispatcher;
 
+        private int booksOnPage = countLoadingBook; // количество объектов на странице
+        private const int countLoadingBook = 6; // количестово дополнительно догружаемых объектов
+
         private SubjectService _subjectService { get; set; }
         public BookService _bookService { get; set; }
 
@@ -119,7 +122,7 @@ namespace CSharper.ViewModels
         {
             if (_bookService == null) return;
 
-             IEnumerable<Book> books=await _bookService.GetAllBooksAsync();
+             IEnumerable<Book> books=await _bookService.Pagination(booksOnPage, 0);
 
             if (_currentSubject != null) 
                 books=books.Where(book => book.Subject.Id==_currentSubject.Id).ToList();
@@ -131,6 +134,11 @@ namespace CSharper.ViewModels
                 books = books.Where(book => book.Complexity == _complexityBook);
 
             Books = books;        
+        }
+
+        public void LoadNewBook()
+        {
+            booksOnPage += countLoadingBook;
         }
         
 
@@ -154,6 +162,6 @@ namespace CSharper.ViewModels
             if (_selectedBook == null) return false;
 
              return await _bookService.DownloadBookAsync(_selectedBook.Id, progress, token);           
-         }
+        }
     }
 }

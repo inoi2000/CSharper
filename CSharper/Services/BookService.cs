@@ -36,6 +36,18 @@ namespace CSharper.Services
                 .Books.ToList();
         }
 
+        public async Task<IEnumerable<Book>> Pagination(int take, int skip)
+        {
+            if(_context.Books.Count() > take)
+            {
+                return await _context.Books.Include(b => b.Subject).Include(b => b.Users).Skip(skip).Take(take).ToListAsync();
+            }
+            else
+            {
+                return await GetAllBooksAsync();
+            }
+        }
+
         public async Task<bool> AddBook(Book book)
         {
             if(book.Subject == null) { throw new ArgumentNullException(nameof(book.Subject)); }

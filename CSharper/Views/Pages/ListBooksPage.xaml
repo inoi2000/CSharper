@@ -55,7 +55,9 @@
                   SelectedItem="{Binding ViewModel.SelectedBook,UpdateSourceTrigger=PropertyChanged}"
                   MouseDoubleClick="OpenSelectedBook"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Visible"                 
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.ScrollChanged="BooksListBox_ScrollChanged"
                   ItemTemplate="{DynamicResource listBoxItemBookTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
